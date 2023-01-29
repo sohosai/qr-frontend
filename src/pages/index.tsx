@@ -1,7 +1,7 @@
 import Head from 'next/head'
 import { v4 as uuidv4 } from 'uuid'
 import { useState } from "react"
-import { useQRCode } from 'next-qrcode'
+import QR from 'components/QR'
 
 export default function Home() {
   const [uuid, setUuid] = useState("")
@@ -9,8 +9,6 @@ export default function Home() {
   const genUuid = () => {
     setUuid(uuidv4())
   }
-
-  const { Canvas } = useQRCode();
 
   return (
     <div>
@@ -24,25 +22,7 @@ export default function Home() {
         <h1>kaniQR</h1>
         <h2>物品の登録</h2>
         <p>uuid: { uuid }</p>
-        { uuid !== "" &&
-          <div>
-            <Canvas
-              text={uuid}
-              options={{
-                type: 'image/jpeg',
-                quality: 0.3,
-                level: 'M',
-                margin: 3,
-                scale: 4,
-                width: 200,
-                color: {
-                  dark: '#010599FF',
-                  light: '#FFBF60FF',
-                },
-              }}
-            />
-         </div>
-        }
+        { uuid !== "" && <QR uuid={uuid} /> }
         <div>
           <label>格納場所: </label>
           <select>
