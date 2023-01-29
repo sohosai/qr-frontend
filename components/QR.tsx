@@ -18,8 +18,8 @@ export default function QR ({ uuid }: QRProp) {
           scale: 4,
           width: 200,
           color: {
-            dark: '#010599FF',
-            light: '#FFBF60FF',
+            dark: '#000',
+            light: '#fff',
           },
         }}
       />
