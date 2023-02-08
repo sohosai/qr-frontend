@@ -2,6 +2,7 @@ import Head from 'next/head'
 import { v4 as uuidv4 } from 'uuid'
 import { useState, useMemo } from "react"
 import QR from 'components/QR'
+import TextArea from 'components/TextArea'
 
 export default function Home() {
   const [uuid, setUuid] = useState("")
@@ -77,6 +78,9 @@ export default function Home() {
             <option>図書館下</option>
             <option>実委室</option>
           </select>
+        </div>
+        <div>
+          <TextArea/>
         </div>
         <button
           onClick={onClickRegisterButton}
