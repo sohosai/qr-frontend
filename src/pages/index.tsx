@@ -1,7 +1,8 @@
 import Head from 'next/head'
 import { v4 as uuidv4 } from 'uuid'
 import { useState, useMemo } from "react"
-import QR from 'components/QR'
+import QR from '@/components/QR'
+import Button from '@/components/Button'
 
 export default function Home() {
   const [uuid, setUuid] = useState("")
@@ -46,7 +47,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main>
+      <main className="bg-gray-200">
         <h1>物品の登録</h1>
         { uuid !== "" &&
           <>
@@ -82,6 +83,11 @@ export default function Home() {
           onClick={onClickRegisterButton}
           disabled={validButton()}
         >登録</button>
+        <Button
+          disabled={validButton()}
+          text="登録"
+          onClick={onClickRegisterButton}
+        />
       </main>
     </div>
   )
