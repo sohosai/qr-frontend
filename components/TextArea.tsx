@@ -1,16 +1,18 @@
-import { useState, useMemo } from "react"
-export default function TextArea () {
-  const [fixturesDescription, setFixturesDescription] = useState("")
-  const onChangeFixturesDescription = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
-    setFixturesDescription(event.target.value)
-  }
+import React from "react"
+
+type TextProps = {
+  label: string 
+}
+
+export const IncorrectTextBox = ({ label }: TextProps) => {
+  const [text, setText] = React.useState("");
+
   return (
-    <div>
-      <label>label</label>
-      <textarea
-        value={fixturesDescription}
-        onChange={onChangeFixturesDescription}
-      ></textarea>
-  </div>
+    <label style={{display: "block" }}>
+      {`${label}`}
+      <input
+        value = {text}
+        onChange = {event => setText(event.target.value)} />
+    </label>
   );
 }
