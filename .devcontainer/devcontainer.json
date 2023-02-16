@@ -2,8 +2,8 @@
     "name": "qr-frontend",
     "dockerFile": "DockerFile",
     "appPort": ["3000:3000", "3001:3001"],
-    "workspaceFolder": "/workspace", 
-    "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind,consistency=cached",
+    "workspaceFolder": "/workspaces", 
+    "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces,type=bind,consistency=cached",
     "postCreateCommand": ".devcontainer/entrypoint.sh",
     "customizations": {
         "vscode": {
