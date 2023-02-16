@@ -1,18 +1,24 @@
 import React from "react"
 
-type TextProps = {
-  label: string 
+interface TextProps {
+  label?: string
+  text: string
+  placeholder?: string
+  onChange: (value: string) => void
 }
 
-export const IncorrectTextBox = ({ label }: TextProps) => {
-  const [text, setText] = React.useState("");
+export const TextArea = ({ label, text, placeholder, onChange }: TextProps) => {
+
 
   return (
     <label style={{display: "block" }}>
       {`${label}`}
       <input
         value = {text}
-        onChange = {event => setText(event.target.value)} />
+        onChange = {event => onChange(event.target.value)}
+        placeholder = {placeholder} />
     </label>
+
   );
 }
+
