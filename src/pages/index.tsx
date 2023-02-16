@@ -2,12 +2,15 @@ import Head from 'next/head'
 import { v4 as uuidv4 } from 'uuid'
 import { useState, useMemo } from "react"
 import QR from 'components/QR'
+import { TextArea } from 'components/TextArea'
 
 export default function Home() {
   const [uuid, setUuid] = useState("")
   const [fixturesName, setFixturesName] = useState("")
   const [fixturesDescription, setFixturesDescription] = useState("")
   const [repository, setRepository] = useState('未選択')
+  const [textarea, setTextarea] = useState("")
+
 
   const onChangeFixturesName = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setFixturesName(event.target.value)
@@ -77,6 +80,14 @@ export default function Home() {
             <option>図書館下</option>
             <option>実委室</option>
           </select>
+        </div>
+        <div>
+          <TextArea 
+            label="label"
+            text={textarea}
+            placeholder='placeholder'
+            onChange={setTextarea}
+            />
         </div>
         <button
           onClick={onClickRegisterButton}
