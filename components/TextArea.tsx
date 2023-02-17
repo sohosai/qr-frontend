@@ -12,7 +12,7 @@ export const TextArea = ({ label, text, placeholder, onChange }: TextProps) => {
 
   return (
     <label style={{display: "block" }}>
-      {`${label}`}
+      { label }
 
       <input
         value = {text}
