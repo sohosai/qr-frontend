@@ -1,9 +1,9 @@
 import React from "react"
 
 type TextProps = {
-  label?: string
+  label: string
   text: string
-  placeholder?: string
+  placeholder: string
   onChange: (value: string) => void
 }
 
