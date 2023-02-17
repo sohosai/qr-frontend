@@ -1,7 +1,7 @@
 import React from "react"
 
 type TextProps = {
-  label: string
+  label?: string
   text: string
   placeholder: string
   onChange: (value: string) => void
@@ -19,7 +19,7 @@ export const TextArea = ({ label, text, placeholder, onChange }: TextProps) => {
         onChange = {event => onChange(event.target.value)}
         placeholder = {placeholder}
         />
-        
+
     </label>
 
   );
