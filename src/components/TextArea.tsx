@@ -8,20 +8,14 @@ type TextProps = {
 }
 
 export const TextArea = ({ label, text, placeholder, onChange }: TextProps) => {
-
-
   return (
-    <label style={{display: "block" }}>
+    <label style={{ display: "block" }}>
       { label }
-
       <input
         value = {text}
         onChange = {event => onChange(event.target.value)}
         placeholder = {placeholder}
         />
-
     </label>
-
   );
 }
-

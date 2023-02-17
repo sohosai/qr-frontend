@@ -1,8 +1,8 @@
 import Head from 'next/head'
 import { v4 as uuidv4 } from 'uuid'
 import { useState, useMemo } from "react"
-import QR from 'components/QR'
-import { TextArea } from 'components/TextArea'
+import QR from '@/components/QR'
+import { TextArea } from '@/components/TextArea'
 
 export default function Home() {
   const [uuid, setUuid] = useState("")
