@@ -34,8 +34,7 @@ export const TextArea = ({ label, text, placeholder, onChange }: TextProps) => {
 
       <StyledTextarea
         id = "textarea"
-        rows = "4"
-        cols = "33"
+        style = "width:340px; height:68px;"
         value = {text}
         onChange = {(event: React.ChangeEvent<HTMLInputElement>) => onChange(event.target.value)}
         placeholder = {placeholder}
