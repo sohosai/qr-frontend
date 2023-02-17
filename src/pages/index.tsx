@@ -82,10 +82,10 @@ export default function Home() {
           </select>
         </div>
         <div>
-          <TextArea 
-            label="label"
+          <TextArea
+            label="説明"
             text={textarea}
-            placeholder='placeholder'
+            placeholder='赤色ケース・緑色パッチシール貼り付け済み'
             onChange={setTextarea}
             />
         </div>
