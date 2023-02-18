@@ -56,6 +56,9 @@ const StyledInputText = styled.input.attrs<TextInputProp>(({ placeholder, onChan
   }
 `
 
+/**
+ * 1行のテキストを入力するためのコンポーネント
+ */
 const TextInput = (props: TextInputProp) => {
   return (
     <div>
