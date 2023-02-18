@@ -1,10 +1,16 @@
 import { useQRCode } from 'next-qrcode'
 
-type QRProp = {
+type QRCodeProp = {
+  /**
+   * QRCodeに持たせるUUIDを設定します
+   */
   uuid: string
 }
 
-export default function QR ({ uuid }: QRProp) {
+/**
+ * 印刷時に表示するQRコードを生成・描画するコンポーネント
+ */
+const QRCode = ({ uuid }: QRCodeProp) => {
   const { Canvas } = useQRCode();
   return (
     <div>
@@ -26,3 +32,5 @@ export default function QR ({ uuid }: QRProp) {
     </div>
   );
 }
+
+export default QRCode
