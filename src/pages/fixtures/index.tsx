@@ -2,6 +2,7 @@ import Head from 'next/head'
 import { v4 as uuidv4 } from 'uuid'
 import { useState } from "react"
 import QRCode from '@/components/QRCode'
+import { initQRCode } from '@/lib/QRCode'
 
 /**
  * 物品を登録できる
@@ -55,7 +56,7 @@ const FixturesIndex = () => {
           <>
             <p>物品を登録しました。</p>
             <p>QRコードは保存してすぐに印刷を行ってください（二度と表示されません）。</p>
-            <QRCode uuid={uuid} />
+            <QRCode qr={initQRCode("ab23c","Red")} />
           </>
         }
         <div>

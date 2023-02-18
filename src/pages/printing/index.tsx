@@ -1,8 +1,8 @@
 import Head from "next/head"
 
 import usePdf from "@/hooks/usePdf"
-import QRListPdf from "components/QRListPdf"
-import { genQRCodeID, QRCodeID } from "@/utils/qrid"
+import QRListPdf from "@/components/QRCodeListPdf"
+import { initQRCode, QRCodeObject } from "@/lib/QRCode"
 import { useState } from "react"
 
 export default function Printing() {
@@ -10,11 +10,11 @@ export default function Printing() {
     const onClickResetUuid = (): void => {
         let qrids = []
         for (let _ = 0; _ < 54; _++) {
-            qrids.push(genQRCodeID())
+            qrids.push(initQRCode())
         }
         setQRIDs(qrids)
     }
-    const [qrids, setQRIDs] = useState<QRCodeID[]>([])
+    const [qrs, setQRIDs] = useState<QRCodeObject[]>([])
 
     const onClickDownloadPdf = (): void => {
         pdfHandler({ name: 'test' })
@@ -38,10 +38,10 @@ export default function Printing() {
                 <hr />
                 <QRListPdf
                     ref={targetRef}
-                    qrids={qrids}
+                    qrs={qrs}
                 />
                 <button
-                    disabled={qrids.length === 0}
+                    disabled={qrs.length === 0}
                     onClick={onClickDownloadPdf}
                 >ダウンロードする</button>
             </main>
