@@ -1,7 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 
-//TextAreaProps型の作成
+/**
+ * TextAreaProps型の作成
+ */
 type TextAreaProps = {
   label: string;
   text: string;
@@ -9,14 +11,18 @@ type TextAreaProps = {
   onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
 };
 
-//StyledLabelにCSSを適用したlabel要素を適用
+/**
+ * StyledLabelにCSSを適用したlabel要素を適用
+ */
 const StyledLabel = styled.label`
   color: #555555;
   font-family: "Inter", "sans-serif";
   font-size: 8px;
 `;
 
-//StyledTextareaにCSSを適用したtextarea要素を適用
+/**
+ * StyledTextareaにCSSを適用したtextarea要素を適用
+ */
 const StyledTextarea = styled.textarea.attrs<TextAreaProps>(({ onChange }) => {
   onChange
 })`
