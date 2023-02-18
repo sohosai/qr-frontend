@@ -9,12 +9,10 @@ export default {
 
 const Template: ComponentStory<typeof TextArea> = (args) => {
   const [text, setText] = useState("")
-  const onChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setText(event.target.value)
-  }
+
   return (
     <>
-      <TextArea {...args} value={text} onChange={onChange} />
+      <TextArea {...args} text={text} onChange={setText} />
       <p>入力結果: { text }</p>
     </>
   )
