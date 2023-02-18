@@ -16,7 +16,6 @@ type TextAreaProps = {
  */
 const StyledLabel = styled.label`
   color: #555555;
-  font-family: "Inter", "sans-serif";
   font-size: 12px;
 `;
 
@@ -26,8 +25,7 @@ const StyledLabel = styled.label`
 const StyledTextarea = styled.textarea.attrs<TextAreaProps>(({ onChange }) => {
   onChange
 })`
-  font-family: "Inter", "sans-serif";
-  font-size: 12px;
+  font-size: 16px;
   border-radius: 5px;
   width: 340px;
   height: 68px;
