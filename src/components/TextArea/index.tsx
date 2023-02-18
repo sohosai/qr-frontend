@@ -1,12 +1,12 @@
 import React from "react";
 import styled from "styled-components";
 
-//TextProps型の作成
-type TextProps = {
+//TextAreaProps型の作成
+type TextAreaProps = {
   label: string;
   text: string;
   placeholder: string;
-  onChange: (value: string) => void;
+  onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
 };
 
 //StyledLabelにCSSを適用したlabel要素を適用
@@ -15,8 +15,11 @@ const StyledLabel = styled.label`
   font-family: "Inter", "sans-serif";
   font-size: 8px;
 `;
+
 //StyledTextareaにCSSを適用したtextarea要素を適用
-const StyledTextarea = styled.textarea`
+const StyledTextarea = styled.textarea.attrs<TextAreaProps>(({ onChange }) => {
+  onChange
+})`
   font-family: "Inter", "sans-serif";
   font-size: 12px;
   border-radius: 5px;
@@ -27,7 +30,7 @@ const StyledTextarea = styled.textarea`
   }
 `;
 
-export const TextArea = ({ label, text, placeholder, onChange }: TextProps) => {
+const TextArea = ({ label, text, placeholder, onChange }: TextAreaProps) => {
   return (
     <div>
       <StyledLabel
@@ -40,9 +43,11 @@ export const TextArea = ({ label, text, placeholder, onChange }: TextProps) => {
       <StyledTextarea
         id = "textarea"
         value = {text}
-        onChange = {(event: React.ChangeEvent<HTMLInputElement>) => onChange(event.target.value)}
+        onChange = {onChange}
         placeholder = {placeholder}
       />
     </div>
   );
 };
+
+export default TextArea
