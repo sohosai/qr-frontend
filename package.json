@@ -37,6 +37,7 @@
     "@storybook/manager-webpack5": "^6.5.16",
     "@storybook/react": "^6.5.16",
     "@storybook/testing-library": "^0.0.13",
+    "@types/styled-components": "^5.1.26",
     "@types/uuid": "^8.3.4",
     "autoprefixer": "^10.4.13",
     "babel-loader": "^8.3.0",
