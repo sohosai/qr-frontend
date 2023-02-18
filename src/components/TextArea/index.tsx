@@ -17,7 +17,7 @@ type TextAreaProps = {
 const StyledLabel = styled.label`
   color: #555555;
   font-family: "Inter", "sans-serif";
-  font-size: 8px;
+  font-size: 12px;
 `;
 
 /**
