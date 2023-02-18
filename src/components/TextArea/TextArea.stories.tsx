@@ -3,7 +3,7 @@ import { useState } from "react"
 import TextArea from "."
 
 export default {
-  title: 'xxx',
+  title: 'Components/TextArea',
   component: TextArea
 } as ComponentMeta<typeof TextArea>
 
@@ -22,6 +22,6 @@ const Template: ComponentStory<typeof TextArea> = (args) => {
 
 export const Common = Template.bind({})
 Common.args = {
-  label: 'xxx',
-  placeholder: 'xxx'
+  label: '説明',
+  placeholder: '赤色ケース・緑色パッチシール貼り付け済み'
 }
