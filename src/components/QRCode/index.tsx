@@ -1,11 +1,17 @@
 import { QRCodeID, toColorCode } from '@/utils/qrid';
 import { useQRCode } from 'next-qrcode'
 
-type QRProp = {
-  qrid: QRCodeID
+type QRCodeProp = {
+  /**
+   * QRCodeに持たせるUUIDを設定します
+   */
+  uuid: string
 }
 
-export default function QR ({ qrid }: QRProp) {
+/**
+ * 印刷時に表示するQRコードを生成・描画するコンポーネント
+ */
+const QRCode = ({ uuid }: QRCodeProp) => {
   const { Canvas } = useQRCode();
   const url = `https://qr.sohosai.com/fixtures/${qrid.id}`
   return (
@@ -47,3 +53,5 @@ export default function QR ({ qrid }: QRProp) {
     </div>
   );
 }
+
+export default QRCode

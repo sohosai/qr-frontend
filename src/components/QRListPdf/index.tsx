@@ -1,6 +1,6 @@
 import { forwardRef, ComponentPropsWithoutRef } from "react"
-import QR from "components/QR";
-import { QRCodeID } from "@/utils/qrid";
+import { QRCodeID } from "@/utils/qrid"
+import QRCode from "@/components/QRCode"
 
 type QRListPdfProps = {
     qrids: QRCodeID[]
@@ -15,7 +15,7 @@ const QRListPdf = forwardRef<HTMLDivElement, ChildProps>(({ qrids }, ref) => {
             width: '100vw'
         }}>
             {qrids.map((qrid) => {
-                return <QR qrid={qrid} />
+                return <QRCode qrid={qrid} />
             })}
         </div>
     )
