@@ -1,31 +1,33 @@
-import { QRCodeID, toColorCode } from '@/utils/qrid';
+import { QRCodeObject } from '../../lib/QRCode';
 import { useQRCode } from 'next-qrcode'
 
 type QRCodeProp = {
   /**
-   * QRCodeに持たせるUUIDを設定します
+   * 表示するQRCodeを設定します
    */
-  uuid: string
+  qr: QRCodeObject
 }
 
 /**
  * 印刷時に表示するQRコードを生成・描画するコンポーネント
  */
-const QRCode = ({ uuid }: QRCodeProp) => {
+const QRCode = ({ qr }: QRCodeProp) => {
   const { Canvas } = useQRCode();
-  const url = `https://qr.sohosai.com/fixtures/${qrid.id}`
+  const url = `https://qr.sohosai.com/fixtures/${qr.id}`
   return (
     <div style={{
       display: 'flex',
       flexFlow: 'column',
-      width: '230px',
-      margin: '10px',
-      padding: '10px 0',
-      justifyContent: 'center',
+      width: '150px',
+      height: '220px',
       alignItems: 'center',
-      border: '3px solid black'
+      justifyContent: 'space-between',
+      border: '3px solid black',
+      backgroundColor: 'white'
     }}>
-      <div>
+      <div style={{
+        marginTop: '10px'
+      }}>
         <Canvas
           text={url}
           options={{
@@ -34,10 +36,10 @@ const QRCode = ({ uuid }: QRCodeProp) => {
             level: 'M',
             margin: 3,
             scale: 4,
-            width: 200,
+            width: 100,
             color: {
-              dark: toColorCode(qrid.color),
-              light: '#fff',
+              dark: '#000000',
+              light: '#ffffff'
             },
           }}
         />
@@ -46,10 +48,17 @@ const QRCode = ({ uuid }: QRCodeProp) => {
         textAlign: 'center',
         display: 'flex',
         justifyContent: 'center',
-        fontWeight: 'bold'
+        fontWeight: '200',
+        fontSize: '32px',
       }}>
-        { qrid.id }
+        { qr.id }
       </div>
+      <div style={{
+        marginTop: '20px',
+        backgroundColor: qr.color_hex,
+        height: '45px',
+        width: '100%'
+      }} />
     </div>
   );
 }
