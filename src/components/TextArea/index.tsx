@@ -15,6 +15,7 @@ type TextAreaProps = {
  * StyledLabelにCSSを適用したlabel要素を適用
  */
 const StyledLabel = styled.label`
+  display: block;
   color: #555555;
   font-size: 12px;
 `;
@@ -42,7 +43,6 @@ const TextArea = ({ label, text, placeholder, onChange }: TextAreaProps) => {
   return (
     <div>
       <StyledLabel
-      style = {{ display: "block" }}
       htmlFor = "textarea">
         { label }
       </StyledLabel>
