@@ -12,5 +12,7 @@ export const Common = Template.bind({})
 Common.args = {
     disabled: true,
     text: "登録",
-    onClick: () => {},
+    onClick: () => {
+        console.log('clicked!')
+    },
 }

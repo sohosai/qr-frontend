@@ -7,15 +7,11 @@ type ButtonProp = {
 }
 
 export default function Button ({ disabled, text, onClick }: ButtonProp ) {
+    let bgColorClassName = disabled ? "bg-neutral-300" : "bg-white"
+    let textColorClassName = disabled ? "text-neutral-500" : "text-orange-600" 
     return(
-        disabled ? (
-            <button className="w-24 h-8 bg-neutral-300 rounded-lg">
-                <span className="font-bold text-neutral-500 center">{text}</span>
-            </button>
-        ) : (
-            <button className="w-24 h-8 bg-white rounded-lg" onClick={onClick}>
-                <span className="font-bold text-orange-600 center">{text}</span>
-            </button>
-        )
+        <button className={`w-24 h-8 rounded-lg ${bgColorClassName}`} disabled={disabled} onClick={onClick}>
+            <span className={`font-bold center ${textColorClassName}`}>{text}</span>
+        </button>
     );
 }
