@@ -1,69 +1,69 @@
-[problem-bug]
+["Problem: bug"]
 color = "#e60033"
 name = "Problem: bug"
 description = "バグ"
 
-[problem-security]
+["Problem: security"]
 color = "#e60033"
 name = "Problem: security"
 description = "セキュリティ的な懸念事項"
 
-[type-documentation]
+["Type: documentation"]
 color = "#0095d9"
 name = "Type: documentation"
 description = "ドキュメントの改善"
 
-[type-improvement]
+["Type: improvement"]
 color = "#0095d9"
 name = "Type: improvement"
 description = "プロダクトの改善"
 
-[type-new-feature]
+["Type: new feature"]
 color = "#0095d9"
 name = "Type: new feature"
 description = "新機能"
 
-[close-uplicate]
+["Close: duplicate"]
 color = "#e9dfe5"
 name = "Close: duplicate"
 description = "重複しているIssue/PR"
 
-[close-invalid]
+["Close: invalid"]
 color = "#e9dfe5"
 name = "Close: invalid"
 description = "誤ったIssue/PR"
 
-[close-wontfix]
+["Close: wontfix"]
 color = "#e9dfe5"
 name = "Close: wontfix"
 description = "現状では対応しないIssue/PR"
 
-[difficulty-easy]
+["Difficulty: easy"]
 color = "#bce2e8"
 name = "Difficulty: easy"
 description = "簡単なIssue"
 
-[difficulty-hard]
+["Difficulty: hard"]
 color = "#f08300"
 name = "Difficulty: hard"
 description = "かなり難しい実装"
 
-[priority-low]
+["Priority: low"]
 color = "#bce2e8"
 name = "Priority: low"
 description = "優先度の低いIssue"
 
-[priority-high]
+["Priority: high"]
 color = "#f08300"
 name = "Priority: high"
 description = "優先度の高いIssue"
 
-[feedback-feature-request]
+["Feedback: feature request"]
 color = "#98d98e"
 name = "Feedback: feature request"
 description = "新機能の要求"
 
-[feedback-question]
+["Feedback: question"]
 color = "#98d98e"
 name = "Feedback: question"
 description = "質問"
