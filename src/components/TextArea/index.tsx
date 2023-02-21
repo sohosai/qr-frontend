@@ -8,7 +8,7 @@ type TextAreaProps = {
   label: string;
   text: string;
   placeholder: string;
-  onChange: (event: string) => void;
+  onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
 };
 
 /**
@@ -51,7 +51,7 @@ const TextArea = ({ label, text, placeholder, onChange }: TextAreaProps) => {
       <StyledTextarea
         id = "textarea"
         value = {text}
-        onChange = {event => onChange(event.target.value)}
+        onChange = {onChange}
         placeholder = {placeholder}
       />
     </div>
