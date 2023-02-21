@@ -38,6 +38,7 @@ const StyledTextarea = styled.textarea.attrs<TextAreaProps>(({ onChange }) => {
   ::placeholder {
     color: #C5C5C5;
   }
+  resize: none;
 `;
 
 const TextArea = ({ label, text, placeholder, onChange }: TextAreaProps) => {
