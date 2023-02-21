@@ -17,7 +17,7 @@ const usePdf = () => {
         html2canvas(targetRef.current, { scale: 2.5  }).then((canvas) => {
             const image = canvas.toDataURL('image/svg', 1.0)
             let pdf = new jsPDF({ format: 'a4' })
-            pdf.addImage(image, 'svg', 5, 10, canvas.width / 22, canvas.height / 22)
+            pdf.addImage(image, 'svg', 5, 10, canvas.width / 20, canvas.height / 20)
             pdf.save(`${name}.pdf`)
         })
     }
