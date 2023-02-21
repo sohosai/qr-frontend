@@ -33,8 +33,7 @@ const StyledTextarea = styled.textarea.attrs<TextAreaProps>(({ onChange }) => {
   height: 68px;
   border: none;
   outline: none;
-  padding-left: 15px;
-  padding-top: 8px;
+  padding: 8px 15px;
   ::placeholder {
     color: #C5C5C5;
   }
