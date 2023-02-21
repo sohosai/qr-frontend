@@ -18,6 +18,10 @@ const FixturesId = () => {
     {
       id: "8gzvj",
       name: "世界でいちばん簡単なUnixのe本"
+    },
+    {
+      id: "w6356",
+      name: "わかりやすいJavaEE ウェブシステム入門"
     }
   ]
   const findFixture = (id: string): Fixture | null => {
