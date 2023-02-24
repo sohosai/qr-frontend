@@ -18,6 +18,6 @@ const Template: ComponentStory<typeof Modal> = (args) => {
 
 export const Common = Template.bind({})
 Common.args = {
-  show: true,
+  show: false,
   children: <p>YuseiIto</p>
 }
