@@ -40,6 +40,9 @@ const StyledTextarea = styled.textarea.attrs<TextAreaProps>(({ onChange }) => {
   resize: none;
 `;
 
+/**
+ * 複数行の入力を受け付けるTextAreaコンポーネント
+ */
 const TextArea = ({ label, text, placeholder, onChange }: TextAreaProps) => {
   return (
     <div>
