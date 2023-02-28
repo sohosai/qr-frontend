@@ -32,6 +32,7 @@ const StyleReactModal: TypeModalStyle = {
     }
 };
 
+// TODO: Docsでモーダルを開くと戻らなくなるのでやる気が出たら治す
 /**
  * モーダルを表示するコンポーネント
  */
