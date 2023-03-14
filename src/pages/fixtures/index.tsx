@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { useState } from "react"
 import QRCode from '@/components/QRCode'
 import Button from '@/components/Button'
+import TextArea from '@/components/TextArea'
 
 /**
  * 物品を登録できる
@@ -68,11 +69,12 @@ const FixturesIndex = () => {
           ></input>
         </div>
         <div>
-          <label>説明</label>
-          <textarea
-            value={fixturesDescription}
+          <TextArea
+            label="説明"
+            placeholder=""
+            text={fixturesDescription}
             onChange={onChangeFixturesDescription}
-          ></textarea>
+          />
         </div>
         <div>
           <label>格納場所: </label>
