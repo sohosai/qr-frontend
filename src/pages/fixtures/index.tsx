@@ -2,6 +2,7 @@ import Head from 'next/head'
 import { v4 as uuidv4 } from 'uuid'
 import { useState } from "react"
 import QRCode from '@/components/QRCode'
+import Button from '@/components/Button'
 import TextArea from '@/components/TextArea'
 
 /**
@@ -83,10 +84,11 @@ const FixturesIndex = () => {
             <option>実委室</option>
           </select>
         </div>
-        <button
+        <Button
           onClick={onClickRegisterButton}
           disabled={validButton()}
-        >登録</button>
+          text="登録"
+        />
       </main>
     </div>
   )
