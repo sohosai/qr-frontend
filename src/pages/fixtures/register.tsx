@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { useState } from "react"
 import QRCode from '@/components/QRCode'
 import TextArea from '@/components/TextArea'
+import Button from '@/components/Button'
 import styled from "styled-components";
 import { createTheme, ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -52,8 +53,8 @@ const FixturesIndex = () => {
     },
   });
 
-  const StyledMain = styled.main`
-    margin: 44px 15px;
+  const StyledMain = styled.div`
+    padding: 44px 15px;
     h1 {
       font-size: 16px
     }
@@ -79,9 +80,6 @@ const FixturesIndex = () => {
           </>
         }
         <div>
-
-        </div>
-        <div>
           <TextArea
             label="説明"
             placeholder=""
@@ -89,6 +87,11 @@ const FixturesIndex = () => {
             onChange={onChangeFixturesDescription}
           />
         </div>
+        <Button
+          onClick={onClickRegisterButton}
+          disabled={validButton()}
+          text="登録"
+        />
       </StyledMain>
     </ThemeProvider>
   )
