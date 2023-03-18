@@ -5,8 +5,24 @@ import QRCode from '@/components/QRCode'
 import TextArea from '@/components/TextArea'
 import Button from '@/components/Button'
 import styled from "styled-components";
-import { createTheme, ThemeProvider } from '@material-ui/core/styles';
+import { createTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
+
+const theme = createTheme({
+  palette: {
+    background: {
+      default: '#E5E5E5',
+    }
+  },
+});
+const StyledMain = styled.main`
+  margin: 44px 15px;
+  h1 {
+    font-size: 16px
+  }
+`;
+
 
 /**
  * 物品を登録できる
@@ -42,23 +58,7 @@ const FixturesIndex = () => {
     setFixturesDescription('')
     setRepository('未選択')
   }
-  /**
-   * 背景色の設定
-   */
-  const theme = createTheme({
-    palette: {
-      background: {
-        default: '#E5E5E5',
-      }
-    },
-  });
 
-  const StyledMain = styled.div`
-    padding: 44px 15px;
-    h1 {
-      font-size: 16px
-    }
-  `;
 
 
   return (
