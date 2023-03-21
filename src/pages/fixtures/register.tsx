@@ -16,10 +16,13 @@ const theme = createTheme({
     }
   },
 });
-const StyledMain = styled.main`
-  margin: 44px 15px;
+const StyledMain = styled.main.withConfig({
+  displayName: "StyledMain",
+})`
+  margin: 4px 15px;
   h1 {
     font-size: 16px
+    wont-weight: bold;
   }
 `;
 
