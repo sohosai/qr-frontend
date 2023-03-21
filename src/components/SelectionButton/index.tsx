@@ -24,9 +24,9 @@ class SelectBox extends React.Component<Props, State> {
   render() {
     const { options } = this.props;
     const { selectedOption } = this.state;
-
+  
     return (
-      <select value={selectedOption} onChange={this.handleOptionChange}>
+      <select value={selectedOption ? selectedOption : ''} onChange={this.handleOptionChange}>
         <option value="">選択してください</option>
         {options.map((option) => (
           <option key={option} value={option}>
@@ -36,6 +36,7 @@ class SelectBox extends React.Component<Props, State> {
       </select>
     );
   }
+  
 }
 
 export default SelectBox;
