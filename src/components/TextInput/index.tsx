@@ -13,11 +13,6 @@ type TextInputProp = {
   placeholder: string
 
   /**
-   * フォームの横の長さを設定します
-   */
-  width: number
-
-  /**
    * フォームの入力値を設定します
    */
   value: string
