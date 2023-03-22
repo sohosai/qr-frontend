@@ -1,3 +1,4 @@
+import React from "react";
 import styled from 'styled-components'
 
 type TextInputProp = {
@@ -5,7 +6,7 @@ type TextInputProp = {
    * 入力フォームのラベルを設定します
    */
   label: string
-  
+
   /**
    * 入力前に薄く表示されるデフォルトの表示（placeholder）を設定します
    */
@@ -30,7 +31,7 @@ type TextInputProp = {
 const StyledLabel = styled.label`
   color: #555555;
   font-size: 12px;
-  font-weight: 700;
+  display: block;
 `
 
 const StyledInputText = styled.input.attrs<TextInputProp>(({ placeholder, onChange, value }) => ({
@@ -41,15 +42,14 @@ const StyledInputText = styled.input.attrs<TextInputProp>(({ placeholder, onChan
 }))<TextInputProp>`
   display: block;
   margin-top: 4px;
-  border: 0;
+  border: none;
   color: #555555;
-  border-radius: 6px;
-  padding: 12px 30px;
+  border-radius: 5px;
+  padding: 8px 15px;
   font-size: 16px;
   outline: none;
   background-color: white;
-  width: ${({ width }) => width}px;
-  font-weight: 700;
+  width: 100%;
 
   ::placeholder {
     color: #C5C5C5;
