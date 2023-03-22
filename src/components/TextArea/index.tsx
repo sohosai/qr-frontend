@@ -27,6 +27,7 @@ const StyledLabel = styled.label`
 const StyledTextarea = styled.textarea.attrs<TextAreaProps>(({ onChange }) => {
   onChange
 })`
+  display: block;
   font-size: 16px;
   border-radius: 5px;
   width: 100%;
