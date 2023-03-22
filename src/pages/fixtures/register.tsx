@@ -1,13 +1,16 @@
 import Head from 'next/head'
 import { v4 as uuidv4 } from 'uuid'
 import { useState } from "react"
-import QRCode from '@/components/QRCode'
-import TextArea from '@/components/TextArea'
-import Button from '@/components/Button'
 import styled from "styled-components";
 import { createTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/core';
 import CssBaseline from '@material-ui/core/CssBaseline';
+
+import QRCode from '@/components/QRCode'
+import TextInput from '@/components/TextInput';
+import TextArea from '@/components/TextArea'
+import Button from '@/components/Button'
+
 
 const theme = createTheme({
   palette: {
@@ -29,10 +32,12 @@ const StyledMain = styled.main.withConfig({
   }
   div {
     margin: 4px;
+    margin-bottom: 10px;
   }
   .buttonContainer {
     display: flex;
     justify-content: flex-end;
+    margin: 20px;
   }
 `;
 
@@ -92,11 +97,18 @@ const FixturesIndex = () => {
             <QRCode uuid={uuid} />
           </>
         }
-
+        <div className='textinputContainer'>
+          <TextInput
+            label="物品名"
+            placeholder="LANケーブル 100m"
+            value={fixturesName}
+            onChange={onChangeFixturesName}
+          />
+        </div>
         <div className='textareaContainer'>
           <TextArea
             label="説明"
-            placeholder=""
+            placeholder="赤色ケース・緑色パッチシール貼り付け済み"
             text={fixturesDescription}
             onChange={onChangeFixturesDescription}
           />
