@@ -19,15 +19,20 @@ const theme = createTheme({
 const StyledMain = styled.main.withConfig({
   displayName: "StyledMain",
 })`
-  margin: 4px 30px;
+  position: static;
+  margin: 30px 30px;
   font-weight: 700;
   h1 {
-    margin-top: 39px;
+    margin-top: 15px;
     margin-bottom: 15px;
     font-size: 16px;
   }
   div {
     margin: 4px;
+  }
+  .buttonContainer {
+    display: flex;
+    justify-content: flex-end;
   }
 `;
 
@@ -87,7 +92,8 @@ const FixturesIndex = () => {
             <QRCode uuid={uuid} />
           </>
         }
-        <div>
+
+        <div className='textareaContainer'>
           <TextArea
             label="説明"
             placeholder=""
@@ -95,11 +101,13 @@ const FixturesIndex = () => {
             onChange={onChangeFixturesDescription}
           />
         </div>
-        <Button
-          onClick={onClickRegisterButton}
-          disabled={validButton()}
-          text="登録"
-        />
+        <div className='buttonContainer'>
+          <Button
+            onClick={onClickRegisterButton}
+            disabled={validButton()}
+            text="登録"
+          />
+        </div>
       </StyledMain>
     </ThemeProvider>
   )
