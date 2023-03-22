@@ -19,10 +19,15 @@ const theme = createTheme({
 const StyledMain = styled.main.withConfig({
   displayName: "StyledMain",
 })`
-  margin: 4px 15px;
+  margin: 4px 30px;
+  font-weight: 700;
   h1 {
-    font-size: 16px
-    wont-weight: bold;
+    margin-top: 39px;
+    margin-bottom: 15px;
+    font-size: 16px;
+  }
+  div {
+    margin: 4px;
   }
 `;
 
