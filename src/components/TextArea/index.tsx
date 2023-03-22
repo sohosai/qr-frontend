@@ -29,7 +29,7 @@ const StyledTextarea = styled.textarea.attrs<TextAreaProps>(({ onChange }) => {
 })`
   font-size: 16px;
   border-radius: 5px;
-  width: 340px;
+  width: 100%;
   height: 68px;
   border: none;
   outline: none;
