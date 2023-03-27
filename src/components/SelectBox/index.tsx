@@ -26,18 +26,21 @@ class SelectBox extends React.Component<Props, State> {
     const { label } = this.props;
     const { options } = this.props;
     const { selectedOption } = this.state;
-  
+  // 下の意味なしdivは、カスタム矢印を設定しようとして諦めた形跡
     return (
-      <><label>{label}</label>
-        <select value={selectedOption ? selectedOption : ''} onChange={this.handleOptionChange}>
-        <option value="">選択してください</option>
-        {options.map((option) => (
-          <option key={option} value={option}>
-            {option}
-          </option>
-        ))}
-        </select>
-      </>
+      <div className="">
+        <label className="block text-zinc-600 text-xs">{label}</label>
+          <div className="">
+            <select className="block text-zinc-600 text-base w-80 h-8 bg-white" value={selectedOption ? selectedOption : ''} onChange={this.handleOptionChange}>
+              <option value="">選択してください</option>
+              {options.map((option) => (
+                <option key={option} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          </div>
+      </div>
     );
   }
   
