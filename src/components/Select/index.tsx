@@ -30,10 +30,9 @@ const StyledSelect = styled.select.attrs<SelectProps>(({ onChange }) => {
   font-size: 14px;
   border-radius: 5px;
   width: 100%;
-  height: 68px;
   border: none;
   outline: none;
-  padding: 8px 15px;
+  padding: 12px 15px;
   resize: none;
 `;
 
@@ -52,7 +51,6 @@ const Select = ({ label, options, onChange }: SelectProps) => {
         id = "select"
         onChange={onChange}
       >
-        <option key="未選択" value="未選択">未選択</option>
         {options.map(v => <option key={v} value={v}>{v}</option> )}
       </StyledSelect>
     </div>

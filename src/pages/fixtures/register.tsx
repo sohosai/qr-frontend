@@ -117,7 +117,7 @@ const FixturesRegister = () => {
         <div className='fixturesRepositoryOption'>
           <Select
             label="格納場所"
-            options={["101号室", "102号室", "206号室"]}
+            options={["未選択", "101号室", "102号室", "206号室"]}
             onChange={onChangeRepository}
           />
         </div>
