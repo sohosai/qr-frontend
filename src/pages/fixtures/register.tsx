@@ -10,6 +10,7 @@ import QRCode from '@/components/QRCode'
 import TextInput from '@/components/TextInput';
 import TextArea from '@/components/TextArea'
 import Button from '@/components/Button'
+import Select from '@/components/Select'
 
 
 const theme = createTheme({
@@ -45,7 +46,7 @@ const StyledMain = styled.main.withConfig({
 /**
  * 物品を登録できる
  */
-const FixturesIndex = () => {
+const FixturesRegister = () => {
   const [uuid, setUuid] = useState("")
 
   const [fixturesName, setFixturesName] = useState("")
@@ -97,7 +98,7 @@ const FixturesIndex = () => {
             <QRCode uuid={uuid} />
           </>
         }
-        <div className='textinputContainer'>
+        <div className='FixturesNameTextInput'>
           <TextInput
             label="物品名"
             placeholder="LANケーブル 100m"
@@ -105,7 +106,7 @@ const FixturesIndex = () => {
             onChange={onChangeFixturesName}
           />
         </div>
-        <div className='textareaContainer'>
+        <div className='fixturesDescriptionTextArea'>
           <TextArea
             label="説明"
             placeholder="赤色ケース・緑色パッチシール貼り付け済み"
@@ -113,7 +114,14 @@ const FixturesIndex = () => {
             onChange={onChangeFixturesDescription}
           />
         </div>
-        <div className='buttonContainer'>
+        <div className='fixturesRepositoryOption'>
+          <Select
+            label="格納場所"
+            options={["101号室", "102号室", "206号室"]}
+            onChange={onChangeRepository}
+          />
+        </div>
+        <div className='FixturesRegisterButton'>
           <Button
             onClick={onClickRegisterButton}
             disabled={validButton()}
@@ -125,4 +133,4 @@ const FixturesIndex = () => {
   )
 }
 
-export default FixturesIndex
+export default FixturesRegister
