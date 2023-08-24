@@ -41,7 +41,7 @@ const StyledInputText = styled.input.attrs<TextInputProp>(({ placeholder, onChan
   color: #555555;
   border-radius: 5px;
   padding: 8px 15px;
-  font-size: 16px;
+  font-size: 14px;
   outline: none;
   background-color: white;
   width: 100%;
