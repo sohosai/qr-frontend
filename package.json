@@ -10,13 +10,16 @@
     "lint": "next lint --dir src",
     "lint:fix": "yarn lint --fix",
     "format": "prettier --write --ignore-path .gitignore './**/*.{js,jsx,ts,tsx,json}'",
-    "storybook": "start-storybook -p 6006",
+    "storybook": "start-storybook -p 6006 -s ./src",
     "build-storybook": "build-storybook"
   },
   "dependencies": {
+    "@material-ui/core": "^4.12.4",
+    "@material-ui/icons": "^4.11.3",
     "@types/node": "18.11.9",
     "@types/react": "18.0.25",
     "@types/react-dom": "18.0.8",
+    "babel-plugin-styled-components": "^2.0.7",
     "eslint": "8.27.0",
     "eslint-config-next": "13.0.2",
     "html2canvas": "^1.4.1",
@@ -25,6 +28,8 @@
     "next-qrcode": "^2.2.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-modal": "^3.16.1",
+    "styled-components": "^5.3.6",
     "typescript": "4.8.4",
     "uuid": "^9.0.0"
   },
@@ -34,10 +39,13 @@
     "@storybook/addon-essentials": "^6.5.16",
     "@storybook/addon-interactions": "^6.5.16",
     "@storybook/addon-links": "^6.5.16",
+    "@storybook/addon-postcss": "^2.0.0",
     "@storybook/builder-webpack5": "^6.5.16",
     "@storybook/manager-webpack5": "^6.5.16",
     "@storybook/react": "^6.5.16",
     "@storybook/testing-library": "^0.0.13",
+    "@types/react-modal": "^3.13.1",
+    "@types/styled-components": "^5.1.26",
     "@types/uuid": "^8.3.4",
     "autoprefixer": "^10.4.13",
     "babel-loader": "^8.3.0",
@@ -49,5 +57,8 @@
     "prettier": "^2.7.1",
     "prettier-plugin-tailwindcss": "^0.1.13",
     "tailwindcss": "^3.2.2"
+  },
+  "resolutions": {
+    "styled-components": "^5"
   }
 }
