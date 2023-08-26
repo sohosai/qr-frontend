@@ -113,7 +113,7 @@ const FixturesRegister = () => {
           <Button onClick={onClickRegisterButton} disabled={validButton()} text='登録' />
         </div>
       </StyledMain>
-    < />
+    </>
   )
 }
 
