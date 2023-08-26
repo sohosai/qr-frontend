@@ -2,7 +2,6 @@ import Head from 'next/head'
 import { v4 as uuidv4 } from 'uuid'
 import { useState } from 'react'
 import styled from 'styled-components'
-import { createTheme, ThemeProvider } from '@mui/material/styles'
 import CssBaseline from '@mui/material/CssBaseline'
 
 import QRCode from '@/components/QRCode'
@@ -10,14 +9,8 @@ import TextInput from '@/components/TextInput'
 import TextArea from '@/components/TextArea'
 import Button from '@/components/Button'
 import Select from '@/components/Select'
+import { initQRCode } from '@/lib/QRCode'
 
-const theme = createTheme({
-  palette: {
-    background: {
-      default: '#E5E5E5',
-    },
-  },
-})
 const StyledMain = styled.main.withConfig({
   displayName: 'StyledMain',
 })`
@@ -76,12 +69,12 @@ const FixturesRegister = () => {
   }
 
   return (
-    <ThemeProvider theme={theme}>
+    <>
       <CssBaseline />
       <Head>
         <title>QR</title>
-        <meta name='description' content='ｶﾆﾁｬﾝ!' />
-        <link rel='icon' href='/favicon.ico' />
+        <meta name="description" content="" />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <StyledMain>
@@ -90,7 +83,7 @@ const FixturesRegister = () => {
           <>
             <p>物品を登録しました。</p>
             <p>QRコードは保存してすぐに印刷を行ってください（二度と表示されません）。</p>
-            <QRCode uuid={uuid} />
+            <QRCode qr={initQRCode()} />
           </>
         )}
         <div className='FixturesNameTextInput'>
@@ -120,7 +113,7 @@ const FixturesRegister = () => {
           <Button onClick={onClickRegisterButton} disabled={validButton()} text='登録' />
         </div>
       </StyledMain>
-    </ThemeProvider>
+    </>
   )
 }
 

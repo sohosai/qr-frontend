@@ -1,5 +1,4 @@
 import React from 'react'
-import { Text } from 'react-native-web'
 import styled from 'styled-components'
 import Divider from '@mui/material/Divider'
 import List from '@mui/material/List'
@@ -7,6 +6,7 @@ import ListItem from '@mui/material/ListItem'
 import IconButton from '@mui/material/IconButton'
 import Stack from '@mui/material/Stack'
 import MoreHoriz from '@mui/icons-material/MoreHoriz'
+import { Fixtures } from '../../types'
 
 /**
  * FixturesProps型の作成
@@ -43,6 +43,27 @@ const StyledFixturesList = styled.select.attrs<FixturesListProps>(({ onChange })
 `
 
 /**
+ * Textコンポーネントの自前実装
+ */
+interface TextProps {
+  children: React.ReactNode
+  numberOfLines: number
+}
+
+const Text: React.FC<TextProps> = ({ children, numberOfLines }) => {
+  const styles: React.CSSProperties = {};
+  if (numberOfLines >= 1) {
+    styles.WebkitLineClamp = numberOfLines;
+    styles.display = '-webkit-box';
+    styles.WebkitBoxOrient = 'vertical';
+    styles.overflow = 'hidden';
+  }
+
+  return <span style={styles}>{children}</span>;
+};
+
+
+/**
  * 複数の選択の中から排他的に一つを選ぶSelectコンポーネント
  */
 const FixturesList = ({ fixtures_list }: FixturesListProps) => {
@@ -65,7 +86,7 @@ const FixturesList = ({ fixtures_list }: FixturesListProps) => {
                 </IconButton>
               }
             >
-              <Text numberOfLines={1} ellipsizeMode='tail'>
+              <Text numberOfLines={1}>
                 {v.name}
               </Text>
             </ListItem>
