@@ -6,6 +6,7 @@ import ListItem from '@mui/material/ListItem'
 import IconButton from '@mui/material/IconButton'
 import Stack from '@mui/material/Stack'
 import MoreHoriz from '@mui/icons-material/MoreHoriz'
+import { Fixtures } from '../../types'
 
 /**
  * FixturesProps型の作成
