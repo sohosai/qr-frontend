@@ -1,18 +1,18 @@
 {
-    "name": "qr-frontend",
-    "dockerFile": "DockerFile",
-    "appPort": ["3000:3000", "3001:3001"],
-    "workspaceFolder": "/workspaces", 
-    "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces,type=bind,consistency=cached",
-    "postCreateCommand": ".devcontainer/entrypoint.sh",
-    "customizations": {
-        "vscode": {
-            "extensions": [
-                "esbenp.prettier-vscode",
-                "dbaeumer.vscode-eslint",
-                "dsznajder.es7-react-js-snippets",
-                "foxundermoon.next-js"
-            ]
-        }
+  "name": "qr-frontend",
+  "dockerFile": "DockerFile",
+  "appPort": ["3000:3000", "3001:3001"],
+  "workspaceFolder": "/workspaces",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspaces,type=bind,consistency=cached",
+  "postCreateCommand": ".devcontainer/entrypoint.sh",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "esbenp.prettier-vscode",
+        "dbaeumer.vscode-eslint",
+        "dsznajder.es7-react-js-snippets",
+        "foxundermoon.next-js"
+      ]
     }
+  }
 }

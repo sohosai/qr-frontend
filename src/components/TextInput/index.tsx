@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 import styled from 'styled-components'
 
 type TextInputProp = {
@@ -33,7 +33,7 @@ const StyledInputText = styled.input.attrs<TextInputProp>(({ placeholder, onChan
   type: 'text',
   placeholder,
   onChange,
-  value
+  value,
 }))<TextInputProp>`
   display: block;
   margin-top: 4px;
@@ -47,7 +47,7 @@ const StyledInputText = styled.input.attrs<TextInputProp>(({ placeholder, onChan
   width: 100%;
 
   ::placeholder {
-    color: #C5C5C5;
+    color: #c5c5c5;
   }
 `
 
@@ -57,7 +57,7 @@ const StyledInputText = styled.input.attrs<TextInputProp>(({ placeholder, onChan
 const TextInput = (props: TextInputProp) => {
   return (
     <div>
-      <StyledLabel>{ props.label }</StyledLabel>
+      <StyledLabel>{props.label}</StyledLabel>
       <StyledInputText {...props} />
     </div>
   )
