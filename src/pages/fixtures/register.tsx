@@ -11,7 +11,7 @@ import TextInput from '@/components/TextInput';
 import TextArea from '@/components/TextArea'
 import Button from '@/components/Button'
 import Select from '@/components/Select'
-
+import { initQRCode } from '@/lib/QRCode'
 
 const theme = createTheme({
   palette: {
@@ -85,7 +85,7 @@ const FixturesRegister = () => {
       <CssBaseline />
       <Head>
         <title>QR</title>
-        <meta name="description" content="ｶﾆﾁｬﾝ!" />
+        <meta name="description" content="" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -95,7 +95,7 @@ const FixturesRegister = () => {
           <>
             <p>物品を登録しました。</p>
             <p>QRコードは保存してすぐに印刷を行ってください（二度と表示されません）。</p>
-            <QRCode uuid={uuid} />
+            <QRCode qr={initQRCode()} />
           </>
         }
         <div className='FixturesNameTextInput'>
