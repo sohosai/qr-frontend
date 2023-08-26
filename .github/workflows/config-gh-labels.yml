@@ -1,0 +1,67 @@
+name: Configure GitHub Labels
+
+on:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - .github/labels.toml
+  push:
+    branches:
+      - main
+    paths:
+      - .github/labels.toml
+  label:
+    types:
+      - created
+      - edited
+      - deleted
+  workflow_dispatch:
+
+jobs:
+  configure:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install Dependencies
+        run: pip install labels
+      - name: Diff labels
+        if: contains(github.event_name, 'pull_request') || contains(github.event_name, 'push')
+        run: labels sync --dryrun -f .github/labels.toml
+        env:
+          LABELS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LABELS_USERNAME: ${{ github.repository_owner }}
+      - name: Sync labels
+        if: contains(github.event_name, 'push')
+        run: labels --verbose sync -f .github/labels.toml
+        env:
+          LABELS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LABELS_USERNAME: ${{ github.repository_owner }}
+      - name: Commit definition file after fetch
+        if: contains(github.event_name, 'push')
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Sync definition file with existing labels"
+          file_pattern: .github/labels.toml
+      - name: Fetch labels
+        if: contains(github.event_name, 'label') || contains(github.event_name, 'workflow_dispatch')
+        run: labels fetch -f .github/labels.toml
+        env:
+          LABELS_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          LABELS_USERNAME: ${{ github.repository_owner }}
+      - name: Create Pull Request
+        if: contains(github.event_name, 'label') || contains(github.event_name, 'workflow_dispatch')
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "Fetch definition file from existing labels"
+          title: "Sync definition file with existing labels"
+          body: |
+            Current definition file and existing labels don't match.
+          branch: sync-labels
+          branch-suffix: ""
