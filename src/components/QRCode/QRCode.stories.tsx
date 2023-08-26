@@ -4,7 +4,7 @@ import QRCode from "."
 
 export default {
   title: 'Components/QRCode',
-  component: QRCode
+  component: QRCode,
 } as ComponentMeta<typeof QRCode>
 
 const Template: ComponentStory<typeof QRCode> = (args) => <QRCode {...args} />

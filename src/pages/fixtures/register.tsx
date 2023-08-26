@@ -1,13 +1,12 @@
 import Head from 'next/head'
 import { v4 as uuidv4 } from 'uuid'
-import { useState } from "react"
-import styled from "styled-components";
-import { createTheme } from '@material-ui/core/styles';
-import { ThemeProvider } from '@material-ui/core';
-import CssBaseline from '@material-ui/core/CssBaseline';
+import { useState } from 'react'
+import styled from 'styled-components'
+import { createTheme, ThemeProvider } from '@mui/material/styles'
+import CssBaseline from '@mui/material/CssBaseline'
 
 import QRCode from '@/components/QRCode'
-import TextInput from '@/components/TextInput';
+import TextInput from '@/components/TextInput'
 import TextArea from '@/components/TextArea'
 import Button from '@/components/Button'
 import Select from '@/components/Select'
@@ -17,11 +16,11 @@ const theme = createTheme({
   palette: {
     background: {
       default: '#E5E5E5',
-    }
+    },
   },
-});
+})
 const StyledMain = styled.main.withConfig({
-  displayName: "StyledMain",
+  displayName: 'StyledMain',
 })`
   position: static;
   margin: 30px 30px;
@@ -40,20 +39,19 @@ const StyledMain = styled.main.withConfig({
     justify-content: flex-end;
     margin: 20px;
   }
-`;
-
+`
 
 /**
  * 物品を登録できる
  */
 const FixturesRegister = () => {
-  const [uuid, setUuid] = useState("")
+  const [uuid, setUuid] = useState('')
 
-  const [fixturesName, setFixturesName] = useState("")
+  const [fixturesName, setFixturesName] = useState('')
   const onChangeFixturesName = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setFixturesName(event.target.value)
   }
-  const [fixturesDescription, setFixturesDescription] = useState("")
+  const [fixturesDescription, setFixturesDescription] = useState('')
   const onChangeFixturesDescription = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
     setFixturesDescription(event.target.value)
   }
@@ -70,7 +68,7 @@ const FixturesRegister = () => {
       uuid,
       name: fixturesName,
       description: fixturesDescription,
-      repository
+      repository,
     }
     setUuid(uuidv4())
     setFixturesName('')
@@ -78,55 +76,54 @@ const FixturesRegister = () => {
     setRepository('未選択')
   }
 
-
-
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Head>
         <title>QR</title>
+<<<<<<< HEAD
         <meta name="description" content="" />
         <link rel="icon" href="/favicon.ico" />
+=======
+        <meta name='description' content='ｶﾆﾁｬﾝ!' />
+        <link rel='icon' href='/favicon.ico' />
+>>>>>>> d1ef2477fb58ac161f3b6697cadb7a0277487d55
       </Head>
 
       <StyledMain>
         <h1>物品の登録</h1>
-        { uuid !== "" &&
+        {uuid !== '' && (
           <>
             <p>物品を登録しました。</p>
             <p>QRコードは保存してすぐに印刷を行ってください（二度と表示されません）。</p>
             <QRCode qr={initQRCode()} />
           </>
-        }
+        )}
         <div className='FixturesNameTextInput'>
           <TextInput
-            label="物品名"
-            placeholder="LANケーブル 100m"
+            label='物品名'
+            placeholder='LANケーブル 100m'
             value={fixturesName}
             onChange={onChangeFixturesName}
           />
         </div>
         <div className='fixturesDescriptionTextArea'>
           <TextArea
-            label="説明"
-            placeholder="赤色ケース・緑色パッチシール貼り付け済み"
+            label='説明'
+            placeholder='赤色ケース・緑色パッチシール貼り付け済み'
             text={fixturesDescription}
             onChange={onChangeFixturesDescription}
           />
         </div>
         <div className='fixturesRepositoryOption'>
           <Select
-            label="格納場所"
-            options={["未選択", "101号室", "102号室", "206号室"]}
+            label='格納場所'
+            options={['未選択', '101号室', '102号室', '206号室']}
             onChange={onChangeRepository}
           />
         </div>
         <div className='FixturesRegisterButton'>
-          <Button
-            onClick={onClickRegisterButton}
-            disabled={validButton()}
-            text="登録"
-          />
+          <Button onClick={onClickRegisterButton} disabled={validButton()} text='登録' />
         </div>
       </StyledMain>
     </ThemeProvider>

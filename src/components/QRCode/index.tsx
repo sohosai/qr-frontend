@@ -71,7 +71,7 @@ const QRCode = ({ qr }: QRCodeProp) => {
         </div>
       </div>
     </div>
-  );
+  )
 }
 
 export default QRCode

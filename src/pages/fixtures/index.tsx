@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { v4 as uuidv4 } from 'uuid'
-import { useState } from "react"
+import { useState } from 'react'
 import QRCode from '@/components/QRCode'
 import { initQRCode } from '@/lib/QRCode'
 import Button from '@/components/Button'
@@ -10,9 +10,9 @@ import TextArea from '@/components/TextArea'
  * 物品を登録できる
  */
 const FixturesIndex = () => {
-  const [uuid, setUuid] = useState("")
-  const [fixturesName, setFixturesName] = useState("")
-  const [fixturesDescription, setFixturesDescription] = useState("")
+  const [uuid, setUuid] = useState('')
+  const [fixturesName, setFixturesName] = useState('')
+  const [fixturesDescription, setFixturesDescription] = useState('')
   const [repository, setRepository] = useState('未選択')
 
   const onChangeFixturesName = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -36,7 +36,7 @@ const FixturesIndex = () => {
       uuid,
       name: fixturesName,
       description: fixturesDescription,
-      repository
+      repository,
     }
     setUuid(uuidv4())
     setFixturesName('')
@@ -48,31 +48,27 @@ const FixturesIndex = () => {
     <div>
       <Head>
         <title>QR</title>
-        <meta name="description" content="ｶﾆﾁｬﾝ!" />
-        <link rel="icon" href="/favicon.ico" />
+        <meta name='description' content='ｶﾆﾁｬﾝ!' />
+        <link rel='icon' href='/favicon.ico' />
       </Head>
 
       <main>
         <h1>物品の登録</h1>
-        { uuid !== "" &&
+        {uuid !== '' && (
           <>
             <p>物品を登録しました。</p>
             <p>QRコードは保存してすぐに印刷を行ってください（二度と表示されません）。</p>
             <QRCode qr={initQRCode("ab23c","Red")} />
           </>
-        }
+        )}
         <div>
           <label>物品名</label>
-          <input
-            type="text"
-            value={fixturesName}
-            onChange={onChangeFixturesName}
-          ></input>
+          <input type='text' value={fixturesName} onChange={onChangeFixturesName}></input>
         </div>
         <div>
           <TextArea
-            label="説明"
-            placeholder=""
+            label='説明'
+            placeholder=''
             text={fixturesDescription}
             onChange={onChangeFixturesDescription}
           />
@@ -85,11 +81,7 @@ const FixturesIndex = () => {
             <option>実委室</option>
           </select>
         </div>
-        <Button
-          onClick={onClickRegisterButton}
-          disabled={validButton()}
-          text="登録"
-        />
+        <Button onClick={onClickRegisterButton} disabled={validButton()} text='登録' />
       </main>
     </div>
   )

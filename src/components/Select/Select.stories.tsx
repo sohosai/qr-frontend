@@ -1,14 +1,14 @@
-import { ComponentMeta, ComponentStory } from "@storybook/react"
-import { useState } from "react"
-import Select from "."
+import { ComponentMeta, ComponentStory } from '@storybook/react'
+import { useState } from 'react'
+import Select from '.'
 
 export default {
   title: 'Components/Select',
-  component: Select
+  component: Select,
 } as ComponentMeta<typeof Select>
 
 const Template: ComponentStory<typeof Select> = (args) => {
-  const [text, setText] = useState("")
+  const [text, setText] = useState('')
   const onChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setText(event.target.value)
   }
@@ -16,7 +16,7 @@ const Template: ComponentStory<typeof Select> = (args) => {
   return (
     <>
       <Select {...args} onChange={onChange} />
-      <p>入力結果: { text }</p>
+      <p>入力結果: {text}</p>
     </>
   )
 }
@@ -24,5 +24,5 @@ const Template: ComponentStory<typeof Select> = (args) => {
 export const Common = Template.bind({})
 Common.args = {
   label: '説明',
-  options: ["要素1", "要素2"]
+  options: ['要素1', '要素2'],
 }
