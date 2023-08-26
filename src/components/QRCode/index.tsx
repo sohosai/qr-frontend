@@ -13,20 +13,33 @@ type QRCodeProp = {
  */
 const QRCode = ({ qr }: QRCodeProp) => {
   const { Canvas } = useQRCode();
-  const url = `https://qr.sohosai.com/fixtures/${qr.id}`
+  const url = `https://qr.sohosai.com/items/${qr.id}`
   return (
     <div style={{
       display: 'flex',
-      flexFlow: 'column',
-      width: '150px',
-      height: '220px',
+      width: '200px',
+      height: '200px',
       alignItems: 'center',
       justifyContent: 'space-between',
       border: '3px solid black',
       backgroundColor: 'white'
     }}>
       <div style={{
-        marginTop: '10px'
+        backgroundColor: qr.color_hex,
+        height: '100%',
+        width: '25%',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: '1'
+      }} />
+
+      <div style={{
+        flex: '3',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center'
       }}>
         <Canvas
           text={url}
@@ -43,22 +56,20 @@ const QRCode = ({ qr }: QRCodeProp) => {
             },
           }}
         />
+        <div style={{
+          textAlign: 'center',
+          fontWeight: '600',
+          fontSize: '32px'
+        }}>
+          { qr.id }
+        </div>
+        <div style={{
+          marginTop: '8px',
+          fontSize: '18px'
+        }}>
+          { qr.color_kanji }
+        </div>
       </div>
-      <div style={{
-        textAlign: 'center',
-        display: 'flex',
-        justifyContent: 'center',
-        fontWeight: '200',
-        fontSize: '32px',
-      }}>
-        { qr.id }
-      </div>
-      <div style={{
-        marginTop: '20px',
-        backgroundColor: qr.color_hex,
-        height: '45px',
-        width: '100%'
-      }} />
     </div>
   );
 }

@@ -9,7 +9,7 @@ export default function Printing() {
     const { targetRef, pdfHandler } = usePdf()
     const onClickResetUuid = (): void => {
         let qrids = []
-        for (let _ = 0; _ < 54; _++) {
+        for (let _ = 0; _ < 70; _++) {
             qrids.push(initQRCode())
         }
         setQRIDs(qrids)
