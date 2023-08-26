@@ -11,7 +11,7 @@ type QRCodeProp = {
  * 印刷時に表示するQRコードを生成・描画するコンポーネント
  */
 const QRCode = ({ uuid }: QRCodeProp) => {
-  const { Canvas } = useQRCode();
+  const { Canvas } = useQRCode()
   return (
     <div>
       <Canvas
@@ -30,7 +30,7 @@ const QRCode = ({ uuid }: QRCodeProp) => {
         }}
       />
     </div>
-  );
+  )
 }
 
 export default QRCode

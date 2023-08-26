@@ -1,15 +1,15 @@
-import React from "react";
-import styled from "styled-components";
+import React from 'react'
+import styled from 'styled-components'
 
 /**
  * TextAreaProps型の作成
  */
 type TextAreaProps = {
-  label: string;
-  text: string;
-  placeholder: string;
-  onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
-};
+  label: string
+  text: string
+  placeholder: string
+  onChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void
+}
 
 /**
  * StyledLabelにCSSを適用したlabel要素を適用
@@ -19,7 +19,7 @@ const StyledLabel = styled.label`
   color: #555555;
   font-size: 12px;
   margin-bottom: 4px;
-`;
+`
 
 /**
  * StyledTextareaにCSSを適用したtextarea要素を適用
@@ -36,10 +36,10 @@ const StyledTextarea = styled.textarea.attrs<TextAreaProps>(({ onChange }) => {
   outline: none;
   padding: 8px 15px;
   ::placeholder {
-    color: #C5C5C5;
+    color: #c5c5c5;
   }
   resize: none;
-`;
+`
 
 /**
  * 複数行の入力を受け付けるTextAreaコンポーネント
@@ -47,19 +47,11 @@ const StyledTextarea = styled.textarea.attrs<TextAreaProps>(({ onChange }) => {
 const TextArea = ({ label, text, placeholder, onChange }: TextAreaProps) => {
   return (
     <div>
-      <StyledLabel
-      htmlFor = "textarea">
-        { label }
-      </StyledLabel>
+      <StyledLabel htmlFor='textarea'>{label}</StyledLabel>
 
-      <StyledTextarea
-        id = "textarea"
-        value = {text}
-        onChange = {onChange}
-        placeholder = {placeholder}
-      />
+      <StyledTextarea id='textarea' value={text} onChange={onChange} placeholder={placeholder} />
     </div>
-  );
-};
+  )
+}
 
 export default TextArea
