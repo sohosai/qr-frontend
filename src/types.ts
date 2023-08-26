@@ -1,7 +1,7 @@
 /**
  * QRコードに振られた色を表す
  */
-type QrColor =
+export type QrColor =
   | 'red'
   | 'orange'
   | 'brown'
@@ -12,13 +12,13 @@ type QrColor =
   | 'purple'
   | 'pink'
 
-type Stroge = 'room101' | 'room102' | 'room206'
+export type Stroge = 'room101' | 'room102' | 'room206'
 
 /**
  * 物品情報を表すデータ
  * qr-backendのlib.rsファイルに定義されている型を参考にすると良い
  */
-type Fixtures = {
+export type Fixtures = {
   id: string
   qr_id: string
   qr_color: QrColor
