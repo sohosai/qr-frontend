@@ -73,8 +73,8 @@ const FixturesRegister = () => {
       <CssBaseline />
       <Head>
         <title>QR</title>
-        <meta name="description" content="" />
-        <link rel="icon" href="/favicon.ico" />
+        <meta name='description' content='' />
+        <link rel='icon' href='/favicon.ico' />
       </Head>
 
       <StyledMain>

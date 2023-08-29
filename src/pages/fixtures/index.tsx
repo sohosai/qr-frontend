@@ -58,7 +58,7 @@ const FixturesIndex = () => {
           <>
             <p>物品を登録しました。</p>
             <p>QRコードは保存してすぐに印刷を行ってください（二度と表示されません）。</p>
-            <QRCode qr={initQRCode("ab23c","Red")} />
+            <QRCode qr={initQRCode('ab23c', 'Red')} />
           </>
         )}
         <div>
