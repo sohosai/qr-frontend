@@ -18,11 +18,11 @@ const FixturesShow = ({ fixtures }: FixturesProps) => {
       </p>
       <p>description</p>
       {fixtures.description?.split('\n').map((s) => (
-        <p>{s}</p>
+        <p key={fixtures.id + "description" + s}>{s}</p>
       ))}
       <p>note: </p>
       {fixtures.note?.split('\n').map((s) => (
-        <p>{s}</p>
+        <p key={fixtures.id + "note" + s}>{s}</p>
       ))}
       <p>用途：{fixtures.usage}</p>
       <p>使用時期：{fixtures.usage_season}</p>
