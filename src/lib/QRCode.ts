@@ -1,3 +1,5 @@
+import { QrColor } from "@/types"
+
 export const QRCodeColors = {
     Red: '#ff4b00',
     Blue: '#005aff',
@@ -21,6 +23,19 @@ const QRCodeColorsToKanji = {
     Brown: '茶'
 }
 export type QRCodeColor = keyof typeof QRCodeColors
+export const QrColor2QRCodeColor = (color: QrColor): QRCodeColor => {
+    switch (color) {
+        case 'red': return 'Red';
+        case 'blue': return 'Blue';
+        case 'green': return 'Green';
+        case 'orange': return 'Orange';
+        case 'purple': return 'Purple';
+        case 'light_blue': return 'Cyan';
+        case 'pink': return 'Pink';
+        case 'yellow': return 'Yellow';
+        case 'brown': return 'Brown';
+    }
+}
 
 export type QRCodeObject = {
     id: string
