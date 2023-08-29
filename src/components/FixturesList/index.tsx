@@ -51,17 +51,16 @@ interface TextProps {
 }
 
 const Text: React.FC<TextProps> = ({ children, numberOfLines }) => {
-  const styles: React.CSSProperties = {};
+  const styles: React.CSSProperties = {}
   if (numberOfLines >= 1) {
-    styles.WebkitLineClamp = numberOfLines;
-    styles.display = '-webkit-box';
-    styles.WebkitBoxOrient = 'vertical';
-    styles.overflow = 'hidden';
+    styles.WebkitLineClamp = numberOfLines
+    styles.display = '-webkit-box'
+    styles.WebkitBoxOrient = 'vertical'
+    styles.overflow = 'hidden'
   }
 
-  return <span style={styles}>{children}</span>;
-};
-
+  return <span style={styles}>{children}</span>
+}
 
 /**
  * 複数の選択の中から排他的に一つを選ぶSelectコンポーネント
@@ -86,9 +85,7 @@ const FixturesList = ({ fixtures_list }: FixturesListProps) => {
                 </IconButton>
               }
             >
-              <Text numberOfLines={1}>
-                {v.name}
-              </Text>
+              <Text numberOfLines={1}>{v.name}</Text>
             </ListItem>
           </Stack>
         </>
