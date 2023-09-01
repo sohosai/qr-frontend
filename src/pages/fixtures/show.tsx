@@ -29,6 +29,8 @@ const FixturesShow = ({ fixtures }: FixturesProps) => {
         {fixtures.usage_season !== null ? <p>使用時期：{fixtures.usage_season}</p> : <></>}
       </>
     )
+  } else {
+    <></>
   }
 }
 
