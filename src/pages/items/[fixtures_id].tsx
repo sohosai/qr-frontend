@@ -1,13 +1,27 @@
-import { Fixtures } from '../../types'
+import { Fixtures } from '@/types'
+import { useRouter } from 'next/router'
 import { initQRCode, QrColor2QRCodeColor } from '@/lib/QRCode'
-import QRCode from '../../components/QRCode'
+import QRCode from '@/components/QRCode'
 
-type FixturesProps = {
-  fixtures: Fixtures
-}
-
-const FixturesShow = ({ fixtures }: FixturesProps) => {
-  if (typeof fixtures !== 'undefined') {
+const FixturesShow = () => {
+  const route = useRouter()
+  const fixtures_id = route.query.fixtures_id
+  if (typeof fixtures_id == 'string') {
+    // ダミー値
+    // 本来はバックエンドのAPIを叩いて取得する
+    const fixtures: Fixtures = {
+      id: '550e8400-e29b-41d4-a716-446655440000',
+      qr_id: fixtures_id,
+      qr_color: 'red',
+      name: 'test',
+      description: 'test用のダミー',
+      note: '',
+      parent_id: 'xxxx',
+      model_number: null,
+      storage: 'room101',
+      usage: null,
+      usage_season: null,
+    }
     return (
       <>
         <p>{fixtures.name}</p>
@@ -30,7 +44,7 @@ const FixturesShow = ({ fixtures }: FixturesProps) => {
       </>
     )
   } else {
-    ;<></>
+    return <></>
   }
 }
 
