@@ -30,7 +30,7 @@ const FixturesShow = ({ fixtures }: FixturesProps) => {
       </>
     )
   } else {
-    <></>
+    ;<></>
   }
 }
 
