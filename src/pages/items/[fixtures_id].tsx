@@ -2,6 +2,7 @@ import { Fixtures } from '@/types'
 import { useRouter } from 'next/router'
 import { initQRCode, QrColor2QRCodeColor } from '@/lib/QRCode'
 import QRCode from '@/components/QRCode'
+import Header from '@/components/Header'
 
 const FixturesShow = () => {
   const route = useRouter()
@@ -24,6 +25,7 @@ const FixturesShow = () => {
     }
     return (
       <>
+        <Header />
         <p>{fixtures.name}</p>
         {fixtures.model_number !== null ? <p>{fixtures.model_number}</p> : <></>}
         <p>uuid: {fixtures.id}</p>

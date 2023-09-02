@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import Header from '@/components/Header'
 
 import usePdf from '@/hooks/usePdf'
 import QRListPdf from '@/components/QRCodeListPdf'
@@ -22,6 +23,7 @@ export default function Printing() {
 
   return (
     <>
+      <Header />
       <Head>
         <title>印刷する | QR</title>
         <meta name='description' content='物品管理' />

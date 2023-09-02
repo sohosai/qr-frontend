@@ -1,5 +1,4 @@
-import Link from 'next/link'
-import Button from '@mui/material/Button'
+import Header from '@/components/Header'
 
 /**
  * QRにログインした際に最初に表示されるトップページ
@@ -8,22 +7,8 @@ import Button from '@mui/material/Button'
 export default function Home() {
   return (
     <>
+      <Header />
       <div>物品管理アプリケーション</div>
-      <div>
-        <Button variant='contained' size='large' LinkComponent={Link} href='/lending'>
-          貸し出し
-        </Button>
-      </div>
-      <div>
-        <Button variant='contained' size='large' LinkComponent={Link} href='/register'>
-          登録
-        </Button>
-      </div>
-      <div>
-        <Button variant='contained' size='large' LinkComponent={Link} href='/printing'>
-          印刷
-        </Button>
-      </div>
     </>
   )
 }
