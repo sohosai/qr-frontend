@@ -5,6 +5,7 @@ import TextInput from '@/components/TextInput'
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
 import IconButton from '@mui/material/IconButton'
 import QrCodeReader from '@/components/QRCodeReader'
+import Header from '@/components/Header'
 
 const FixturesLending = () => {
   const [fixturesId, setFixturesId] = useState('')
@@ -62,6 +63,7 @@ const FixturesLending = () => {
 
   return (
     <>
+      <Header />
       {isOpenQrReader ? (
         <QrCodeReader
           onReadCode={(url) => {

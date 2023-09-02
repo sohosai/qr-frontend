@@ -10,6 +10,7 @@ import TextArea from '@/components/TextArea'
 import Button from '@/components/Button'
 import Select from '@/components/Select'
 import { initQRCode } from '@/lib/QRCode'
+import Header from '@/components/Header'
 
 const StyledMain = styled.main.withConfig({
   displayName: 'StyledMain',
@@ -70,6 +71,7 @@ const FixturesRegister = () => {
 
   return (
     <>
+      <Header />
       <CssBaseline />
       <Head>
         <title>QR</title>
