@@ -1,6 +1,6 @@
 import { Fixtures } from '@/types'
 import { useRouter } from 'next/router'
-import { initQRCode, QrColor2QRCodeColor } from '@/lib/QRCode'
+import { initQRCode } from '@/lib/QRCode'
 import QRCode from '@/components/QRCode'
 import Header from '@/components/Header'
 
@@ -10,8 +10,10 @@ const FixturesShow = () => {
   if (typeof fixtures_id == 'string') {
     // ダミー値
     // 本来はバックエンドのAPIを叩いて取得する
+    const now = new Date()
     const fixtures: Fixtures = {
       id: '550e8400-e29b-41d4-a716-446655440000',
+      created_at: now,
       qr_id: fixtures_id,
       qr_color: 'red',
       name: 'test',
@@ -29,7 +31,7 @@ const FixturesShow = () => {
         <p>{fixtures.name}</p>
         {fixtures.model_number !== null ? <p>{fixtures.model_number}</p> : <></>}
         <p>uuid: {fixtures.id}</p>
-        <QRCode qr={initQRCode(fixtures.qr_id, QrColor2QRCodeColor(fixtures.qr_color))}></QRCode>
+        <QRCode qr={initQRCode(fixtures.qr_id, fixtures.qr_color)}></QRCode>
         <p>
           保管場所：{fixtures.storage}/{fixtures.parent_id}
         </p>

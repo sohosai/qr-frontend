@@ -1,50 +1,4 @@
-import { QrColor } from '@/types'
-
-export const QRCodeColors = {
-  Red: '#ff4b00',
-  Blue: '#005aff',
-  Green: '#03af7a',
-  Orange: '#f6aa00',
-  Purple: '#990099',
-  Cyan: '#4dc4ff',
-  Pink: '#ff8082',
-  Yellow: '#fff100',
-  Brown: '#804000',
-}
-const QRCodeColorsToKanji = {
-  Red: '赤',
-  Blue: '青',
-  Green: '緑',
-  Orange: '橙',
-  Purple: '紫',
-  Cyan: '水',
-  Pink: '桃',
-  Yellow: '黄',
-  Brown: '茶',
-}
-export type QRCodeColor = keyof typeof QRCodeColors
-export const QrColor2QRCodeColor = (color: QrColor): QRCodeColor => {
-  switch (color) {
-    case 'red':
-      return 'Red'
-    case 'blue':
-      return 'Blue'
-    case 'green':
-      return 'Green'
-    case 'orange':
-      return 'Orange'
-    case 'purple':
-      return 'Purple'
-    case 'light_blue':
-      return 'Cyan'
-    case 'pink':
-      return 'Pink'
-    case 'yellow':
-      return 'Yellow'
-    case 'brown':
-      return 'Brown'
-  }
-}
+import { QRCodeColor, QRCodeColors, QRCodeColorsToKanji } from '@/types'
 
 export type QRCodeObject = {
   id: string
@@ -85,15 +39,15 @@ export const initQRCode = (
 }
 
 const QRCodeData: { id: string; color: QRCodeColor }[] = [
-  { id: 'ab23c', color: 'Red' },
-  { id: 'de34f', color: 'Blue' },
-  { id: 'gh56i', color: 'Green' },
-  { id: 'jk78l', color: 'Orange' },
-  { id: 'mn90o', color: 'Pink' },
-  { id: 'pq12r', color: 'Purple' },
-  { id: 'st34u', color: 'Cyan' },
-  { id: 'vw56x', color: 'Yellow' },
-  { id: 'yz78a', color: 'Brown' },
+  { id: 'ab23c', color: 'red' },
+  { id: 'de34f', color: 'blue' },
+  { id: 'gh56i', color: 'green' },
+  { id: 'jk78l', color: 'orange' },
+  { id: 'mn90o', color: 'pink' },
+  { id: 'pq12r', color: 'purple' },
+  { id: 'st34u', color: 'light_blue' },
+  { id: 'vw56x', color: 'yellow' },
+  { id: 'yz78a', color: 'brown' },
 ]
 
 export const QRCodeList: QRCodeObject[] = QRCodeData.map((qr) => {
