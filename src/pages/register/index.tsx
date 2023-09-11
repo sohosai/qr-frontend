@@ -9,6 +9,7 @@ import TextArea from '@/components/TextArea'
 import Button from '@/components/Button'
 import Select from '@/components/Select'
 import Header from '@/components/Header'
+import Item from '@/components/Item'
 import { Storage, Fixtures, QRCodeColor } from '@/types'
 import QrCodeReader from '@/components/QRCodeReader'
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
@@ -191,7 +192,7 @@ const FixturesRegister = () => {
           <></>
         )}
         <div className='QRColorID'>
-          <p>QRID: {qrID}</p>
+          <Item label='QR ID' value={qrID} />
         </div>
         <div className='QRColorSelect'>
           <Select

@@ -6,6 +6,7 @@ import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
 import IconButton from '@mui/material/IconButton'
 import QrCodeReader from '@/components/QRCodeReader'
 import Header from '@/components/Header'
+import Item from '@/components/Item'
 import axios from 'axios'
 import { Fixtures, Lending } from '@/types'
 import { toast } from 'react-toastify'
@@ -177,7 +178,7 @@ const FixturesLending = () => {
       ) : (
         // 返却画面
         <>
-          <p>返却機材ID：{qrId}</p>
+          <Item label='返却機材ID' value={qrId} />
           <div className='ReturnedButton'>
             <Button onClick={onClickReturnedButton} disabled={true} text='返却' />
           </div>
