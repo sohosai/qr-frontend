@@ -13,6 +13,7 @@ import { Storage, Fixtures, QRCodeColor } from '@/types'
 import QrCodeReader from '@/components/QRCodeReader'
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
 import IconButton from '@mui/material/IconButton'
+import axios from 'axios'
 
 const StyledMain = styled.main.withConfig({
   displayName: 'StyledMain',
@@ -89,6 +90,8 @@ const FixturesRegister = () => {
     setUsageSeason(event.target.value)
   }
 
+  const [registerOk, setRegisterOk] = useState<boolean | null>(null)
+
   const validButton = (): boolean => {
     return (
       fixturesName == '' ||
@@ -99,54 +102,59 @@ const FixturesRegister = () => {
       repository == '未選択'
     )
   }
+
   const onClickRegisterButton = (): void => {
-    const api_url = process.env.QR_API_URL
-    if (api_url !== undefined) {
-      const url = new URL(api_url + '/insert_fixtures')
-      const now = new Date()
-      const storage: Storage =
-        repository == '101号室' ? 'room101' : repository == '102号室' ? 'room102' : 'room206'
-      const qr_color: QRCodeColor =
-        qrColor == '赤'
-          ? 'red'
-          : qrColor == '青'
-          ? 'blue'
-          : qrColor == '緑'
-          ? 'green'
-          : qrColor == '橙'
-          ? 'orange'
-          : qrColor == '紫'
-          ? 'purple'
-          : qrColor == '水'
-          ? 'light_blue'
-          : qrColor == '桃'
-          ? 'pink'
-          : qrColor == '黄'
-          ? 'yellow'
-          : 'brown'
-      const json: Fixtures = {
-        id: uuidv4(),
-        created_at: now,
-        name: fixturesName,
-        description: fixturesDescription,
-        storage: storage,
-        qr_id: qrID,
-        qr_color: qr_color,
-        note: note,
-        parent_id: 'xxxx',
-        model_number: modelNumber == '' ? null : modelNumber,
-        usage: usage == '' ? null : usage,
-        usage_season: usageSeason == '' ? null : usageSeason,
-      }
-      fetch(url, {
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        method: 'POST',
-        body: JSON.stringify(json),
-      })
+    const now = new Date()
+    const storage: Storage =
+      repository == '101号室' ? 'room101' : repository == '102号室' ? 'room102' : 'room206'
+    const qr_color: QRCodeColor =
+      qrColor == '赤'
+        ? 'red'
+        : qrColor == '青'
+        ? 'blue'
+        : qrColor == '緑'
+        ? 'green'
+        : qrColor == '橙'
+        ? 'orange'
+        : qrColor == '紫'
+        ? 'purple'
+        : qrColor == '水'
+        ? 'light_blue'
+        : qrColor == '桃'
+        ? 'pink'
+        : qrColor == '黄'
+        ? 'yellow'
+        : 'brown'
+
+    const json: Fixtures = {
+      id: uuidv4(),
+      created_at: now,
+      name: fixturesName,
+      description: fixturesDescription,
+      storage: storage,
+      qr_id: qrID,
+      qr_color: qr_color,
+      note: note,
+      parent_id: parentID,
+      model_number: modelNumber == '' ? null : modelNumber,
+      usage: usage == '' ? null : usage,
+      usage_season: usageSeason == '' ? null : usageSeason,
     }
+
+    ;(async () => {
+      const api_url = process.env.NEXT_PUBLIC_QR_API_URL
+      if (api_url !== undefined) {
+        const url = api_url + '/insert_fixtures'
+        try {
+          const result = await axios.post(url, json)
+          setRegisterOk(true)
+          return result
+        } catch (err) {
+          setRegisterOk(false)
+        }
+      }
+    })()
+
     setQRID('')
     setQRColor('未選択')
     setFixturesName('')
@@ -157,7 +165,6 @@ const FixturesRegister = () => {
     setUsageSeason('')
     setParentID('')
   }
-
   return (
     <>
       <Header />
@@ -264,6 +271,17 @@ const FixturesRegister = () => {
         >
           <QrCodeScannerIcon fontSize='inherit' />
         </IconButton>
+        {registerOk == null ? (
+          <></>
+        ) : registerOk ? (
+          <>
+            <p>OK!</p>
+          </>
+        ) : (
+          <>
+            <p>Failed!</p>
+          </>
+        )}
       </StyledMain>
     </>
   )
