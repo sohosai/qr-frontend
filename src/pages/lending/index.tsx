@@ -8,8 +8,9 @@ import QrCodeReader from '@/components/QRCodeReader'
 import Header from '@/components/Header'
 import Item from '@/components/Item'
 import axios from 'axios'
-import { Fixtures, Lending } from '@/types'
+import { Fixtures, Lending, Spot } from '@/types'
 import { toast } from 'react-toastify'
+import Select from '@/components/Select'
 
 const FixturesLending = () => {
   const [qrId, setQrId] = useState('')
@@ -18,8 +19,22 @@ const FixturesLending = () => {
   }
   const [isOpenQrReader, setIsOpenQrReader] = useState(false)
 
+  const [spotNameList, setSpotNameList] = useState<string[]>([])
+  ;(async () => {
+    const api_url = process.env.NEXT_PUBLIC_QR_API_URL
+    if (api_url !== undefined) {
+      const get_spot_list_url = api_url + '/get_spot_list'
+      const get_spot_list_reslt = await axios.get(get_spot_list_url)
+      const spot_list: Spot[] = get_spot_list_reslt.data.results
+      setSpotNameList(spot_list.map((spot) => spot.name))
+      const spotNameList2 = spotNameList.slice()
+      spotNameList2.unshift('未選択')
+      setSpotNameList(spotNameList2)
+    }
+  })()
+
   const [spotName, setSpotName] = useState('')
-  const onChangeSpotName = (event: React.ChangeEvent<HTMLInputElement>): void => {
+  const onChangeSpotName = (event: React.ChangeEvent<HTMLSelectElement>): void => {
     setSpotName(event.target.value)
   }
 
@@ -39,7 +54,7 @@ const FixturesLending = () => {
   }
 
   const validButton = (): boolean => {
-    return qrId == '' || spotName == '' || borrowerName == '' || borrowerNumber == ''
+    return qrId == '' || spotName == '未選択' || borrowerName == '' || borrowerNumber == ''
   }
 
   const [isLending, setIsLending] = useState(true)
@@ -140,10 +155,9 @@ const FixturesLending = () => {
             />
           </div>
           <div>
-            <TextInput
+            <Select
               label='持っていく場所（必須）'
-              placeholder='3C201'
-              value={spotName}
+              options={spotNameList}
               onChange={onChangeSpotName}
             />
           </div>
