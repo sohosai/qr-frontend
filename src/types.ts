@@ -48,3 +48,19 @@ export type Fixtures = {
   note: string
   parent_id: string
 }
+
+/**
+ * 貸出情報を表すデータ
+ * qr-backendのlib.rsファイルに定義されている型を参考にするとよい
+ */
+
+export type Lending = {
+  id: string
+  fixtures_id: string
+  spot_name: string
+  lending_at: Date
+  returned_at: Date | null
+  borrower_name: string
+  borrower_number: number
+  borrwer_org: string | null
+}
