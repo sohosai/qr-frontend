@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import { initQRCode } from '@/lib/QRCode'
 import QRCode from '@/components/QRCode'
 import Header from '@/components/Header'
+import { toast } from 'react-toastify'
 import axios from 'axios'
 
 const FixturesShow = () => {
@@ -18,14 +19,13 @@ const FixturesShow = () => {
       if (fixtures_id !== null && api_url !== undefined) {
         ;(async () => {
           const url = api_url + '/get_fixtures?qr_id=' + fixtures_id
-          console.log('url:')
-          console.log(url)
           setIsOk(true)
           try {
             const response = await axios.get(url)
             setFixtures(response.data.results)
             return response
           } catch (err) {
+            toast.error('URLが無効なため表示に失敗')
             setFixtures(null)
           }
         })()
@@ -60,9 +60,7 @@ const FixturesShow = () => {
             {fixtures.usage_season !== null ? <p>使用時期：{fixtures.usage_season}</p> : <></>}
           </>
         ) : (
-          <>
-            <p>適切なIDではありません</p>
-          </>
+          <></>
         )}
       </>
     )
@@ -70,7 +68,6 @@ const FixturesShow = () => {
     return (
       <>
         <Header />
-        <p>API URLが無い、もしくはURLが無効</p>
       </>
     )
   }

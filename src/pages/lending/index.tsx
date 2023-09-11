@@ -8,6 +8,7 @@ import QrCodeReader from '@/components/QRCodeReader'
 import Header from '@/components/Header'
 import axios from 'axios'
 import { Fixtures, Lending } from '@/types'
+import { toast } from 'react-toastify'
 
 const FixturesLending = () => {
   const [qrId, setQrId] = useState('')
@@ -42,7 +43,6 @@ const FixturesLending = () => {
 
   const [isLending, setIsLending] = useState(true)
 
-  const [lendingOk, setLendingOk] = useState<boolean | null>(null)
   const onClickRegisterButton = (): void => {
     const uuid = uuidv4()
     const now = new Date()
@@ -67,10 +67,10 @@ const FixturesLending = () => {
             borrwer_org: borrowerOrg == null ? null : borrowerOrg,
           }
           const result = await axios.post(url, lending)
-          setLendingOk(true)
+          toast.success('貸し出しに成功しました')
           return result
         } catch (err) {
-          setLendingOk(false)
+          toast.error('貸し出しに失敗しました')
         }
       }
     })()
@@ -83,7 +83,6 @@ const FixturesLending = () => {
     setIsLending(true)
   }
 
-  const [returnedOk, setReturnedOk] = useState<boolean | null>(null)
   const onClickReturnedButton = (): void => {
     ;(async () => {
       const api_url = process.env.NEXT_PUBLIC_QR_API_URL
@@ -91,10 +90,10 @@ const FixturesLending = () => {
         const url = api_url + '/returned_lending?qr_id=' + qrId
         try {
           const result = await axios.post(url)
-          setReturnedOk(true)
+          toast.success('返却に成功しました')
           return result
         } catch (err) {
-          setReturnedOk(false)
+          toast.error('返却に失敗しました')
         }
       }
     })()
@@ -174,17 +173,6 @@ const FixturesLending = () => {
           <div className='LendingRegisterButton'>
             <Button onClick={onClickRegisterButton} disabled={validButton()} text='貸し出し' />
           </div>
-          {lendingOk == null ? (
-            <></>
-          ) : lendingOk ? (
-            <>
-              <p>OK!</p>
-            </>
-          ) : (
-            <>
-              <p>Failed!</p>
-            </>
-          )}
         </>
       ) : (
         // 返却画面
@@ -192,18 +180,7 @@ const FixturesLending = () => {
           <p>返却機材ID：{qrId}</p>
           <div className='ReturnedButton'>
             <Button onClick={onClickReturnedButton} disabled={true} text='返却' />
-          </div>{' '}
-          {returnedOk == null ? (
-            <></>
-          ) : returnedOk ? (
-            <>
-              <p>OK!</p>
-            </>
-          ) : (
-            <>
-              <p>Failed!</p>
-            </>
-          )}
+          </div>
         </>
       )}
       <IconButton
