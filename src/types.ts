@@ -64,3 +64,32 @@ export type Lending = {
   borrower_number: number
   borrwer_org: string | null
 }
+
+/**
+ * 学内の大まかな範囲
+ * lib.rsを参照
+ */
+export type Area =
+  | 'area1'
+  | 'area2'
+  | 'area3'
+  | 'center_library'
+  | 'ishi_square'
+  | 'igaku'
+  | 'taigei'
+  | 'kasuga'
+  | 'ichinoya'
+  | 'hirasuna'
+  | 'oikoshi'
+
+/**
+ * 貸し出し物品を持っていく地点の情報
+ * lib.rs参照
+ */
+export type Spot = {
+  name: string
+  area: Area
+  building: string | null
+  floor: number | null
+  room: string | null
+}
