@@ -14,6 +14,7 @@ import QrCodeReader from '@/components/QRCodeReader'
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
 import IconButton from '@mui/material/IconButton'
 import axios from 'axios'
+import { toast } from 'react-toastify'
 
 const StyledMain = styled.main.withConfig({
   displayName: 'StyledMain',
@@ -90,8 +91,6 @@ const FixturesRegister = () => {
     setUsageSeason(event.target.value)
   }
 
-  const [registerOk, setRegisterOk] = useState<boolean | null>(null)
-
   const validButton = (): boolean => {
     return (
       fixturesName == '' ||
@@ -147,10 +146,10 @@ const FixturesRegister = () => {
         const url = api_url + '/insert_fixtures'
         try {
           const result = await axios.post(url, json)
-          setRegisterOk(true)
+          toast.success('登録に成功')
           return result
         } catch (err) {
-          setRegisterOk(false)
+          toast.error('登録に失敗')
         }
       }
     })()
@@ -271,17 +270,6 @@ const FixturesRegister = () => {
         >
           <QrCodeScannerIcon fontSize='inherit' />
         </IconButton>
-        {registerOk == null ? (
-          <></>
-        ) : registerOk ? (
-          <>
-            <p>OK!</p>
-          </>
-        ) : (
-          <>
-            <p>Failed!</p>
-          </>
-        )}
       </StyledMain>
     </>
   )
