@@ -74,6 +74,9 @@ const Header = () => {
             <ListItem key='menu-register'>
               <Link href='/register'>登録</Link>
             </ListItem>
+            <ListItem key='menu-register'>
+              <Link href='/spot/register'>地点情報の登録</Link>
+            </ListItem>
             <ListItem key='menu-printing'>
               <Link href='/printing'>印刷</Link>
             </ListItem>
