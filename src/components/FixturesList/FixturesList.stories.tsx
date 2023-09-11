@@ -9,10 +9,12 @@ export default {
 const Template: ComponentStory<typeof FixturesList> = (args) => <FixturesList {...args} />
 
 export const Common = Template.bind({})
+const now = new Date()
 Common.args = {
   fixtures_list: [
     {
       id: '550e8400-e29b-41d4-a716-446655440000',
+      created_at: now,
       qr_id: 'x345',
       qr_color: 'red',
       name: 'test',
@@ -26,6 +28,7 @@ Common.args = {
     },
     {
       id: '550e8400-e29b-41d4-a716-446655440001',
+      created_at: now,
       qr_id: 'x346',
       qr_color: 'red',
       name: 'LANケーブル100m',
@@ -39,6 +42,7 @@ Common.args = {
     },
     {
       id: '550e8400-e29b-41d4-a716-446655440002',
+      created_at: now,
       qr_id: 'x347',
       qr_color: 'blue',
       name: 'Blackmagick Design Convert HDMI 適当なクソながタイトルをこうやってどしどしと錬成していくんじゃ',

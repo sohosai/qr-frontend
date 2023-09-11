@@ -4,13 +4,16 @@ import { useState } from 'react'
 import styled from 'styled-components'
 import CssBaseline from '@mui/material/CssBaseline'
 
-import QRCode from '@/components/QRCode'
 import TextInput from '@/components/TextInput'
 import TextArea from '@/components/TextArea'
 import Button from '@/components/Button'
 import Select from '@/components/Select'
-import { initQRCode } from '@/lib/QRCode'
 import Header from '@/components/Header'
+import { Storage, Fixtures, QRCodeColor } from '@/types'
+import QrCodeReader from '@/components/QRCodeReader'
+import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
+import IconButton from '@mui/material/IconButton'
+import axios from 'axios'
 
 const StyledMain = styled.main.withConfig({
   displayName: 'StyledMain',
@@ -38,37 +41,130 @@ const StyledMain = styled.main.withConfig({
  * 物品を登録できる
  */
 const FixturesRegister = () => {
-  const [uuid, setUuid] = useState('')
+  const [isOpenQrReader, setIsOpenQrReader] = useState(false)
+
+  const [qrID, setQRID] = useState('')
+
+  const [qrColor, setQRColor] = useState('未選択')
+  const onChangeQRColor = (event: React.ChangeEvent<HTMLSelectElement>): void => {
+    setQRColor(event.target.value)
+  }
 
   const [fixturesName, setFixturesName] = useState('')
   const onChangeFixturesName = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setFixturesName(event.target.value)
   }
+
+  const [modelNumber, setModelNumber] = useState('')
+  const onChangeModelNumber = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    setModelNumber(event.target.value)
+  }
+
   const [fixturesDescription, setFixturesDescription] = useState('')
   const onChangeFixturesDescription = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
     setFixturesDescription(event.target.value)
   }
+
   const [repository, setRepository] = useState('未選択')
   const onChangeRepository = (event: React.ChangeEvent<HTMLSelectElement>): void => {
     setRepository(event.target.value)
   }
 
-  const validButton = (): boolean => {
-    return fixturesName == '' || fixturesDescription == '' || repository == '未選択'
+  const [parentID, setParentID] = useState('')
+  const onChangeParentID = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    setParentID(event.target.value)
   }
+
+  const [note, setNote] = useState('')
+  const onChangeNote = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
+    setNote(event.target.value)
+  }
+
+  const [usage, setUsage] = useState('')
+  const onChangeUsage = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    setUsage(event.target.value)
+  }
+
+  const [usageSeason, setUsageSeason] = useState('')
+  const onChangeUsageSeason = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    setUsageSeason(event.target.value)
+  }
+
+  const [registerOk, setRegisterOk] = useState<boolean | null>(null)
+
+  const validButton = (): boolean => {
+    return (
+      fixturesName == '' ||
+      fixturesDescription == '' ||
+      qrColor == '未選択' ||
+      qrID == '' ||
+      parentID == '' ||
+      repository == '未選択'
+    )
+  }
+
   const onClickRegisterButton = (): void => {
-    const json = {
-      uuid,
+    const now = new Date()
+    const storage: Storage =
+      repository == '101号室' ? 'room101' : repository == '102号室' ? 'room102' : 'room206'
+    const qr_color: QRCodeColor =
+      qrColor == '赤'
+        ? 'red'
+        : qrColor == '青'
+        ? 'blue'
+        : qrColor == '緑'
+        ? 'green'
+        : qrColor == '橙'
+        ? 'orange'
+        : qrColor == '紫'
+        ? 'purple'
+        : qrColor == '水'
+        ? 'light_blue'
+        : qrColor == '桃'
+        ? 'pink'
+        : qrColor == '黄'
+        ? 'yellow'
+        : 'brown'
+
+    const json: Fixtures = {
+      id: uuidv4(),
+      created_at: now,
       name: fixturesName,
       description: fixturesDescription,
-      repository,
+      storage: storage,
+      qr_id: qrID,
+      qr_color: qr_color,
+      note: note,
+      parent_id: parentID,
+      model_number: modelNumber == '' ? null : modelNumber,
+      usage: usage == '' ? null : usage,
+      usage_season: usageSeason == '' ? null : usageSeason,
     }
-    setUuid(uuidv4())
+
+    ;(async () => {
+      const api_url = process.env.NEXT_PUBLIC_QR_API_URL
+      if (api_url !== undefined) {
+        const url = api_url + '/insert_fixtures'
+        try {
+          const result = await axios.post(url, json)
+          setRegisterOk(true)
+          return result
+        } catch (err) {
+          setRegisterOk(false)
+        }
+      }
+    })()
+
+    setQRID('')
+    setQRColor('未選択')
     setFixturesName('')
     setFixturesDescription('')
     setRepository('未選択')
+    setNote('')
+    setUsage('')
+    setUsageSeason('')
+    setParentID('')
   }
-
   return (
     <>
       <Header />
@@ -81,13 +177,30 @@ const FixturesRegister = () => {
 
       <StyledMain>
         <h1>物品の登録</h1>
-        {uuid !== '' && (
-          <>
-            <p>物品を登録しました。</p>
-            <p>QRコードは保存してすぐに印刷を行ってください（二度と表示されません）。</p>
-            <QRCode qr={initQRCode()} />
-          </>
+        {isOpenQrReader ? (
+          <QrCodeReader
+            onReadCode={(url) => {
+              // urlは"https://qr.sohosai.com/items/XWPV"のような形をしている
+              const str_lst = url.split('/')
+              const id = str_lst.pop()
+              if (id !== undefined) {
+                setQRID(id)
+              }
+            }}
+          />
+        ) : (
+          <></>
         )}
+        <div className='QRColorID'>
+          <p>QRID: {qrID}</p>
+        </div>
+        <div className='QRColorSelect'>
+          <Select
+            label='QRコードカラー（QRコード実物を見て入力してください）'
+            options={['未選択', '赤', '青', '緑', '橙', '紫', '水', '桃', '黄', '茶']}
+            onChange={onChangeQRColor}
+          />
+        </div>
         <div className='FixturesNameTextInput'>
           <TextInput
             label='物品名'
@@ -96,9 +209,17 @@ const FixturesRegister = () => {
             onChange={onChangeFixturesName}
           />
         </div>
+        <div className='FixturesModelNumberTextInput'>
+          <TextInput
+            label='型番'
+            placeholder='SLIK F153'
+            value={modelNumber}
+            onChange={onChangeModelNumber}
+          />
+        </div>
         <div className='fixturesDescriptionTextArea'>
           <TextArea
-            label='説明'
+            label='物品詳細'
             placeholder='赤色ケース・緑色パッチシール貼り付け済み'
             text={fixturesDescription}
             onChange={onChangeFixturesDescription}
@@ -111,9 +232,56 @@ const FixturesRegister = () => {
             onChange={onChangeRepository}
           />
         </div>
+        <div className='FixturesParentIDTextInput'>
+          <TextInput
+            label='親物品ID'
+            placeholder='root・root-袋・9E4Q'
+            value={parentID}
+            onChange={onChangeParentID}
+          />
+        </div>
+        <div className='fixturesNoteTextArea'>
+          <TextArea
+            label='備考があれば入力'
+            placeholder='22からの引継ぎ'
+            text={note}
+            onChange={onChangeNote}
+          />
+        </div>
+        <div className='FixturesUsageTextInput'>
+          <TextInput label='使用用途' placeholder='生中継' value={usage} onChange={onChangeUsage} />
+        </div>
+        <div className='FixturesUsageSeasonTextInput'>
+          <TextInput
+            label='使用時期'
+            placeholder='当日'
+            value={usageSeason}
+            onChange={onChangeUsageSeason}
+          />
+        </div>
+
         <div className='FixturesRegisterButton'>
           <Button onClick={onClickRegisterButton} disabled={validButton()} text='登録' />
         </div>
+        <IconButton
+          size='large'
+          onClick={() => {
+            setIsOpenQrReader(!isOpenQrReader)
+          }}
+        >
+          <QrCodeScannerIcon fontSize='inherit' />
+        </IconButton>
+        {registerOk == null ? (
+          <></>
+        ) : registerOk ? (
+          <>
+            <p>OK!</p>
+          </>
+        ) : (
+          <>
+            <p>Failed!</p>
+          </>
+        )}
       </StyledMain>
     </>
   )

@@ -6,11 +6,13 @@ import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
 import IconButton from '@mui/material/IconButton'
 import QrCodeReader from '@/components/QRCodeReader'
 import Header from '@/components/Header'
+import axios from 'axios'
+import { Fixtures, Lending } from '@/types'
 
 const FixturesLending = () => {
-  const [fixturesId, setFixturesId] = useState('')
-  const onChangeFixturesId = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    setFixturesId(event.target.value)
+  const [qrId, setQrId] = useState('')
+  const onChangeQrId = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    setQrId(event.target.value)
   }
   const [isOpenQrReader, setIsOpenQrReader] = useState(false)
 
@@ -35,15 +37,45 @@ const FixturesLending = () => {
   }
 
   const validButton = (): boolean => {
-    return fixturesId == '' || spotName == '' || borrowerName == '' || borrowerNumber == ''
+    return qrId == '' || spotName == '' || borrowerName == '' || borrowerNumber == ''
   }
 
   const [isLending, setIsLending] = useState(true)
 
+  const [lendingOk, setLendingOk] = useState<boolean | null>(null)
   const onClickRegisterButton = (): void => {
     const uuid = uuidv4()
+    const now = new Date()
+
+    ;(async () => {
+      const api_url = process.env.NEXT_PUBLIC_QR_API_URL
+      if (api_url !== undefined) {
+        try {
+          const get_fixtures_url = api_url + '/get_fixtures?qr_id=' + qrId
+          const get_fixtures_result = await axios.get(get_fixtures_url)
+          const fixtures: Fixtures = get_fixtures_result.data.results
+          const fixtures_id = fixtures.id
+          const url = api_url + '/insert_lending'
+          const lending: Lending = {
+            id: uuid,
+            fixtures_id: fixtures_id,
+            spot_name: spotName,
+            lending_at: now,
+            returned_at: null,
+            borrower_name: borrowerName,
+            borrower_number: Number(borrowerNumber),
+            borrwer_org: borrowerOrg == null ? null : borrowerOrg,
+          }
+          const result = await axios.post(url, lending)
+          setLendingOk(true)
+          return result
+        } catch (err) {
+          setLendingOk(false)
+        }
+      }
+    })()
     // 初期化
-    setFixturesId('')
+    setQrId('')
     setSpotName('')
     setBorrowerName('')
     setBorrowerNumber('')
@@ -51,9 +83,24 @@ const FixturesLending = () => {
     setIsLending(true)
   }
 
+  const [returnedOk, setReturnedOk] = useState<boolean | null>(null)
   const onClickReturnedButton = (): void => {
+    ;(async () => {
+      const api_url = process.env.NEXT_PUBLIC_QR_API_URL
+      if (api_url !== undefined) {
+        const url = api_url + '/returned_lending?qr_id=' + qrId
+        try {
+          const result = await axios.post(url)
+          setReturnedOk(true)
+          return result
+        } catch (err) {
+          setReturnedOk(false)
+        }
+      }
+    })()
+
     // 初期化
-    setFixturesId('')
+    setQrId('')
     setSpotName('')
     setBorrowerName('')
     setBorrowerNumber('')
@@ -74,7 +121,7 @@ const FixturesLending = () => {
               // Fixtures IDが貸し出し中だったら返却画面に
               // 貸し出されていなかったら貸し出し画面に
               setIsLending(true)
-              setFixturesId(id)
+              setQrId(id)
             }
           }}
         />
@@ -88,8 +135,8 @@ const FixturesLending = () => {
             <TextInput
               label='貸し出し物品のID'
               placeholder=''
-              value={fixturesId}
-              onChange={onChangeFixturesId}
+              value={qrId}
+              onChange={onChangeQrId}
             />
           </div>
           <div>
@@ -127,14 +174,36 @@ const FixturesLending = () => {
           <div className='LendingRegisterButton'>
             <Button onClick={onClickRegisterButton} disabled={validButton()} text='貸し出し' />
           </div>
+          {lendingOk == null ? (
+            <></>
+          ) : lendingOk ? (
+            <>
+              <p>OK!</p>
+            </>
+          ) : (
+            <>
+              <p>Failed!</p>
+            </>
+          )}
         </>
       ) : (
         // 返却画面
         <>
-          <p>返却機材ID：{fixturesId}</p>
+          <p>返却機材ID：{qrId}</p>
           <div className='ReturnedButton'>
             <Button onClick={onClickReturnedButton} disabled={true} text='返却' />
-          </div>
+          </div>{' '}
+          {returnedOk == null ? (
+            <></>
+          ) : returnedOk ? (
+            <>
+              <p>OK!</p>
+            </>
+          ) : (
+            <>
+              <p>Failed!</p>
+            </>
+          )}
         </>
       )}
       <IconButton
