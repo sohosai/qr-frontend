@@ -1,6 +1,1 @@
-# kaniQR prototype
-
-```bash
-yarn
-yarn dev
-```
+# 学園祭実行委員 物品管理システム フロントエンド
