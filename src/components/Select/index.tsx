@@ -34,6 +34,7 @@ const StyledSelect = styled.select.attrs<SelectProps>(({ onChange }) => {
   outline: none;
   padding: 12px 15px;
   resize: none;
+  background-color: #f5f5f5;
 `
 
 /**

@@ -11,6 +11,30 @@ import axios from 'axios'
 import { Fixtures, Lending, Spot } from '@/types'
 import { toast } from 'react-toastify'
 import Select from '@/components/Select'
+import styled from 'styled-components'
+import Head from 'next/head'
+
+const StyledMain = styled.main.withConfig({
+  displayName: 'StyledMain',
+})`
+  position: static;
+  margin: 30px 30px;
+  font-weight: 700;
+  h1 {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    font-size: 16px;
+  }
+  div {
+    margin: 4px;
+    margin-bottom: 10px;
+  }
+  .buttonContainer {
+    display: flex;
+    justify-content: flex-end;
+    margin: 20px;
+  }
+`
 
 const FixturesLending = () => {
   const [qrId, setQrId] = useState('')
@@ -126,6 +150,11 @@ const FixturesLending = () => {
   return (
     <>
       <Header />
+      <Head>
+        <title>貸し出し | QR</title>
+        <meta name='description' content='物品管理' />
+        <link rel='icon' href='/favicon.ico' />
+      </Head>
       {isOpenQrReader ? (
         <QrCodeReader
           onReadCode={(url) => {
@@ -145,7 +174,8 @@ const FixturesLending = () => {
       )}
       {isLending ? (
         // 貸し出し画面
-        <>
+        <StyledMain>
+          <h1>貸し出し</h1>
           <div>
             <TextInput
               label='貸し出し物品のID'
@@ -188,7 +218,21 @@ const FixturesLending = () => {
           <div className='LendingRegisterButton'>
             <Button onClick={onClickRegisterButton} disabled={validButton()} text='貸し出し' />
           </div>
-        </>
+          <IconButton
+            size='large'
+            background-color='#6600CC'
+            sx={{
+              color: '#6600CC',
+              border: '1px solid #6600CC',
+              boxShadow: '1px 1px 5px 1px  #998fa3',
+            }}
+            onClick={() => {
+              setIsOpenQrReader(!isOpenQrReader)
+            }}
+          >
+            <QrCodeScannerIcon fontSize='inherit' />
+          </IconButton>
+        </StyledMain>
       ) : (
         // 返却画面
         <>
@@ -198,14 +242,6 @@ const FixturesLending = () => {
           </div>
         </>
       )}
-      <IconButton
-        size='large'
-        onClick={() => {
-          setIsOpenQrReader(!isOpenQrReader)
-        }}
-      >
-        <QrCodeScannerIcon fontSize='inherit' />
-      </IconButton>
     </>
   )
 }

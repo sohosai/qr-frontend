@@ -29,8 +29,15 @@ const Header = () => {
       <AppBar position='static' color='default'>
         <Toolbar>
           <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
-            <Button LinkComponent={Link} href='/'>
-              <p>
+            <Button LinkComponent={Link} href='https://qr.sohosai.com'>
+              <p
+                style={{
+                  color: '#6600CC',
+                  fontSize: '21px',
+                  fontWeight: 'bold',
+                  margin: '10px',
+                }}
+              >
                 QR
                 <br />
                 物品管理

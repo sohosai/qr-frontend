@@ -8,7 +8,15 @@ export default function Home() {
   return (
     <>
       <Header />
-      <div>物品管理アプリケーション</div>
+      <div
+        style={{
+          fontSize: '21px',
+          fontWeight: 'bold',
+          margin: '21px',
+        }}
+      >
+        物品管理アプリケーション
+      </div>
     </>
   )
 }

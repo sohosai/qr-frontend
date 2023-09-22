@@ -43,7 +43,7 @@ const StyledInputText = styled.input.attrs<TextInputProp>(({ placeholder, onChan
   padding: 8px 15px;
   font-size: 14px;
   outline: none;
-  background-color: white;
+  background-color: #f5f5f5;
   width: 100%;
 
   ::placeholder {
