@@ -13,6 +13,7 @@ import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import Link from 'next/link'
 import Button from '@mui/material/Button'
+import { ThemeColor } from '@/types'
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -29,8 +30,13 @@ const Header = () => {
       <AppBar position='static' color='default'>
         <Toolbar>
           <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
-            <Button LinkComponent={Link} href='/'>
-              <p>
+            <Button LinkComponent={Link} href='https://qr.sohosai.com'>
+              <p style={{
+                color: ThemeColor.palette.text.primary,
+                fontSize: '21px',
+                fontWeight: 'bold',
+                margin: '10px'
+              }}>
                 QR
                 <br />
                 物品管理

@@ -1,3 +1,16 @@
+import { ThemeProvider, createTheme } from '@mui/system';
+
+export const ThemeColor = createTheme({
+  palette: {
+    background: {
+      paper: '#F3F1F4',
+    },
+    text: {
+      primary: '#6600CC',
+    },
+  },
+});
+
 /**
  * QRコードに振られた色を表す
  */

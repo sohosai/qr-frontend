@@ -16,6 +16,7 @@ import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
 import IconButton from '@mui/material/IconButton'
 import axios from 'axios'
 import { toast } from 'react-toastify'
+import { ThemeColor } from '@/types'
 
 const StyledMain = styled.main.withConfig({
   displayName: 'StyledMain',
@@ -265,11 +266,13 @@ const FixturesRegister = () => {
         </div>
         <IconButton
           size='large'
+          background-color='#6600CC'
+          sx={{ color: '#6600CC', border: '1px solid #6600CC', boxShadow: '1px 1px 5px 1px #998fa3'}}
           onClick={() => {
             setIsOpenQrReader(!isOpenQrReader)
           }}
         >
-          <QrCodeScannerIcon fontSize='inherit' />
+          <QrCodeScannerIcon fontSize='inherit'/>
         </IconButton>
       </StyledMain>
     </>

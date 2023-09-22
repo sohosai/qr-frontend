@@ -49,7 +49,7 @@ const TextArea = ({ label, text, placeholder, onChange }: TextAreaProps) => {
     <div>
       <StyledLabel htmlFor='textarea'>{label}</StyledLabel>
 
-      <StyledTextarea id='textarea' value={text} onChange={onChange} placeholder={placeholder} />
+      <StyledTextarea id='textarea' value={text} onChange={onChange} placeholder={placeholder} style={{ backgroundColor: '#F5F5F5'}}/>
     </div>
   )
 }
