@@ -16,7 +16,6 @@ import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
 import IconButton from '@mui/material/IconButton'
 import axios from 'axios'
 import { toast } from 'react-toastify'
-import { ThemeColor } from '@/types'
 
 const StyledMain = styled.main.withConfig({
   displayName: 'StyledMain',

@@ -13,7 +13,6 @@ import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import Link from 'next/link'
 import Button from '@mui/material/Button'
-import { ThemeColor } from '@/types'
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -32,7 +31,7 @@ const Header = () => {
           <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
             <Button LinkComponent={Link} href='https://qr.sohosai.com'>
               <p style={{
-                color: ThemeColor.palette.text.primary,
+                color: '#6600CC',
                 fontSize: '21px',
                 fontWeight: 'bold',
                 margin: '10px'
