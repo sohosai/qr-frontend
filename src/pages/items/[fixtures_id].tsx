@@ -11,7 +11,7 @@ import axios from 'axios'
 const FixturesShow = () => {
   const route = useRouter()
   const [fixtures, setFixtures] = useState<Fixtures | null>(null)
-  const [isOk, setIsOk] = useState(false)
+  const [queried, setQueried] = useState(false)
 
   useEffect(() => {
     if (typeof route.query.fixtures_id == 'string') {
@@ -20,7 +20,7 @@ const FixturesShow = () => {
       if (fixtures_id !== null && api_url !== undefined) {
         ;(async () => {
           const url = api_url + '/get_fixtures?qr_id=' + fixtures_id
-          setIsOk(true)
+          setQueried(true)
           try {
             const response = await axios.get(url)
             setFixtures(response.data.results)
@@ -31,12 +31,12 @@ const FixturesShow = () => {
           }
         })()
       } else {
-        setIsOk(false)
+        setQueried(false)
       }
     }
   }, [route])
 
-  if (isOk) {
+  if (queried) {
     return (
       <>
         <Header />
