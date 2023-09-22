@@ -11,36 +11,38 @@ import axios from 'axios'
 const FixturesShow = () => {
   const route = useRouter()
   const [fixtures, setFixtures] = useState<Fixtures | null>(null)
-  const [isOk, setIsOk] = useState(false)
+  const [queried, setQueried] = useState(false)
 
   useEffect(() => {
-    if (typeof route.query.fixtures_id == 'string') {
-      const fixtures_id = route.query.fixtures_id
-      const api_url = process.env.NEXT_PUBLIC_QR_API_URL
-      if (fixtures_id !== null && api_url !== undefined) {
-        ;(async () => {
-          const url = api_url + '/get_fixtures?qr_id=' + fixtures_id
-          setIsOk(true)
-          try {
-            const response = await axios.get(url)
-            setFixtures(response.data.results)
-            return response
-          } catch (err) {
-            toast.error('URLが無効なため表示に失敗')
-            setFixtures(null)
-          }
-        })()
-      } else {
-        setIsOk(false)
-      }
+    if (typeof route.query.fixtures_id !== 'string') return
+
+    const fixtures_id = route.query.fixtures_id
+    const api_url = process.env.NEXT_PUBLIC_QR_API_URL
+    if (fixtures_id !== null && api_url !== undefined) {
+      console.log("called")
+      ;(async () => {
+        const url = api_url + '/get_fixtures?qr_id=' + fixtures_id
+        console.log({ url })
+        setQueried(true)
+        try {
+          const response = await axios.get(url)
+          setFixtures(response.data)
+          return response
+        } catch (err) {
+          toast.error('URLが無効なため表示に失敗')
+          setFixtures(null)
+        }
+      })()
+    } else {
+      setQueried(false)
     }
   }, [route])
 
-  if (isOk) {
+  if (queried) {
     return (
       <>
         <Header />
-        {fixtures !== null ? (
+        {fixtures ? (
           <>
             <p>{fixtures.name}</p>
             {fixtures.model_number !== null ? <p>{fixtures.model_number}</p> : <></>}
@@ -61,7 +63,7 @@ const FixturesShow = () => {
             )}
           </>
         ) : (
-          <></>
+          <>fixturesがnull or undefined</>
         )}
       </>
     )
@@ -69,6 +71,7 @@ const FixturesShow = () => {
     return (
       <>
         <Header />
+        <p>クエリが存在しない</p>
       </>
     )
   }
