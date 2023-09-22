@@ -11,7 +11,7 @@ export default function Button({ disabled, text, onClick }: ButtonProp) {
   let textColorClassName = disabled ? 'text-neutral-500' : 'text-violet-700'
   return (
     <button
-      className={`h-8 w-24 rounded-xl ${bgColorClassName}`}
+      className={`h-8 w-28 rounded-xl ${bgColorClassName}`}
       disabled={disabled}
       onClick={onClick}
     >

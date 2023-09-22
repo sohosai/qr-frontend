@@ -12,6 +12,7 @@ import { Fixtures, Lending, Spot } from '@/types'
 import { toast } from 'react-toastify'
 import Select from '@/components/Select'
 import styled from 'styled-components'
+import Head from 'next/head'
 
 const StyledMain = styled.main.withConfig({
   displayName: 'StyledMain',
@@ -149,6 +150,11 @@ const FixturesLending = () => {
   return (
     <>
       <Header />
+      <Head>
+        <title>貸し出し | QR</title>
+        <meta name='description' content='物品管理' />
+        <link rel='icon' href='/favicon.ico' />
+      </Head>
       {isOpenQrReader ? (
         <QrCodeReader
           onReadCode={(url) => {
@@ -212,6 +218,16 @@ const FixturesLending = () => {
           <div className='LendingRegisterButton'>
             <Button onClick={onClickRegisterButton} disabled={validButton()} text='貸し出し' />
           </div>
+          <IconButton
+            size='large'
+            background-color='#6600CC'
+            sx={{ color: '#6600CC', border: '1px solid #6600CC', boxShadow: '1px 1px 5px 1px  #998fa3'}}
+            onClick={() => {
+              setIsOpenQrReader(!isOpenQrReader)
+            }}
+          >
+          <QrCodeScannerIcon fontSize='inherit' />
+          </IconButton>
         </StyledMain>
       ) : (
         // 返却画面
@@ -222,17 +238,7 @@ const FixturesLending = () => {
           </div>
         </>
       )}
-      <IconButton
-        size='large'
-        background-color='#6600CC'
-        sx={{ color: '#6600CC', border: '1px solid #6600CC', boxShadow: '1px 1px 5px 1px #998fa3'}}
-        style={{ position: 'fixed', margin: '30px'}}
-        onClick={() => {
-          setIsOpenQrReader(!isOpenQrReader)
-        }}
-      >
-        <QrCodeScannerIcon fontSize='inherit' />
-      </IconButton>
+      
     </>
   )
 }
