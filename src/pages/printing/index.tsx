@@ -56,11 +56,13 @@ export default function Printing() {
       </Head>
       <StyledMain>
         <h1>QRコードを印刷する</h1>
-        <div style={{ margin: '0px 0px 20px 0px'}}>未印刷のQRコードをまとめて印刷することができます</div>
+        <div style={{ margin: '0px 0px 20px 0px' }}>
+          未印刷のQRコードをまとめて印刷することができます
+        </div>
         <Button disabled={false} onClick={onClickResetUuid} text='生成' />
-        <div style={{ margin: '25px'}} />
+        <div style={{ margin: '25px' }} />
         <Button disabled={false} onClick={onClickResetUuid} text='リセット' />
-        <div style={{ margin: '15px'}} />
+        <div style={{ margin: '15px' }} />
         <QRListPdf ref={targetRef} qrs={qrs} />
         <Button disabled={false} onClick={onClickDownloadPdf} text='ダウンロード' />
       </StyledMain>
