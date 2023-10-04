@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 import Divider from '@mui/material/Divider'
 import List from '@mui/material/List'
@@ -6,7 +6,11 @@ import ListItem from '@mui/material/ListItem'
 import IconButton from '@mui/material/IconButton'
 import Stack from '@mui/material/Stack'
 import MoreHoriz from '@mui/icons-material/MoreHoriz'
-import { Fixtures } from '../../types'
+import OpenInNewIcon from '@mui/icons-material/OpenInNew'
+import Collapse from '@mui/material/Collapse'
+import Link from 'next/link'
+import Item from '@/components/Item'
+import { Fixtures, QRCodeColorsToKanji } from '../../types'
 
 /**
  * FixturesProps型の作成
@@ -66,6 +70,12 @@ const Text: React.FC<TextProps> = ({ children, numberOfLines }) => {
  * 複数の選択の中から排他的に一つを選ぶSelectコンポーネント
  */
 const FixturesList = ({ fixtures_list }: FixturesListProps) => {
+  const [isMoreList, setIsMoreList] = useState<boolean[]>(Array(fixtures_list.length).fill(false))
+
+  const onChangeIsMoreList = (i: number): void => {
+    setIsMoreList(isMoreList.map((b, index) => (index == i ? !b : b)))
+  }
+
   return (
     <List
       style={{
@@ -74,20 +84,79 @@ const FixturesList = ({ fixtures_list }: FixturesListProps) => {
         borderRadius: '10px',
       }}
     >
-      {fixtures_list.map((v, index) => (
+      {fixtures_list.map((fixtures, index) => (
         <>
           {index == 0 ? <></> : <Divider variant='fullWidth' />}
           <Stack direction='row'>
-            <ListItem
-              secondaryAction={
-                <IconButton edge='end' aria-label='more-info'>
-                  <MoreHoriz />
-                </IconButton>
-              }
-            >
-              <Text numberOfLines={1}>{v.name}</Text>
-            </ListItem>
+            {isMoreList[index] ? (
+              <ListItem
+                secondaryAction={
+                  <IconButton
+                    edge='end'
+                    aria-label='more-info'
+                    onClick={() => {
+                      onChangeIsMoreList(index)
+                    }}
+                  >
+                    <MoreHoriz />
+                  </IconButton>
+                }
+              >
+                <Text numberOfLines={0}>
+                  <Link href='/items/${fixtures.qr_id}' target='_blank'>
+                    {fixtures.name} <OpenInNewIcon fontSize='small' />
+                  </Link>
+                </Text>
+              </ListItem>
+            ) : (
+              <ListItem
+                secondaryAction={
+                  <IconButton
+                    edge='end'
+                    aria-label='more-info'
+                    onClick={() => {
+                      onChangeIsMoreList(index)
+                    }}
+                  >
+                    <MoreHoriz />
+                  </IconButton>
+                }
+              >
+                <Text numberOfLines={1}>
+                  <Link href='/items/${fixtures.qr_id}' target='_blank'>
+                    {fixtures.name} <OpenInNewIcon fontSize='small' />
+                  </Link>
+                </Text>
+              </ListItem>
+            )}
           </Stack>
+          <Collapse in={isMoreList[index]} timeout='auto' unmountOnExit>
+            <List
+              style={{
+                padding: '5px 25px',
+                borderRadius: '10px',
+              }}
+            >
+              <Item
+                label='QR'
+                value={fixtures.qr_id + '（' + QRCodeColorsToKanji[fixtures.qr_color] + ')'}
+              />
+              {fixtures.model_number !== null ? <p>{fixtures.model_number}</p> : <></>}
+              <Item label='保管場所' value={fixtures.storage + '/' + fixtures.parent_id} />
+              {fixtures.description == null ? (
+                <></>
+              ) : (
+                <Item label='description' value={fixtures.description} />
+              )}
+              {fixtures.note == null ? <></> : <Item label='note' value={fixtures.note} />}
+              {fixtures.usage !== null ? <Item label='用途' value={fixtures.usage} /> : <></>}
+              {fixtures.usage_season !== null ? (
+                <Item label='使用時期' value={fixtures.usage_season} />
+              ) : (
+                <></>
+              )}
+            </List>
+          </Collapse>
         </>
       ))}
     </List>
