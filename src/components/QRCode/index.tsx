@@ -20,6 +20,7 @@ const QRCode = ({ qr }: QRCodeProp) => {
         display: 'flex',
         width: '200px',
         height: '200px',
+        margin: '20px',
         alignItems: 'center',
         justifyContent: 'space-between',
         border: '3px solid black',
