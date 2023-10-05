@@ -8,6 +8,11 @@ type TextInputProp = {
   label: string
 
   /**
+   * 必須の入力かどうか
+   */
+  required: boolean
+
+  /**
    * 入力前に薄く表示されるデフォルトの表示（placeholder）を設定します
    */
   placeholder: string
@@ -57,7 +62,10 @@ const StyledInputText = styled.input.attrs<TextInputProp>(({ placeholder, onChan
 const TextInput = (props: TextInputProp) => {
   return (
     <div>
-      <StyledLabel>{props.label}</StyledLabel>
+      <StyledLabel>
+        {props.label}
+        {props.required ? '（必須）' : '（任意）'}
+      </StyledLabel>
       <StyledInputText {...props} />
     </div>
   )

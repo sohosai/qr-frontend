@@ -24,5 +24,6 @@ const Template: ComponentStory<typeof TextArea> = (args) => {
 export const Common = Template.bind({})
 Common.args = {
   label: '説明',
+  required: true,
   placeholder: '赤色ケース・緑色パッチシール貼り付け済み',
 }

@@ -180,6 +180,7 @@ const FixturesLending = () => {
           <div>
             <TextInput
               label='貸し出し物品のID'
+              required={true}
               placeholder=''
               value={qrId}
               onChange={onChangeQrId}
@@ -187,14 +188,16 @@ const FixturesLending = () => {
           </div>
           <div>
             <Select
-              label='持っていく場所（必須）'
+              label='持っていく場所'
+              required={true}
               options={spotNameList}
               onChange={onChangeSpotName}
             />
           </div>
           <div>
             <TextInput
-              label='借りる人の名前（必須）'
+              label='借りる人の名前'
+              required={true}
               placeholder='情シス太郎'
               value={borrowerName}
               onChange={onChangeBorrowerName}
@@ -202,7 +205,8 @@ const FixturesLending = () => {
           </div>
           <div>
             <TextInput
-              label='借りる人の学籍番号（必須）'
+              label='借りる人の学籍番号'
+              required={true}
               placeholder='202200000'
               value={borrowerNumber}
               onChange={onChangeBorrowerNumber}
@@ -210,7 +214,8 @@ const FixturesLending = () => {
           </div>
           <div>
             <TextInput
-              label='借りる人の所属団体（必須）'
+              label='借りる人の所属団体'
+              required={false}
               placeholder='情シス'
               value={borrowerOrg}
               onChange={onChangeBorrowerOrg}

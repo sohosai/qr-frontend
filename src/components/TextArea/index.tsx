@@ -5,6 +5,7 @@ import styled from 'styled-components'
  * TextAreaProps型の作成
  */
 type TextAreaProps = {
+  required: boolean
   label: string
   text: string
   placeholder: string
@@ -44,10 +45,13 @@ const StyledTextarea = styled.textarea.attrs<TextAreaProps>(({ onChange }) => {
 /**
  * 複数行の入力を受け付けるTextAreaコンポーネント
  */
-const TextArea = ({ label, text, placeholder, onChange }: TextAreaProps) => {
+const TextArea = ({ label, required, text, placeholder, onChange }: TextAreaProps) => {
   return (
     <div>
-      <StyledLabel htmlFor='textarea'>{label}</StyledLabel>
+      <StyledLabel htmlFor='textarea'>
+        {label}
+        {required ? '（必須）' : '（任意）'}
+      </StyledLabel>
 
       <StyledTextarea
         id='textarea'
