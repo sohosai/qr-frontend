@@ -99,6 +99,7 @@ const FixturesLending = () => {
           const lending: Lending = {
             id: uuid,
             fixtures_id: fixtures_id,
+            fixtures_qr_id: qrId,
             spot_name: spotName,
             lending_at: now,
             returned_at: null,
