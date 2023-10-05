@@ -1,17 +1,11 @@
-import { v4 as uuidv4 } from 'uuid'
 import { useState } from 'react'
-import Button from '@/components/Button'
-import TextInput from '@/components/TextInput'
-import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
-import IconButton from '@mui/material/IconButton'
-import QrCodeReader from '@/components/QRCodeReader'
 import Header from '@/components/Header'
 import FixturesList from '@/components/FixturesList'
 import axios from 'axios'
-import { Fixtures, Lending, Spot } from '@/types'
+import { Lending } from '@/types'
 import { toast } from 'react-toastify'
-import Select from '@/components/Select'
 import styled from 'styled-components'
+import LendingList from '@/components/LendingList'
 import Head from 'next/head'
 
 const StyledMain = styled.main.withConfig({
@@ -37,7 +31,7 @@ const StyledMain = styled.main.withConfig({
 `
 
 const FixturesLending = () => {
-  const [lendingList, setLendingList] = useState<Fixtures[]>([])
+  const [lendingList, setLendingList] = useState<Lending[]>([])
 
   ;(async () => {
     const api_url = process.env.NEXT_PUBLIC_QR_API_URL
@@ -45,7 +39,7 @@ const FixturesLending = () => {
       try {
         const get_lending_list_url = api_url + '/get_lending_list'
         const get_lending_list_result = await axios.get(get_lending_list_url)
-        const lending_list: Fixtures[] = get_lending_list_result.data
+        const lending_list: Lending[] = get_lending_list_result.data
         setLendingList(lending_list)
       } catch (err) {
         toast.error('貸し出し中の物品のリストの取得に失敗しました')
@@ -63,7 +57,11 @@ const FixturesLending = () => {
       </Head>
       <StyledMain>
         <h1>貸し出し中の物品の一覧</h1>
-        <FixturesList fixtures_list={lendingList}></FixturesList>
+        {lendingList.length == 0 ? (
+          <>貸し出し中の物品はありません</>
+        ) : (
+          <LendingList lending_list={lendingList} />
+        )}
       </StyledMain>
     </>
   )

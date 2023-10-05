@@ -59,6 +59,7 @@ export type Fixtures = {
 export type Lending = {
   id: string
   fixtures_id: string
+  fixtures_qr_id: string
   spot_name: string
   lending_at: Date
   returned_at: Date | null
