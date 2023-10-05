@@ -139,6 +139,7 @@ const FixturesRegister = () => {
         <div className='SpotNameInput'>
           <TextInput
             label='地点の名称'
+            required={true}
             placeholder='coinsラウンジ'
             value={spotName}
             onChange={onChangeSpotName}
@@ -147,6 +148,7 @@ const FixturesRegister = () => {
         <div className='AreaSelect'>
           <Select
             label='エリア'
+            required={true}
             options={[
               '未選択',
               '第一エリア',
@@ -167,16 +169,29 @@ const FixturesRegister = () => {
         <div className='BuildingInput'>
           <TextInput
             label='建物名'
+            required={false}
             placeholder='3C棟'
             value={building}
             onChange={onChangeBuilding}
           />
         </div>
         <div className='FloorInput'>
-          <TextInput label='階数' placeholder='2' value={floor} onChange={onChangeFloor} />
+          <TextInput
+            label='階数'
+            required={false}
+            placeholder='2'
+            value={floor}
+            onChange={onChangeFloor}
+          />
         </div>
         <div className='RoomInput'>
-          <TextInput label='部屋番号' placeholder='3C213' value={room} onChange={onChangeRoom} />
+          <TextInput
+            label='部屋番号'
+            required={false}
+            placeholder='3C213'
+            value={room}
+            onChange={onChangeRoom}
+          />
         </div>
 
         <div className='SpotRegisterButton'>

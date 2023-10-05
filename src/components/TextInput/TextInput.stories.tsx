@@ -23,5 +23,6 @@ const Template: ComponentStory<typeof TextInput> = (args) => {
 export const Common = Template.bind({})
 Common.args = {
   label: '物品名',
+  required: false,
   placeholder: 'LANケーブル 100m',
 }

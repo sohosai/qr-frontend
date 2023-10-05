@@ -19,7 +19,7 @@ const FixturesShow = () => {
     const fixtures_id = route.query.fixtures_id
     const api_url = process.env.NEXT_PUBLIC_QR_API_URL
     if (fixtures_id !== null && api_url !== undefined) {
-      console.log("called")
+      console.log('called')
       ;(async () => {
         const url = api_url + '/get_fixtures?qr_id=' + fixtures_id
         console.log({ url })

@@ -196,6 +196,7 @@ const FixturesRegister = () => {
         <div className='QRColorSelect'>
           <Select
             label='QRコードカラー（QRコード実物を見て入力してください）'
+            required={true}
             options={['未選択', '赤', '青', '緑', '橙', '紫', '水', '桃', '黄', '茶']}
             onChange={onChangeQRColor}
           />
@@ -203,6 +204,7 @@ const FixturesRegister = () => {
         <div className='FixturesNameTextInput'>
           <TextInput
             label='物品名'
+            required={true}
             placeholder='LANケーブル 100m'
             value={fixturesName}
             onChange={onChangeFixturesName}
@@ -211,6 +213,7 @@ const FixturesRegister = () => {
         <div className='FixturesModelNumberTextInput'>
           <TextInput
             label='型番'
+            required={false}
             placeholder='SLIK F153'
             value={modelNumber}
             onChange={onChangeModelNumber}
@@ -219,6 +222,7 @@ const FixturesRegister = () => {
         <div className='fixturesDescriptionTextArea'>
           <TextArea
             label='物品詳細'
+            required={false}
             placeholder='赤色ケース・緑色パッチシール貼り付け済み'
             text={fixturesDescription}
             onChange={onChangeFixturesDescription}
@@ -227,6 +231,7 @@ const FixturesRegister = () => {
         <div className='fixturesRepositoryOption'>
           <Select
             label='格納場所'
+            required={true}
             options={['未選択', '101号室', '102号室', '206号室']}
             onChange={onChangeRepository}
           />
@@ -234,6 +239,7 @@ const FixturesRegister = () => {
         <div className='FixturesParentIDTextInput'>
           <TextInput
             label='親物品ID'
+            required={true}
             placeholder='root・root-袋・9E4Q'
             value={parentID}
             onChange={onChangeParentID}
@@ -241,18 +247,26 @@ const FixturesRegister = () => {
         </div>
         <div className='fixturesNoteTextArea'>
           <TextArea
-            label='備考があれば入力'
+            label='備考を入力'
+            required={false}
             placeholder='22からの引継ぎ'
             text={note}
             onChange={onChangeNote}
           />
         </div>
         <div className='FixturesUsageTextInput'>
-          <TextInput label='使用用途' placeholder='生中継' value={usage} onChange={onChangeUsage} />
+          <TextInput
+            label='使用用途'
+            required={false}
+            placeholder='生中継'
+            value={usage}
+            onChange={onChangeUsage}
+          />
         </div>
         <div className='FixturesUsageSeasonTextInput'>
           <TextInput
             label='使用時期'
+            required={false}
             placeholder='当日'
             value={usageSeason}
             onChange={onChangeUsageSeason}
