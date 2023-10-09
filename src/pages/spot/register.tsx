@@ -149,6 +149,7 @@ const FixturesRegister = () => {
           <Select
             label='エリア'
             required={true}
+            initial='未選択'
             options={[
               '未選択',
               '第一エリア',
