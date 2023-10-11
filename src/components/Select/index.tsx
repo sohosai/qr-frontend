@@ -7,6 +7,7 @@ import styled from 'styled-components'
 type SelectProps = {
   label: string
   required: boolean
+  initial: string | null
   options: string[]
   onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void
 }
@@ -41,7 +42,7 @@ const StyledSelect = styled.select.attrs<SelectProps>(({ onChange }) => {
 /**
  * 複数の選択の中から排他的に一つを選ぶSelectコンポーネント
  */
-const Select = ({ label, required, options, onChange }: SelectProps) => {
+const Select = ({ label, required, initial, options, onChange }: SelectProps) => {
   return (
     <div>
       <StyledLabel htmlFor='select'>
@@ -50,11 +51,22 @@ const Select = ({ label, required, options, onChange }: SelectProps) => {
       </StyledLabel>
 
       <StyledSelect id='select' onChange={onChange}>
-        {options.map((v) => (
-          <option key={v} value={v}>
-            {v}
+        {initial ? (
+          <option key={initial} value={initial} selected>
+            {initial}
           </option>
-        ))}
+        ) : (
+          <></>
+        )}
+        {options.map((v) =>
+          v == initial ? (
+            <></>
+          ) : (
+            <option key={v} value={v}>
+              {v}
+            </option>
+          ),
+        )}
       </StyledSelect>
     </div>
   )

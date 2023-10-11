@@ -82,7 +82,7 @@ const Header = () => {
               <Link href='/lending/list'>貸し出し中一覧</Link>
             </ListItem>
             <ListItem key='menu-register'>
-              <Link href='/register'>登録</Link>
+              <Link href='/item/register'>物品登録</Link>
             </ListItem>
             <ListItem key='menu-register'>
               <Link href='/spot/register'>地点情報の登録</Link>

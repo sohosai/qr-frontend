@@ -190,6 +190,7 @@ const FixturesLending = () => {
             <Select
               label='持っていく場所'
               required={true}
+              initial={null}
               options={spotNameList}
               onChange={onChangeSpotName}
             />

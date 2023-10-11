@@ -19,7 +19,7 @@ const StyledMain = styled.main.withConfig({
     margin-bottom: 15px;
     font-size: 16px;
   }
-  p{
+  p {
     font-weight: 300;
     margin-top: 15px;
     margin-bottom: 15px;
@@ -51,9 +51,7 @@ export default function Printing() {
       </Head>
       <StyledMain>
         <h1>QRコードを印刷する</h1>
-        <p>
-          未印刷のQRコードをまとめて印刷することができます
-        </p>
+        <p>未印刷のQRコードをまとめて印刷することができます</p>
         <Button disabled={false} onClick={onClickResetUuid} text='生成' />
         <div style={{ margin: '25px' }} />
         <Button disabled={false} onClick={onClickResetUuid} text='リセット' />

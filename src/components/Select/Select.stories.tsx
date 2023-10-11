@@ -24,5 +24,6 @@ const Template: ComponentStory<typeof Select> = (args) => {
 export const Common = Template.bind({})
 Common.args = {
   label: '説明',
+  initial: '初期値',
   options: ['要素1', '要素2'],
 }

@@ -1,6 +1,7 @@
 import Head from 'next/head'
+import { Router, useRouter } from 'next/router'
 import { v4 as uuidv4 } from 'uuid'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import CssBaseline from '@mui/material/CssBaseline'
 
@@ -10,9 +11,7 @@ import Button from '@/components/Button'
 import Select from '@/components/Select'
 import Header from '@/components/Header'
 import Item from '@/components/Item'
-import { Storage, Fixtures, QRCodeColor } from '@/types'
-import QrCodeReader from '@/components/QRCodeReader'
-import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
+import { Storage, Fixtures, QRCodeColor, QRCodeColorsToKanji } from '@/types'
 import IconButton from '@mui/material/IconButton'
 import axios from 'axios'
 import { toast } from 'react-toastify'
@@ -42,15 +41,23 @@ const StyledMain = styled.main.withConfig({
 /**
  * 物品を登録できる
  */
-const FixturesRegister = () => {
-  const [isOpenQrReader, setIsOpenQrReader] = useState(false)
+const FixturesEdit = () => {
+  const route = useRouter()
+
+  const [fixtures, setFixtures] = useState<Fixtures | null>(null)
+  const [queried, setQueried] = useState(false)
 
   const [qrID, setQRID] = useState('')
+  const onChangeQRID = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    setQRID(event.target.value)
+  }
 
   const [qrColor, setQRColor] = useState('未選択')
   const onChangeQRColor = (event: React.ChangeEvent<HTMLSelectElement>): void => {
     setQRColor(event.target.value)
   }
+
+  const [initialQRColor, setInitialQRColor] = useState('')
 
   const [fixturesName, setFixturesName] = useState('')
   const onChangeFixturesName = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -72,6 +79,8 @@ const FixturesRegister = () => {
     setRepository(event.target.value)
   }
 
+  const [initialRepository, setInitialRepository] = useState('')
+
   const [parentID, setParentID] = useState('')
   const onChangeParentID = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setParentID(event.target.value)
@@ -92,10 +101,73 @@ const FixturesRegister = () => {
     setUsageSeason(event.target.value)
   }
 
+  useEffect(() => {
+    if (typeof route.query.fixtures_id !== 'string') return
+
+    const fixtures_id = route.query.fixtures_id
+    const api_url = process.env.NEXT_PUBLIC_QR_API_URL
+    if (fixtures_id && api_url) {
+      console.log('called')
+      ;(async () => {
+        const url_fixtures = api_url + '/get_fixtures?id=' + fixtures_id
+        console.log({ url_fixtures })
+        setQueried(true)
+        try {
+          const response_fixtures = await axios.get(url_fixtures)
+          const fixtures_data: Fixtures = response_fixtures.data
+          setFixtures(fixtures_data)
+          setQRID(fixtures_data.qr_id)
+          setQRColor(QRCodeColorsToKanji[fixtures_data.qr_color])
+          setInitialQRColor(QRCodeColorsToKanji[fixtures_data.qr_color])
+          setQRColor('赤')
+          setFixturesName(fixtures_data.name)
+          {
+            fixtures_data.description
+              ? setFixturesDescription(fixtures_data.description)
+              : setFixturesDescription('')
+          }
+          {
+            fixtures_data.model_number
+              ? setModelNumber(fixtures_data.model_number)
+              : setModelNumber('')
+          }
+          {
+            fixtures_data.usage ? setUsage(fixtures_data.usage) : setUsage('')
+          }
+          {
+            fixtures_data.usage_season
+              ? setUsageSeason(fixtures_data.usage_season)
+              : setUsageSeason('')
+          }
+          {
+            fixtures_data.storage == 'room101'
+              ? setRepository('101号室')
+              : fixtures_data.storage == 'room102'
+              ? setRepository('102号室')
+              : setRepository('206号室')
+          }
+          {
+            fixtures_data.storage == 'room101'
+              ? setInitialRepository('101号室')
+              : fixtures_data.storage == 'room102'
+              ? setInitialRepository('102号室')
+              : setInitialRepository('206号室')
+          }
+          setNote(fixtures_data.note)
+          setParentID(fixtures_data.parent_id)
+        } catch (err) {
+          toast.error('URLが無効なため失敗')
+          setFixtures(null)
+        }
+      })()
+    } else {
+      setQueried(false)
+    }
+  }, [route])
+
   const validButton = (): boolean => {
     return (
       fixturesName == '' ||
-      fixturesDescription == '' ||
       qrColor == '未選択' ||
       qrID == '' ||
       parentID == '' ||
@@ -144,13 +216,13 @@ const FixturesRegister = () => {
     ;(async () => {
       const api_url = process.env.NEXT_PUBLIC_QR_API_URL
       if (api_url !== undefined) {
-        const url = api_url + '/insert_fixtures'
+        const url = api_url + '/update_fixtures'
         try {
           const result = await axios.post(url, json)
-          toast.success('登録に成功')
+          toast.success('更新に成功')
           return result
         } catch (err) {
-          toast.error('登録に失敗')
+          toast.error('更新に失敗')
         }
       }
     })()
@@ -170,34 +242,27 @@ const FixturesRegister = () => {
       <Header />
       <CssBaseline />
       <Head>
-        <title>物品の登録 | QR</title>
+        <title>物品の編集 | QR</title>
         <meta name='description' content='物品管理' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <StyledMain>
         <h1>物品の登録</h1>
-        {isOpenQrReader ? (
-          <QrCodeReader
-            onReadCode={(url) => {
-              // urlは"https://qr.sohosai.com/items/XWPV"のような形をしている
-              const str_lst = url.split('/')
-              const id = str_lst.pop()
-              if (id !== undefined) {
-                setQRID(id)
-              }
-            }}
-          />
-        ) : (
-          <></>
-        )}
         <div className='QRColorID'>
-          <Item label='QR ID' value={qrID} />
+          <TextInput
+            label='QR ID'
+            required={true}
+            placeholder='x234'
+            value={qrID}
+            onChange={onChangeQRID}
+          />
         </div>
         <div className='QRColorSelect'>
           <Select
             label='QRコードカラー（QRコード実物を見て入力してください）'
             required={true}
-            options={['未選択', '赤', '青', '緑', '橙', '紫', '水', '桃', '黄', '茶']}
+            initial={initialQRColor}
+            options={['赤', '青', '緑', '橙', '紫', '水', '桃', '黄', '茶']}
             onChange={onChangeQRColor}
           />
         </div>
@@ -232,7 +297,8 @@ const FixturesRegister = () => {
           <Select
             label='格納場所'
             required={true}
-            options={['未選択', '101号室', '102号室', '206号室']}
+            initial={initialRepository}
+            options={['101号室', '102号室', '206号室']}
             onChange={onChangeRepository}
           />
         </div>
@@ -274,25 +340,11 @@ const FixturesRegister = () => {
         </div>
 
         <div className='FixturesRegisterButton'>
-          <Button onClick={onClickRegisterButton} disabled={validButton()} text='登録' />
+          <Button onClick={onClickRegisterButton} disabled={validButton()} text='更新' />
         </div>
-        <IconButton
-          size='large'
-          background-color='#6600CC'
-          sx={{
-            color: '#6600CC',
-            border: '1px solid #6600CC',
-            boxShadow: '1px 1px 5px 1px #998fa3',
-          }}
-          onClick={() => {
-            setIsOpenQrReader(!isOpenQrReader)
-          }}
-        >
-          <QrCodeScannerIcon fontSize='inherit' />
-        </IconButton>
       </StyledMain>
     </>
   )
 }
 
-export default FixturesRegister
+export default FixturesEdit
