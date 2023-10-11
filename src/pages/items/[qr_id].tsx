@@ -6,6 +6,12 @@ import QRCode from '@/components/QRCode'
 import Header from '@/components/Header'
 import Item from '@/components/Item'
 import EditIcon from '@mui/icons-material/Edit'
+import DeleteIcon from '@mui/icons-material/Delete'
+import Dialog from '@mui/material/Dialog'
+import DialogActions from '@mui/material/DialogActions'
+import DialogContent from '@mui/material/DialogContent'
+import DialogContentText from '@mui/material/DialogContentText'
+import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
 import { toast } from 'react-toastify'
 import axios from 'axios'
@@ -30,6 +36,8 @@ const FixturesShow = () => {
   const [fixtures, setFixtures] = useState<Fixtures | null>(null)
   const [lending, setLending] = useState<Lending | null>(null)
   const [queried, setQueried] = useState(false)
+
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
 
   useEffect(() => {
     if (typeof route.query.qr_id !== 'string') return
@@ -58,6 +66,19 @@ const FixturesShow = () => {
     }
   }, [route])
 
+  const deleteFixtures = (id: string): void => {
+    const api_url = process.env.NEXT_PUBLIC_QR_API_URL
+    if (api_url) {
+      const url = api_url + '/delete_fixtures?id=' + id
+      try {
+        toast.error('削除に成功')
+      } catch (err) {
+        toast.error('削除に失敗')
+      }
+    }
+    //TODO!
+  }
+
   if (queried) {
     return (
       <>
@@ -75,7 +96,46 @@ const FixturesShow = () => {
                 >
                   <EditIcon />
                 </IconButton>
+                <IconButton
+                  edge='end'
+                  aria-label='more-info'
+                  onClick={() => {
+                    setDeleteDialogOpen(true)
+                  }}
+                >
+                  <DeleteIcon />
+                </IconButton>
               </h1>
+              <Dialog
+                open={deleteDialogOpen}
+                onClose={() => {
+                  setDeleteDialogOpen(false)
+                }}
+                aria-labelledby='fixtures delete dialog'
+              >
+                <DialogContent>
+                  <DialogContentText id='delete dialog text'>
+                    本当にこの物品情報を削除しますか？
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <Button
+                    onClick={() => {
+                      setDeleteDialogOpen(false)
+                    }}
+                  >
+                    削除しない
+                  </Button>
+                  <Button
+                    onClick={() => {
+                      deleteFixtures(fixtures.id)
+                      setDeleteDialogOpen(false)
+                    }}
+                  >
+                    削除する
+                  </Button>
+                </DialogActions>
+              </Dialog>
               {fixtures.model_number !== null ? <p>{fixtures.model_number}</p> : <></>}
               <Item label='uuid' value={fixtures.id} />
               <QRCode qr={initQRCode(fixtures.qr_id, fixtures.qr_color)}></QRCode>
