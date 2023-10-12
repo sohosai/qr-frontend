@@ -81,6 +81,9 @@ const Header = () => {
             <ListItem key='menu-lending-list'>
               <Link href='/lending/list'>貸し出し中一覧</Link>
             </ListItem>
+            <ListItem key='menu-items-search'>
+              <Link href='/items/search'>物品検索</Link>
+            </ListItem>
             <ListItem key='menu-items-register'>
               <Link href='/items/register'>物品登録</Link>
             </ListItem>
