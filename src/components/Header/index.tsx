@@ -78,13 +78,13 @@ const Header = () => {
             <ListItem key='menu-lending'>
               <Link href='/lending'>貸し出し</Link>
             </ListItem>
-            <ListItem key='menu-lending'>
+            <ListItem key='menu-lending-list'>
               <Link href='/lending/list'>貸し出し中一覧</Link>
             </ListItem>
-            <ListItem key='menu-register'>
-              <Link href='/item/register'>物品登録</Link>
+            <ListItem key='menu-items-register'>
+              <Link href='/items/register'>物品登録</Link>
             </ListItem>
-            <ListItem key='menu-register'>
+            <ListItem key='menu-spot-register'>
               <Link href='/spot/register'>地点情報の登録</Link>
             </ListItem>
             <ListItem key='menu-printing'>
