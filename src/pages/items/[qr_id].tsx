@@ -48,7 +48,7 @@ const FixturesShow = () => {
       console.log('called')
       ;(async () => {
         const url_fixtures = api_url + '/get_fixtures?qr_id=' + qr_id
-        const url_lending = api_url + '/get_lending?qr_id=' + qr_id
+        const url_lending = api_url + '/get_lending?fixtures_qr_id=' + qr_id
         console.log({ url_fixtures })
         setQueried(true)
         try {
