@@ -50,9 +50,11 @@ const FixturesSearch = () => {
 
   const onClickSearchButton = (): void => {
     const words = searchWords
-      .split(' ')
-      .map((s) => s.trim())
-      .join(',')
+    // リストだと並列検索になる
+    // そのまま空白区切りとかで渡すとmeilisearch側で上手くやってくれる
+    //.split(' ')
+    //.map((s) => s.trim())
+    //.join(',')
 
     ;(async () => {
       const api_url = process.env.NEXT_PUBLIC_QR_API_URL
@@ -81,7 +83,6 @@ const FixturesSearch = () => {
             })
             .map((s) => s.data)
           setFixturesList(fixtures_list)
-          toast.success('検索に成功')
           return result
         } catch (err) {
           toast.error('検索に失敗')
