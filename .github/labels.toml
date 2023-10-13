@@ -1,69 +1,29 @@
-["Problem: bug"]
-color = "#e60033"
-name = "Problem: bug"
-description = "バグ"
+[bug]
+color = "D93F0B"
+name = "bug"
+description = "直さなければならないバグ"
 
-["Problem: security"]
-color = "#e60033"
-name = "Problem: security"
-description = "セキュリティ的な懸念事項"
+[design]
+color = "6DDD7F"
+name = "design"
+description = "デザイン周り"
 
-["Type: documentation"]
-color = "#0095d9"
-name = "Type: documentation"
-description = "ドキュメントの改善"
+[doc]
+color = "4363F2"
+name = "doc"
+description = "ドキュメント周り"
 
-["Type: improvement"]
-color = "#0095d9"
-name = "Type: improvement"
-description = "プロダクトの改善"
+[enhancement]
+color = "2A5D93"
+name = "enhancement"
+description = "機能周り"
 
-["Type: new feature"]
-color = "#0095d9"
-name = "Type: new feature"
-description = "新機能"
+["good first issue"]
+color = "9A17EC"
+name = "good first issue"
+description = "簡単めに取り組める課題"
 
-["Close: duplicate"]
-color = "#e9dfe5"
-name = "Close: duplicate"
-description = "重複しているIssue/PR"
-
-["Close: invalid"]
-color = "#e9dfe5"
-name = "Close: invalid"
-description = "誤ったIssue/PR"
-
-["Close: wontfix"]
-color = "#e9dfe5"
-name = "Close: wontfix"
-description = "現状では対応しないIssue/PR"
-
-["Difficulty: easy"]
-color = "#bce2e8"
-name = "Difficulty: easy"
-description = "簡単なIssue"
-
-["Difficulty: hard"]
-color = "#f08300"
-name = "Difficulty: hard"
-description = "かなり難しい実装"
-
-["Priority: low"]
-color = "#bce2e8"
-name = "Priority: low"
-description = "優先度の低いIssue"
-
-["Priority: high"]
-color = "#f08300"
-name = "Priority: high"
-description = "優先度の高いIssue"
-
-["Feedback: feature request"]
-color = "#98d98e"
-name = "Feedback: feature request"
-description = "新機能の要求"
-
-["Feedback: question"]
-color = "#98d98e"
-name = "Feedback: question"
-description = "質問"
+["help wanted"]
+color = "428755"
+name = "help wanted"
+description = "たすけてー"
