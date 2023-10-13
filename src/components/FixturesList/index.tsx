@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Divider from '@mui/material/Divider'
 import List from '@mui/material/List'
@@ -72,6 +72,10 @@ const Text: React.FC<TextProps> = ({ children, numberOfLines }) => {
 const FixturesList = ({ fixtures_list }: FixturesListProps) => {
   const [isMoreList, setIsMoreList] = useState<boolean[]>(Array(fixtures_list.length).fill(false))
 
+  useEffect(() => {
+    setIsMoreList(Array(fixtures_list.length).fill(false))
+  }, [fixtures_list])
+
   const onChangeIsMoreList = (i: number): void => {
     setIsMoreList(isMoreList.map((b, index) => (index == i ? !b : b)))
   }
@@ -103,7 +107,7 @@ const FixturesList = ({ fixtures_list }: FixturesListProps) => {
                 }
               >
                 <Text numberOfLines={0}>
-                  <Link href='/items/${fixtures.qr_id}' target='_blank'>
+                  <Link href={`/items/${fixtures.qr_id}`} target='_blank'>
                     {fixtures.name} <OpenInNewIcon fontSize='small' />
                   </Link>
                 </Text>
@@ -123,7 +127,7 @@ const FixturesList = ({ fixtures_list }: FixturesListProps) => {
                 }
               >
                 <Text numberOfLines={1}>
-                  <Link href='/items/${fixtures.qr_id}' target='_blank'>
+                  <Link href={`/items/${fixtures.qr_id}`} target='_blank'>
                     {fixtures.name} <OpenInNewIcon fontSize='small' />
                   </Link>
                 </Text>
