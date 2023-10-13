@@ -1,6 +1,5 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Header from '@/components/Header'
-import FixturesList from '@/components/FixturesList'
 import axios from 'axios'
 import { Lending } from '@/types'
 import { toast } from 'react-toastify'
@@ -32,20 +31,26 @@ const StyledMain = styled.main.withConfig({
 
 const FixturesLending = () => {
   const [lendingList, setLendingList] = useState<Lending[]>([])
+  const [envCheck, setEnvCheck] = useState(false)
 
-  ;(async () => {
-    const api_url = process.env.NEXT_PUBLIC_QR_API_URL
-    if (api_url !== undefined) {
-      try {
-        const get_lending_list_url = api_url + '/get_lending_list'
-        const get_lending_list_result = await axios.get(get_lending_list_url)
-        const lending_list: Lending[] = get_lending_list_result.data
-        setLendingList(lending_list)
-      } catch (err) {
-        toast.error('貸し出し中の物品のリストの取得に失敗しました')
+  useEffect(() => {
+    ;(async () => {
+      const api_url = process.env.NEXT_PUBLIC_QR_API_URL
+      if (api_url) {
+        try {
+          const get_lending_list_url = api_url + '/get_lending_list'
+          const get_lending_list_result = await axios.get(get_lending_list_url)
+          const lending_list: Lending[] = get_lending_list_result.data
+          setLendingList(lending_list)
+        } catch (err) {
+          toast.error('貸し出し中の物品のリストの取得に失敗しました')
+          setEnvCheck(!envCheck)
+        }
+      } else {
+        setEnvCheck(!envCheck)
       }
-    }
-  })()
+    })()
+  }, [envCheck])
 
   return (
     <>
