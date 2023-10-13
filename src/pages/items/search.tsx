@@ -7,7 +7,7 @@ import TextInput from '@/components/TextInput'
 import Button from '@/components/Button'
 import Header from '@/components/Header'
 import FixturesList from '@/components/FixturesList'
-import { Fixtures } from '@/types'
+import { Fixtures, SearchFixtures } from '@/types'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 
@@ -60,7 +60,27 @@ const FixturesSearch = () => {
         const url = api_url + '/search_fixtures?keywords=' + words
         try {
           const result = await axios.get(url)
-          setFixturesList(result.data)
+          const search_data_list: SearchFixtures[] = result.data
+          const fixtures_list = search_data_list
+            .sort((a, b) => {
+              const a_r = a.ranking
+              const b_r = b.ranking
+              if (a_r) {
+                if (b_r) {
+                  return b_r - a_r
+                } else {
+                  return 1
+                }
+              } else {
+                if (b_r) {
+                  return -1
+                } else {
+                  return 0
+                }
+              }
+            })
+            .map((s) => s.data)
+          setFixturesList(fixtures_list)
           toast.success('検索に成功')
           return result
         } catch (err) {

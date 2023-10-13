@@ -1,8 +1,8 @@
-import { ThemeProvider, createTheme } from '@mui/system'
-
 /**
  * QRコードに振られた色を表す
  */
+
+import { float } from '@zxing/library/esm/customTypings'
 
 export const QRCodeColors = {
   red: '#ff4b00',
@@ -49,6 +49,11 @@ export type Fixtures = {
   usage_season: string | null
   note: string
   parent_id: string
+}
+
+export type SearchFixtures = {
+  data: Fixtures
+  ranking: float | null
 }
 
 /**
