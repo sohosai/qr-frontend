@@ -3359,10 +3359,10 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-modal@^3.13.1":
-  version "3.16.0"
-  resolved "https://registry.yarnpkg.com/@types/react-modal/-/react-modal-3.16.0.tgz#b8d6be10de894139a2ea9f4a2505b1b5d02023df"
-  integrity sha512-iphdqXAyUfByLbxJn5j6d+yh93dbMgshqGP0IuBeaKbZXx0aO+OXsvEkt6QctRdxjeM9/bR+Gp3h9F9djVWTQQ==
+"@types/react-modal@^3.16.1":
+  version "3.16.1"
+  resolved "https://registry.yarnpkg.com/@types/react-modal/-/react-modal-3.16.1.tgz#0d65e078b1290acfef8083b8cd92b7692e899720"
+  integrity sha512-HsH2E3luJ2hdVOAovq93x/r+CmWqbhwT8hXW05KMp3zzbSEZsBn4egnMGU/VLwScwlCRPTyZgIEPqLycaz5EOw==
   dependencies:
     "@types/react" "*"
 
@@ -8985,6 +8985,13 @@ react-transition-group@^4.4.5:
     dom-helpers "^5.0.1"
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
+
+react-zxing@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/react-zxing/-/react-zxing-2.0.0.tgz#fffee191fa642b3832c2fe17977cbad651bb6d3f"
+  integrity sha512-tZV0UnWDnL+xUUVv15N8w04iKP2RJsraDZvN+t5VBb/3jDqmneLkfDs/beFS0l67aL55UCMN44mFmdx9mHqSrQ==
+  dependencies:
+    "@zxing/library" "^0.20.0"
 
 react@18.2.0:
   version "18.2.0"

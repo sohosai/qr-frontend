@@ -41,19 +41,22 @@ const FixturesLending = () => {
   const onChangeQrId = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setQrId(event.target.value)
   }
-  const [isOpenQrReader, setIsOpenQrReader] = useState(false)
 
   const [spotNameList, setSpotNameList] = useState<string[]>([])
   ;(async () => {
     const api_url = process.env.NEXT_PUBLIC_QR_API_URL
     if (api_url !== undefined) {
-      const get_spot_list_url = api_url + '/get_spot_list'
-      const get_spot_list_reslt = await axios.get(get_spot_list_url)
-      const spot_list: Spot[] = get_spot_list_reslt.data.results
-      setSpotNameList(spot_list.map((spot) => spot.name))
-      const spotNameList2 = spotNameList.slice()
-      spotNameList2.unshift('未選択')
-      setSpotNameList(spotNameList2)
+      try {
+        const get_spot_list_url = api_url + '/get_spot_list'
+        const get_spot_list_reslt = await axios.get(get_spot_list_url)
+        const spot_list: Spot[] = get_spot_list_reslt.data.results
+        setSpotNameList(spot_list.map((spot) => spot.name))
+        const spotNameList2 = spotNameList.slice()
+        spotNameList2.unshift('未選択')
+        setSpotNameList(spotNameList2)
+      } catch (err) {
+        toast.error('持ち出し先情報の取得に失敗')
+      }
     }
   })()
 
@@ -156,23 +159,6 @@ const FixturesLending = () => {
         <meta name='description' content='物品管理' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
-      {isOpenQrReader ? (
-        <QrCodeReader
-          onReadCode={(url) => {
-            // urlは"https://qr.sohosai.com/items/XWPV"のような形をしている
-            const str_lst = url.split('/')
-            const id = str_lst.pop()
-            if (id !== undefined) {
-              // Fixtures IDが貸し出し中だったら返却画面に
-              // 貸し出されていなかったら貸し出し画面に
-              setIsLending(true)
-              setQrId(id)
-            }
-          }}
-        />
-      ) : (
-        <></>
-      )}
       {isLending ? (
         // 貸し出し画面
         <StyledMain>
@@ -225,20 +211,21 @@ const FixturesLending = () => {
           <div className='LendingRegisterButton'>
             <Button onClick={onClickRegisterButton} disabled={validButton()} text='貸し出し' />
           </div>
-          <IconButton
-            size='large'
-            background-color='#6600CC'
-            sx={{
-              color: '#6600CC',
-              border: '1px solid #6600CC',
-              boxShadow: '1px 1px 5px 1px  #998fa3',
+
+          <QrCodeReader
+            onReadCode={(url) => {
+              // urlは"https://qr.sohosai.com/items/XWPV"のような形をしている
+              const str_lst = url.split('/')
+              const id = str_lst.pop()
+              if (id) {
+                // Fixtures IDが貸し出し中だったら返却画面に
+                // 貸し出されていなかったら貸し出し画面に
+                setIsLending(true)
+                setQrId(id)
+              }
             }}
-            onClick={() => {
-              setIsOpenQrReader(!isOpenQrReader)
-            }}
-          >
-            <QrCodeScannerIcon fontSize='inherit' />
-          </IconButton>
+            validate={(url) => url !== ''}
+          />
         </StyledMain>
       ) : (
         // 返却画面

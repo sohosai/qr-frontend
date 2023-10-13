@@ -43,8 +43,6 @@ const StyledMain = styled.main.withConfig({
  * 物品を登録できる
  */
 const FixturesRegister = () => {
-  const [isOpenQrReader, setIsOpenQrReader] = useState(false)
-
   const [qrID, setQRID] = useState('')
 
   const [qrColor, setQRColor] = useState('未選択')
@@ -175,20 +173,6 @@ const FixturesRegister = () => {
       </Head>
       <StyledMain>
         <h1>物品の登録</h1>
-        {isOpenQrReader ? (
-          <QrCodeReader
-            onReadCode={(url) => {
-              // urlは"https://qr.sohosai.com/items/XWPV"のような形をしている
-              const str_lst = url.split('/')
-              const id = str_lst.pop()
-              if (id !== undefined) {
-                setQRID(id)
-              }
-            }}
-          />
-        ) : (
-          <></>
-        )}
         <div className='QRColorID'>
           <Item label='QR ID' value={qrID} />
         </div>
@@ -277,20 +261,18 @@ const FixturesRegister = () => {
         <div className='FixturesRegisterButton'>
           <Button onClick={onClickRegisterButton} disabled={validButton()} text='登録' />
         </div>
-        <IconButton
-          size='large'
-          background-color='#6600CC'
-          sx={{
-            color: '#6600CC',
-            border: '1px solid #6600CC',
-            boxShadow: '1px 1px 5px 1px #998fa3',
+
+        <QrCodeReader
+          onReadCode={(url) => {
+            // urlは"https://qr.sohosai.com/items/XWPV"のような形をしている
+            const str_lst = url.split('/')
+            const id = str_lst.pop()
+            if (id) {
+              setQRID(id)
+            }
           }}
-          onClick={() => {
-            setIsOpenQrReader(!isOpenQrReader)
-          }}
-        >
-          <QrCodeScannerIcon fontSize='inherit' />
-        </IconButton>
+          validate={(url) => url !== ''}
+        />
       </StyledMain>
     </>
   )

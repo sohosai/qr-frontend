@@ -11,7 +11,7 @@ const Template: ComponentStory<typeof QRCodeReader> = (args) => {
   const [text, setText] = useState('')
   return (
     <>
-      <QRCodeReader {...args} onReadCode={setText} />
+      <QRCodeReader onReadCode={setText} validate={(str) => str !== ''} />
       <p>結果: {text}</p>
     </>
   )
