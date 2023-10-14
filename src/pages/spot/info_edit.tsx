@@ -67,7 +67,7 @@ const SpotEdit = () => {
   useEffect(() => {
     if (typeof route.query.name !== 'string') return
 
-    const spot_name = route.query.spot_name
+    const spot_name = route.query.name
     const api_url = process.env.NEXT_PUBLIC_QR_API_URL
     if (api_url && spot_name) {
       ;(async () => {
@@ -85,7 +85,6 @@ const SpotEdit = () => {
           toast.error('場所情報の取得に失敗')
         }
       })()
-    } else {
     }
   }, [route])
 
