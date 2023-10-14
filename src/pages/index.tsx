@@ -18,7 +18,7 @@ export default function Home() {
   const [isOpenQrReader, setIsOpenQrReader] = useState(false)
 
   useEffect(() => {
-    if (qrId !== "") {
+    if (qrId !== '') {
       router.replace(`/items/${qrId}`)
     }
   }, [qrId])
@@ -37,13 +37,8 @@ export default function Home() {
       </div>
       {isOpenQrReader ? (
         <QrCodeReader
-          onReadCode={(url) => {
-            // urlは"https://qr.sohosai.com/items/XWPV"のような形をしている
-            const str_lst = url.split('/')
-            const id = str_lst.pop()
-            if (id) {
-              setQrId(id)
-            }
+          f={(qr_id) => {
+            setQrId(qr_id)
           }}
         />
       ) : (
@@ -56,7 +51,7 @@ export default function Home() {
           color: '#6600CC',
           border: '1px solid #6600CC',
           boxShadow: '1px 1px 5px 1px  #998fa3',
-          textAlign: 'cetner'
+          textAlign: 'cetner',
         }}
         onClick={() => {
           setIsOpenQrReader(!isOpenQrReader)

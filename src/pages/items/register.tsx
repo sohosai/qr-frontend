@@ -177,13 +177,8 @@ const FixturesRegister = () => {
         <h1>物品の登録</h1>
         {isOpenQrReader ? (
           <QrCodeReader
-            onReadCode={(url) => {
-              // urlは"https://qr.sohosai.com/items/XWPV"のような形をしている
-              const str_lst = url.split('/')
-              const id = str_lst.pop()
-              if (id !== undefined) {
-                setQRID(id)
-              }
+            f={(qr_id) => {
+              setQRID(qr_id)
             }}
           />
         ) : (
