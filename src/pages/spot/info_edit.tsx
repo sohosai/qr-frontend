@@ -43,10 +43,11 @@ const SpotEdit = () => {
 
   const [spotName, setSpotName] = useState('')
 
-  const [areaName, setAreaName] = useState('未選択')
+  const [areaName, setAreaName] = useState('')
   const onChangeAreaName = (event: React.ChangeEvent<HTMLSelectElement>): void => {
     setAreaName(event.target.value)
   }
+  const [initialAreaName, setInitialAreaName] = useState('')
 
   const [building, setBuilding] = useState('')
   const onChangeBuilding = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -68,7 +69,7 @@ const SpotEdit = () => {
 
     const spot_name = route.query.spot_name
     const api_url = process.env.NEXT_PUBLIC_QR_API_URL
-    if (api_url) {
+    if (api_url && spot_name) {
       ;(async () => {
         const url_spot = api_url + '/get_spot?name=' + spot_name
         try {
@@ -76,6 +77,7 @@ const SpotEdit = () => {
           const spot_data: Spot = response_spot.data
           setSpotName(spot_data.name)
           setAreaName(area2string(spot_data.area))
+          setInitialAreaName(area2string(spot_data.area))
           spot_data.building ? setBuilding(spot_data.building) : setBuilding('')
           spot_data.floor ? setFloor(spot_data.floor.toString()) : setFloor('')
           spot_data.room ? setRoom(spot_data.room) : setRoom('')
@@ -88,7 +90,7 @@ const SpotEdit = () => {
   }, [route])
 
   const validButton = (): boolean => {
-    return spotName == '' || areaName == '未選択'
+    return spotName == '' || areaName == ''
   }
 
   const onClickRegisterButton = (): void => {
@@ -144,9 +146,8 @@ const SpotEdit = () => {
           <Select
             label='エリア'
             required={true}
-            initial='未選択'
+            initial={initialAreaName}
             options={[
-              '未選択',
               '第一エリア',
               '第二エリア',
               '第三エリア',
