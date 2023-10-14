@@ -2,6 +2,7 @@
  * QRコードに振られた色を表す
  */
 
+import { Exception } from '@zxing/library'
 import { float } from '@zxing/library/esm/customTypings'
 
 export const QRCodeColors = {
@@ -16,21 +17,119 @@ export const QRCodeColors = {
   brown: '#804000',
 }
 
-export const QRCodeColorsToKanji = {
-  red: '赤',
-  blue: '青',
-  green: '緑',
-  orange: '橙',
-  purple: '紫',
-  light_blue: '水',
-  pink: '桃',
-  yellow: '黄',
-  brown: '茶',
+export type QRCodeColor =
+  | 'red'
+  | 'blue'
+  | 'green'
+  | 'orange'
+  | 'purple'
+  | 'light_blue'
+  | 'pink'
+  | 'yellow'
+  | 'brown'
+
+export const qrcolor2code = (qrcolor: QRCodeColor): string => {
+  switch (qrcolor) {
+    case 'red':
+      return '#ff4b00'
+    case 'blue':
+      return '#005aff'
+    case 'green':
+      return '#03af7a'
+    case 'orange':
+      return '#f6aa00'
+    case 'purple':
+      return '#990099'
+    case 'light_blue':
+      return '#4dc4ff'
+    case 'pink':
+      return '#ff8082'
+    case 'yellow':
+      return '#fff100'
+    case 'brown':
+      return '#804000'
+    default:
+      throw new Exception('不正なQRCodeColor')
+  }
 }
 
-export type QRCodeColor = keyof typeof QRCodeColors
+export const qrcolor2string = (qrcolor: QRCodeColor): string => {
+  switch (qrcolor) {
+    case 'red':
+      return '赤'
+    case 'blue':
+      return '青'
+    case 'green':
+      return '緑'
+    case 'orange':
+      return '橙'
+    case 'purple':
+      return '紫'
+    case 'light_blue':
+      return '水'
+    case 'pink':
+      return '桃'
+    case 'yellow':
+      return '黄'
+    case 'brown':
+      return '茶'
+    default:
+      throw new Exception('不正なQRCodeColor')
+  }
+}
+
+export const string2qrcolor = (str: string): QRCodeColor => {
+  switch (str) {
+    case '赤':
+      return 'red'
+    case '青':
+      return 'blue'
+    case '緑':
+      return 'green'
+    case '橙':
+      return 'orange'
+    case '紫':
+      return 'purple'
+    case '水':
+      return 'light_blue'
+    case '桃':
+      return 'pink'
+    case '黄':
+      return 'yellow'
+    case '茶':
+      return 'brown'
+    default:
+      throw new Exception('不正なQRCodeColor')
+  }
+}
 
 export type Storage = 'room101' | 'room102' | 'room206'
+
+export const storage2string = (storage: Storage): string => {
+  switch (storage) {
+    case 'room101':
+      return '101号室'
+    case 'room102':
+      return '102号室'
+    case 'room206':
+      return '206号室'
+    default:
+      throw new Exception('不正なstorage')
+  }
+}
+
+export const string2storage = (str: string): Storage => {
+  switch (str) {
+    case '101号室':
+      return 'room101'
+    case '102号室':
+      return 'room102'
+    case '206号室':
+      return 'room206'
+    default:
+      throw new Exception('不正なstorage')
+  }
+}
 
 /**
  * 物品情報を表すデータ
@@ -89,6 +188,64 @@ export type Area =
   | 'ichinoya'
   | 'hirasuna'
   | 'oikoshi'
+
+export const area2string = (area: Area): string => {
+  switch (area) {
+    case 'area1':
+      return '第一エリア'
+    case 'area2':
+      return '第二エリア'
+    case 'area3':
+      return '第三エリア'
+    case 'center_library':
+      return '中央図書館'
+    case 'ishi_square':
+      return '石の広場'
+    case 'igaku':
+      return '医学エリア'
+    case 'taigei':
+      return '体育芸術エリア'
+    case 'kasuga':
+      return '春日エリア'
+    case 'ichinoya':
+      return '一の矢'
+    case 'hirasuna':
+      return '平砂'
+    case 'oikoshi':
+      return '追越'
+    default:
+      throw new Exception('不正なarea')
+  }
+}
+
+export const string2area = (str: string): Area => {
+  switch (str) {
+    case '第一エリア':
+      return 'area1'
+    case '第二エリア':
+      return 'area2'
+    case '第三エリア':
+      return 'area3'
+    case '中央図書館':
+      return 'center_library'
+    case '石の広場':
+      return 'ishi_square'
+    case '医学エリア':
+      return 'igaku'
+    case '体育芸術エリア':
+      return 'taigei'
+    case '春日エリア':
+      return 'kasuga'
+    case '一の矢':
+      return 'ichinoya'
+    case '平砂':
+      return 'hirasuna'
+    case '追越':
+      return 'oikoshi'
+    default:
+      throw new Exception('不正なarea')
+  }
+}
 
 /**
  * 貸し出し物品を持っていく地点の情報

@@ -9,7 +9,7 @@ import Item from '@/components/Item'
 import Button from '@/components/Button'
 import Select from '@/components/Select'
 import Header from '@/components/Header'
-import { Area, Spot } from '@/types'
+import { Area, Spot, area2string, string2area } from '@/types'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 
@@ -75,27 +75,7 @@ const SpotEdit = () => {
           const response_spot = await axios.get(url_spot)
           const spot_data: Spot = response_spot.data
           setSpotName(spot_data.name)
-          spot_data.area == 'area1'
-            ? '第一エリア'
-            : areaName == 'area2'
-            ? '第二エリア'
-            : areaName == 'area3'
-            ? '第三エリア'
-            : areaName == 'center_library'
-            ? '中央図書館'
-            : areaName == 'ishi_square'
-            ? '石の広場'
-            : areaName == 'igaku'
-            ? '医学エリア'
-            : areaName == 'taigei'
-            ? '体育芸術エリア'
-            : areaName == 'kasuga'
-            ? '春日エリア'
-            : areaName == 'ichinoya'
-            ? '一の矢'
-            : areaName == 'hirasuna'
-            ? '平砂'
-            : '追越'
+          setAreaName(area2string(spot_data.area))
           spot_data.building ? setBuilding(spot_data.building) : setBuilding('')
           spot_data.floor ? setFloor(spot_data.floor.toString()) : setFloor('')
           spot_data.room ? setRoom(spot_data.room) : setRoom('')
@@ -112,28 +92,7 @@ const SpotEdit = () => {
   }
 
   const onClickRegisterButton = (): void => {
-    const area: Area =
-      areaName == '第一エリア'
-        ? 'area1'
-        : areaName == '第二エリア'
-        ? 'area2'
-        : areaName == '第三エリア'
-        ? 'area3'
-        : areaName == '中央図書館'
-        ? 'center_library'
-        : areaName == '石の広場'
-        ? 'ishi_square'
-        : areaName == '医学エリア'
-        ? 'igaku'
-        : areaName == '体育芸術エリア'
-        ? 'taigei'
-        : areaName == '春日エリア'
-        ? 'kasuga'
-        : areaName == '一の矢'
-        ? 'ichinoya'
-        : areaName == '平砂'
-        ? 'hirasuna'
-        : 'oikoshi'
+    const area: Area = string2area(areaName)
 
     const json: Spot = {
       name: spotName,

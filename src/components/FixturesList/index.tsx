@@ -10,7 +10,7 @@ import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import Collapse from '@mui/material/Collapse'
 import Link from 'next/link'
 import Item from '@/components/Item'
-import { Fixtures, QRCodeColorsToKanji } from '../../types'
+import { Fixtures, qrcolor2string } from '@/types'
 
 /**
  * FixturesProps型の作成
@@ -134,7 +134,7 @@ const FixturesList = ({ fixtures_list }: FixturesListProps) => {
               >
                 <Item
                   label='QR'
-                  value={fixtures.qr_id + '（' + QRCodeColorsToKanji[fixtures.qr_color] + ')'}
+                  value={fixtures.qr_id + '（' + qrcolor2string(fixtures.qr_color) + ')'}
                 />
                 {fixtures.model_number !== null ? (
                   <Item label='モデル番号' value={fixtures.model_number} />

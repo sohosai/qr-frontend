@@ -1,19 +1,13 @@
 import Head from 'next/head'
-import { v4 as uuidv4 } from 'uuid'
 import { useState } from 'react'
 import styled from 'styled-components'
 import CssBaseline from '@mui/material/CssBaseline'
 
 import TextInput from '@/components/TextInput'
-import TextArea from '@/components/TextArea'
 import Button from '@/components/Button'
 import Select from '@/components/Select'
 import Header from '@/components/Header'
-import Item from '@/components/Item'
-import { Area, Spot } from '@/types'
-import QrCodeReader from '@/components/QRCodeReader'
-import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
-import IconButton from '@mui/material/IconButton'
+import { Area, Spot, string2area } from '@/types'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 
@@ -73,28 +67,7 @@ const FixturesRegister = () => {
   }
 
   const onClickRegisterButton = (): void => {
-    const area: Area =
-      areaName == '第一エリア'
-        ? 'area1'
-        : areaName == '第二エリア'
-        ? 'area2'
-        : areaName == '第三エリア'
-        ? 'area3'
-        : areaName == '中央図書館'
-        ? 'center_library'
-        : areaName == '石の広場'
-        ? 'ishi_square'
-        : areaName == '医学エリア'
-        ? 'igaku'
-        : areaName == '体育芸術エリア'
-        ? 'taigei'
-        : areaName == '春日エリア'
-        ? 'kasuga'
-        : areaName == '一の矢'
-        ? 'ichinoya'
-        : areaName == '平砂'
-        ? 'hirasuna'
-        : 'oikoshi'
+    const area: Area = string2area(areaName)
 
     const json: Spot = {
       name: spotName,

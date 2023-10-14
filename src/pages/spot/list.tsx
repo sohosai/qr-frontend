@@ -29,7 +29,7 @@ const StyledMain = styled.main.withConfig({
   }
 `
 
-const SpotListPage = () => {
+const SpotListShow = () => {
   const [spotList, setSpotList] = useState<Spot[]>([])
   const [envCheck, setEnvCheck] = useState(false)
 
@@ -72,4 +72,4 @@ const SpotListPage = () => {
   )
 }
 
-export default SpotListPage
+export default SpotListShow

@@ -12,7 +12,7 @@ import MoreHoriz from '@mui/icons-material/MoreHoriz'
 import Collapse from '@mui/material/Collapse'
 import Link from 'next/link'
 import Item from '@/components/Item'
-import { Spot, Area } from '../../types'
+import { Spot, area2string } from '../../types'
 import Dialog from '@mui/material/Dialog'
 import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
@@ -226,32 +226,7 @@ const SpotList = ({ spot_list }: SpotListProps) => {
                   borderRadius: '10px',
                 }}
               >
-                <Item
-                  label='場所'
-                  value={
-                    spot.area == 'area1'
-                      ? '第一エリア'
-                      : spot.area == 'area2'
-                      ? '第二エリア'
-                      : spot.area == 'area3'
-                      ? '第三エリア'
-                      : spot.area == 'center_library'
-                      ? '中央図書館'
-                      : spot.area == 'ishi_square'
-                      ? '石の広場'
-                      : spot.area == 'igaku'
-                      ? '医学エリア'
-                      : spot.area == 'taigei'
-                      ? '体育芸術エリア'
-                      : spot.area == 'kasuga'
-                      ? '春日エリア'
-                      : spot.area == 'ichinoya'
-                      ? '一の矢'
-                      : spot.area == 'hirasuna'
-                      ? '平砂'
-                      : '追越'
-                  }
-                />
+                <Item label='場所' value={area2string(spot.area)} />
                 {spot.building !== null ? <Item label='建物' value={spot.building} /> : <></>}
                 {spot.floor !== null ? <Item label='階' value={spot.floor.toString()} /> : <></>}
                 {spot.room !== null ? <Item label='部屋番号' value={spot.room} /> : <></>}
