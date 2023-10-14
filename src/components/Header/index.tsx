@@ -90,6 +90,9 @@ const Header = () => {
             <ListItem key='menu-spot-register'>
               <Link href='/spot/register'>地点情報の登録</Link>
             </ListItem>
+            <ListItem key='menu-spot-list'>
+              <Link href='/spot/list'>地点情報の一覧</Link>
+            </ListItem>
             <ListItem key='menu-printing'>
               <Link href='/printing'>印刷</Link>
             </ListItem>
