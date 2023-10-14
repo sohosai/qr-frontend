@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 import Header from '@/components/Header'
 import axios from 'axios'
 import { Lending } from '@/types'
@@ -30,8 +31,8 @@ const StyledMain = styled.main.withConfig({
 `
 
 const LendingListShow = () => {
+  const router = useRouter()
   const [lendingList, setLendingList] = useState<Lending[]>([])
-  const [envCheck, setEnvCheck] = useState(false)
 
   useEffect(() => {
     ;(async () => {
@@ -46,13 +47,11 @@ const LendingListShow = () => {
         } catch (err) {
           toast.error('貸し出し中の物品のリストの取得に失敗しました')
           setLendingList([])
-          setEnvCheck(!envCheck)
         }
       } else {
-        setEnvCheck(!envCheck)
       }
     })()
-  }, [envCheck])
+  }, [router])
 
   return (
     <>
