@@ -104,14 +104,14 @@ const SpotEdit = () => {
 
     ;(async () => {
       const api_url = process.env.NEXT_PUBLIC_QR_API_URL
-      if (api_url !== undefined) {
-        const url = api_url + '/insert_spot'
+      if (api_url) {
+        const url = api_url + '/update_spot'
         try {
           const result = await axios.post(url, json)
-          toast.success('地点の登録に成功')
+          toast.success('地点情報の編集に成功')
           return result
         } catch (err) {
-          toast.error('地点の登録に失敗')
+          toast.error('地点情報の編集に失敗')
         }
       }
     })()

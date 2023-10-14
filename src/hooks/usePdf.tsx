@@ -10,7 +10,7 @@ const usePdf = () => {
   const targetRef = useRef<HTMLDivElement>(null)
 
   const pdfHandler = ({ name }: UsePdfHandlerParam) => {
-    if (targetRef.current === null) {
+    if (!targetRef.current) {
       return
     }
 

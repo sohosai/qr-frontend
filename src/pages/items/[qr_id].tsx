@@ -44,7 +44,7 @@ const FixturesShow = () => {
 
     const qr_id = route.query.qr_id
     const api_url = process.env.NEXT_PUBLIC_QR_API_URL
-    if (qr_id !== null && api_url !== undefined) {
+    if (qr_id && api_url) {
       console.log('called')
       ;(async () => {
         const url_fixtures = api_url + '/get_fixtures?qr_id=' + qr_id
@@ -139,7 +139,7 @@ const FixturesShow = () => {
                   </Button>
                 </DialogActions>
               </Dialog>
-              {fixtures.model_number !== null ? <p>{fixtures.model_number}</p> : <></>}
+              {fixtures.model_number ? <p>{fixtures.model_number}</p> : <></>}
               <Item label='uuid' value={fixtures.id} />
               <QRCode qr={initQRCode(fixtures.qr_id, fixtures.qr_color)}></QRCode>
               <Item label='保管場所' value={fixtures.storage + '/' + fixtures.parent_id} />
@@ -150,14 +150,14 @@ const FixturesShow = () => {
               ) : (
                 <></>
               )}
-              {fixtures.description == null ? (
-                <></>
-              ) : (
+              {fixtures.description ? (
                 <Item label='description' value={fixtures.description} />
+              ) : (
+                <></>
               )}
-              {fixtures.note == null ? <></> : <Item label='note' value={fixtures.note} />}
-              {fixtures.usage !== null ? <Item label='用途' value={fixtures.usage} /> : <></>}
-              {fixtures.usage_season !== null ? (
+              {fixtures.note ? <Item label='note' value={fixtures.note} /> : <></>}
+              {fixtures.usage ? <Item label='用途' value={fixtures.usage} /> : <></>}
+              {fixtures.usage_season ? (
                 <Item label='使用時期' value={fixtures.usage_season} />
               ) : (
                 <></>

@@ -131,7 +131,7 @@ const FixturesRegister = () => {
 
     ;(async () => {
       const api_url = process.env.NEXT_PUBLIC_QR_API_URL
-      if (api_url !== undefined) {
+      if (api_url) {
         const url = api_url + '/insert_fixtures'
         try {
           const result = await axios.post(url, json)

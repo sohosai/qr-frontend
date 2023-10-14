@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Button from '@/components/Button'
 import TextInput from '@/components/TextInput'
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
@@ -44,18 +44,21 @@ const Lending = () => {
   const [isOpenQrReader, setIsOpenQrReader] = useState(false)
 
   const [spotNameList, setSpotNameList] = useState<string[]>([])
-  ;(async () => {
-    const api_url = process.env.NEXT_PUBLIC_QR_API_URL
-    if (api_url !== undefined) {
-      const get_spot_list_url = api_url + '/get_spot_list'
-      const get_spot_list_reslt = await axios.get(get_spot_list_url)
-      const spot_list: Spot[] = get_spot_list_reslt.data.results
-      setSpotNameList(spot_list.map((spot) => spot.name))
-      const spotNameList2 = spotNameList.slice()
-      spotNameList2.unshift('未選択')
-      setSpotNameList(spotNameList2)
-    }
-  })()
+  useEffect(() => {
+    ;(async () => {
+      const api_url = process.env.NEXT_PUBLIC_QR_API_URL
+      if (api_url) {
+        const get_spot_list_url = api_url + '/get_spot_list'
+        try {
+          const get_spot_list_reslt = await axios.get(get_spot_list_url)
+          const spot_list: Spot[] = get_spot_list_reslt.data
+          setSpotNameList(spot_list.map((spot) => spot.name))
+        } catch {
+          setSpotNameList([])
+        }
+      }
+    })()
+  }, [])
 
   const [spotName, setSpotName] = useState('')
   const onChangeSpotName = (event: React.ChangeEvent<HTMLSelectElement>): void => {
@@ -89,11 +92,11 @@ const Lending = () => {
 
     ;(async () => {
       const api_url = process.env.NEXT_PUBLIC_QR_API_URL
-      if (api_url !== undefined) {
+      if (api_url) {
         try {
           const get_fixtures_url = api_url + '/get_fixtures?qr_id=' + qrId
           const get_fixtures_result = await axios.get(get_fixtures_url)
-          const fixtures: Fixtures = get_fixtures_result.data.results
+          const fixtures: Fixtures = get_fixtures_result.data
           const fixtures_id = fixtures.id
           const url = api_url + '/insert_lending'
           const lending: Lending = {
@@ -105,7 +108,7 @@ const Lending = () => {
             returned_at: null,
             borrower_name: borrowerName,
             borrower_number: Number(borrowerNumber),
-            borrwer_org: borrowerOrg == null ? null : borrowerOrg,
+            borrwer_org: borrowerOrg == '' ? null : borrowerOrg,
           }
           const result = await axios.post(url, lending)
           toast.success('貸し出しに成功しました')
@@ -127,7 +130,7 @@ const Lending = () => {
   const onClickReturnedButton = (): void => {
     ;(async () => {
       const api_url = process.env.NEXT_PUBLIC_QR_API_URL
-      if (api_url !== undefined) {
+      if (api_url) {
         const url = api_url + '/returned_lending?qr_id=' + qrId
         try {
           const result = await axios.post(url)

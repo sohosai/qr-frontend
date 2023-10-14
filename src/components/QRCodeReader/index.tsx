@@ -26,7 +26,7 @@ const QrCodeReader = ({ f }: QRCodeReaderProps) => {
         const text = result!.getText()
         const match = text.match(regex)
         if (match) {
-          const qr_id = match[0]
+          const qr_id = match[1]
           f(qr_id)
         }
       }
