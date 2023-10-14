@@ -75,14 +75,14 @@ const FixturesShow = () => {
     const api_url = process.env.NEXT_PUBLIC_QR_API_URL
     if (api_url) {
       const url = api_url + '/delete_fixtures?id=' + id
-      ;async () => {
+      ;(async () => {
         try {
           await axios.delete(url)
           toast.success('削除に成功')
         } catch (err) {
           toast.error('削除に失敗')
         }
-      }
+      })()
     }
   }
 
