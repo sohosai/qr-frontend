@@ -72,14 +72,13 @@ const FixturesShow = () => {
       const url = api_url + '/delete_fixtures?id=' + id
       ;async () => {
         try {
-          await axios.post(url)
+          await axios.delete(url)
           toast.success('削除に成功')
         } catch (err) {
           toast.error('削除に失敗')
         }
       }
     }
-    //TODO!
   }
 
   if (queried) {

@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { useRouter } from 'next/router'
+import router, { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import CssBaseline from '@mui/material/CssBaseline'
@@ -113,15 +113,17 @@ const SpotEdit = () => {
         try {
           const result = await axios.post(url, json, { headers: headers })
           toast.success('地点情報の編集に成功')
+          router.replace(`/spot/list`)
           return result
         } catch (err) {
           toast.error('地点情報の編集に失敗')
+          router.replace(`/spot/list`)
         }
       }
     })()
 
     setSpotName('')
-    setAreaName('未選択')
+    setAreaName('')
     setBuilding('')
     setFloor('')
     setRoom('')
@@ -191,7 +193,7 @@ const SpotEdit = () => {
         </div>
 
         <div className='SpotRegisterButton'>
-          <Button onClick={onClickRegisterButton} disabled={validButton()} text='登録' />
+          <Button onClick={onClickRegisterButton} disabled={validButton()} text='更新' />
         </div>
       </StyledMain>
     </>
