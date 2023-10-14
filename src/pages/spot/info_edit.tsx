@@ -106,8 +106,11 @@ const SpotEdit = () => {
       const api_url = process.env.NEXT_PUBLIC_QR_API_URL
       if (api_url) {
         const url = api_url + '/update_spot'
+        const headers = {
+          'Content-Type': 'application/json',
+        }
         try {
-          const result = await axios.post(url, json)
+          const result = await axios.post(url, json, { headers: headers })
           toast.success('地点情報の編集に成功')
           return result
         } catch (err) {

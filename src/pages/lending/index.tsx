@@ -110,7 +110,10 @@ const Lending = () => {
             borrower_number: Number(borrowerNumber),
             borrwer_org: borrowerOrg == '' ? null : borrowerOrg,
           }
-          const result = await axios.post(url, lending)
+          const headers = {
+            'Content-Type': 'application/json',
+          }
+          const result = await axios.post(url, lending, { headers: headers })
           toast.success('貸し出しに成功しました')
           return result
         } catch (err) {
