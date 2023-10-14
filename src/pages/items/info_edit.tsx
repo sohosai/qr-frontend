@@ -17,6 +17,7 @@ import {
   qrcolor2string,
   string2qrcolor,
   string2storage,
+  storage2string,
 } from '@/types'
 import axios from 'axios'
 import { toast } from 'react-toastify'
@@ -122,7 +123,6 @@ const FixturesEdit = () => {
           setQRID(fixtures_data.qr_id)
           setQRColor(qrcolor2string(fixtures_data.qr_color))
           setInitialQRColor(qrcolor2string(fixtures_data.qr_color))
-          setQRColor('赤')
           setFixturesName(fixtures_data.name)
           {
             fixtures_data.description
@@ -143,10 +143,10 @@ const FixturesEdit = () => {
               : setUsageSeason('')
           }
           {
-            setRepository(string2storage(fixtures_data.storage))
+            setRepository(storage2string(fixtures_data.storage))
           }
           {
-            setInitialRepository(string2storage(fixtures_data.storage))
+            setInitialRepository(storage2string(fixtures_data.storage))
           }
           setNote(fixtures_data.note)
           setParentID(fixtures_data.parent_id)
@@ -229,7 +229,7 @@ const FixturesEdit = () => {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <StyledMain>
-        <h1>物品の登録</h1>
+        <h1>物品情報の編集</h1>
         <div className='QRColorID'>
           <TextInput
             label='QR ID'

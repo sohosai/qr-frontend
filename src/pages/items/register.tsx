@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import { v4 as uuidv4 } from 'uuid'
 import { useState } from 'react'
+import router from 'next/router'
 import styled from 'styled-components'
 import CssBaseline from '@mui/material/CssBaseline'
 
@@ -139,6 +140,7 @@ const FixturesRegister = () => {
         try {
           const result = await axios.post(url, json, { headers: headers })
           toast.success('登録に成功')
+          router.replace(`/items/${qrID}`)
           return result
         } catch (err) {
           toast.error('登録に失敗')

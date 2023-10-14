@@ -133,7 +133,7 @@ const SpotEdit = () => {
       <Header />
       <CssBaseline />
       <Head>
-        <title>地点情報の登録 | QR</title>
+        <title>地点情報の編集 | QR</title>
         <meta name='description' content='' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
