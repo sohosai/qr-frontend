@@ -10,7 +10,14 @@ import Button from '@/components/Button'
 import Select from '@/components/Select'
 import Header from '@/components/Header'
 import Item from '@/components/Item'
-import { Storage, Fixtures, QRCodeColor } from '@/types'
+import {
+  Storage,
+  Fixtures,
+  QRCodeColor,
+  string2storage,
+  string2area,
+  string2qrcolor,
+} from '@/types'
 import QrCodeReader from '@/components/QRCodeReader'
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
 import IconButton from '@mui/material/IconButton'
@@ -104,26 +111,8 @@ const FixturesRegister = () => {
 
   const onClickRegisterButton = (): void => {
     const now = new Date()
-    const storage: Storage =
-      repository == '101号室' ? 'room101' : repository == '102号室' ? 'room102' : 'room206'
-    const qr_color: QRCodeColor =
-      qrColor == '赤'
-        ? 'red'
-        : qrColor == '青'
-        ? 'blue'
-        : qrColor == '緑'
-        ? 'green'
-        : qrColor == '橙'
-        ? 'orange'
-        : qrColor == '紫'
-        ? 'purple'
-        : qrColor == '水'
-        ? 'light_blue'
-        : qrColor == '桃'
-        ? 'pink'
-        : qrColor == '黄'
-        ? 'yellow'
-        : 'brown'
+    const storage: Storage = string2storage(repository)
+    const qr_color: QRCodeColor = string2qrcolor(qrColor)
 
     const json: Fixtures = {
       id: uuidv4(),

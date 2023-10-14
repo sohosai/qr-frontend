@@ -10,9 +10,14 @@ import TextArea from '@/components/TextArea'
 import Button from '@/components/Button'
 import Select from '@/components/Select'
 import Header from '@/components/Header'
-import Item from '@/components/Item'
-import { Storage, Fixtures, QRCodeColor, QRCodeColorsToKanji } from '@/types'
-import IconButton from '@mui/material/IconButton'
+import {
+  Storage,
+  Fixtures,
+  QRCodeColor,
+  qrcolor2string,
+  string2qrcolor,
+  string2storage,
+} from '@/types'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 
@@ -43,9 +48,6 @@ const StyledMain = styled.main.withConfig({
  */
 const FixturesEdit = () => {
   const route = useRouter()
-
-  const [fixtures, setFixtures] = useState<Fixtures | null>(null)
-  const [queried, setQueried] = useState(false)
 
   const [qrID, setQRID] = useState('')
   const onChangeQRID = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -111,14 +113,12 @@ const FixturesEdit = () => {
       ;(async () => {
         const url_fixtures = api_url + '/get_fixtures?id=' + fixtures_id
         console.log({ url_fixtures })
-        setQueried(true)
         try {
           const response_fixtures = await axios.get(url_fixtures)
           const fixtures_data: Fixtures = response_fixtures.data
-          setFixtures(fixtures_data)
           setQRID(fixtures_data.qr_id)
-          setQRColor(QRCodeColorsToKanji[fixtures_data.qr_color])
-          setInitialQRColor(QRCodeColorsToKanji[fixtures_data.qr_color])
+          setQRColor(qrcolor2string(fixtures_data.qr_color))
+          setInitialQRColor(qrcolor2string(fixtures_data.qr_color))
           setQRColor('赤')
           setFixturesName(fixtures_data.name)
           {
@@ -140,28 +140,17 @@ const FixturesEdit = () => {
               : setUsageSeason('')
           }
           {
-            fixtures_data.storage == 'room101'
-              ? setRepository('101号室')
-              : fixtures_data.storage == 'room102'
-              ? setRepository('102号室')
-              : setRepository('206号室')
+            setRepository(string2storage(fixtures_data.storage))
           }
           {
-            fixtures_data.storage == 'room101'
-              ? setInitialRepository('101号室')
-              : fixtures_data.storage == 'room102'
-              ? setInitialRepository('102号室')
-              : setInitialRepository('206号室')
+            setInitialRepository(string2storage(fixtures_data.storage))
           }
           setNote(fixtures_data.note)
           setParentID(fixtures_data.parent_id)
         } catch (err) {
           toast.error('URLが無効なため失敗')
-          setFixtures(null)
         }
       })()
-    } else {
-      setQueried(false)
     }
   }, [route])
 
@@ -177,26 +166,8 @@ const FixturesEdit = () => {
 
   const onClickRegisterButton = (): void => {
     const now = new Date()
-    const storage: Storage =
-      repository == '101号室' ? 'room101' : repository == '102号室' ? 'room102' : 'room206'
-    const qr_color: QRCodeColor =
-      qrColor == '赤'
-        ? 'red'
-        : qrColor == '青'
-        ? 'blue'
-        : qrColor == '緑'
-        ? 'green'
-        : qrColor == '橙'
-        ? 'orange'
-        : qrColor == '紫'
-        ? 'purple'
-        : qrColor == '水'
-        ? 'light_blue'
-        : qrColor == '桃'
-        ? 'pink'
-        : qrColor == '黄'
-        ? 'yellow'
-        : 'brown'
+    const storage: Storage = string2storage(repository)
+    const qr_color: QRCodeColor = string2qrcolor(qrColor)
 
     const json: Fixtures = {
       id: uuidv4(),

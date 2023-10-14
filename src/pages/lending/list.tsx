@@ -29,7 +29,7 @@ const StyledMain = styled.main.withConfig({
   }
 `
 
-const FixturesLending = () => {
+const LendingListShow = () => {
   const [lendingList, setLendingList] = useState<Lending[]>([])
   const [envCheck, setEnvCheck] = useState(false)
 
@@ -72,4 +72,4 @@ const FixturesLending = () => {
   )
 }
 
-export default FixturesLending
+export default LendingListShow

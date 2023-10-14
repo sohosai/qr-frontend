@@ -36,7 +36,7 @@ const StyledMain = styled.main.withConfig({
   }
 `
 
-const FixturesLending = () => {
+const Lending = () => {
   const [qrId, setQrId] = useState('')
   const onChangeQrId = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setQrId(event.target.value)
@@ -246,4 +246,4 @@ const FixturesLending = () => {
   )
 }
 
-export default FixturesLending
+export default Lending

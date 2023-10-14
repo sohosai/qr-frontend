@@ -1,4 +1,4 @@
-import { QRCodeColor, QRCodeColors, QRCodeColorsToKanji } from '@/types'
+import { QRCodeColor, qrcolor2string, qrcolor2code, QRCodeColors } from '@/types'
 
 export type QRCodeObject = {
   id: string
@@ -33,8 +33,8 @@ export const initQRCode = (
   return {
     id,
     color,
-    color_hex: QRCodeColors[color],
-    color_kanji: QRCodeColorsToKanji[color],
+    color_hex: qrcolor2code(color),
+    color_kanji: qrcolor2string(color),
   }
 }
 
