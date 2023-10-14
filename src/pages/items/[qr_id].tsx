@@ -149,7 +149,7 @@ const FixturesShow = () => {
               <Item label='保管場所' value={fixtures.storage + '/' + fixtures.parent_id} />
               {lending ? (
                 <>
-                  <Item label='現在位置（貸出）' value={lending.borrower_name} />
+                  <Item label='現在位置（貸出）' value={lending.spot_name} />
                 </>
               ) : (
                 <></>

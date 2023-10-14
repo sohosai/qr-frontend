@@ -224,7 +224,7 @@ const Lending = () => {
               <Select
                 label='持っていく場所'
                 required={true}
-                initial={null}
+                initial='未選択'
                 options={spotNameList}
                 onChange={onChangeSpotName}
               />
