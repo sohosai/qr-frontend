@@ -158,16 +158,9 @@ const FixturesLending = () => {
       </Head>
       {isOpenQrReader ? (
         <QrCodeReader
-          onReadCode={(url) => {
-            // urlは"https://qr.sohosai.com/items/XWPV"のような形をしている
-            const str_lst = url.split('/')
-            const id = str_lst.pop()
-            if (id !== undefined) {
-              // Fixtures IDが貸し出し中だったら返却画面に
-              // 貸し出されていなかったら貸し出し画面に
-              setIsLending(true)
-              setQrId(id)
-            }
+          f={(qr_id) => {
+            setIsLending(true)
+            setQrId(qr_id)
           }}
         />
       ) : (
