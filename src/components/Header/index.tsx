@@ -76,7 +76,7 @@ const Header = () => {
           <Divider />
           <List>
             <ListItem key='menu-lending'>
-              <Link href='/lending'>貸し出し</Link>
+              <Link href='/lending'>貸し出し・返却</Link>
             </ListItem>
             <ListItem key='menu-lending-list'>
               <Link href='/lending/list'>貸し出し中一覧</Link>

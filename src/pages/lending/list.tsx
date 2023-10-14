@@ -42,8 +42,10 @@ const LendingListShow = () => {
           const get_lending_list_result = await axios.get(get_lending_list_url)
           const lending_list: Lending[] = get_lending_list_result.data
           setLendingList(lending_list)
+          console.log(lendingList)
         } catch (err) {
           toast.error('貸し出し中の物品のリストの取得に失敗しました')
+          setLendingList([])
           setEnvCheck(!envCheck)
         }
       } else {

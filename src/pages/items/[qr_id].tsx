@@ -53,12 +53,17 @@ const FixturesShow = () => {
         setQueried(true)
         try {
           const response_fixtures = await axios.get(url_fixtures)
-          setFixtures(response_fixtures.data)
+          const f: Fixtures = response_fixtures.data
+          setFixtures(f)
           const response_lending = await axios.get(url_lending)
-          setLending(response_lending.data)
+          const l: Lending = response_lending.data
+          setLending(l)
+          console.log('lending: ', l)
+          console.log('lending2: ', lending)
         } catch (err) {
           toast.error('URLが無効なため表示に失敗')
           setFixtures(null)
+          setLending(null)
         }
       })()
     } else {
@@ -144,7 +149,7 @@ const FixturesShow = () => {
               <Item label='保管場所' value={fixtures.storage + '/' + fixtures.parent_id} />
               {lending ? (
                 <>
-                  <Item label='現在位置（貸出）' value={lending.spot_name} />
+                  <Item label='現在位置（貸出）' value={lending.borrower_name} />
                 </>
               ) : (
                 <></>
