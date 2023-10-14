@@ -96,7 +96,7 @@ const SpotList = ({ spot_list }: SpotListProps) => {
       ;(async () => {
         try {
           await axios.delete(url)
-          toast.error('削除に成功')
+          toast.success('削除に成功')
         } catch (err) {
           toast.error('削除に失敗')
         }
