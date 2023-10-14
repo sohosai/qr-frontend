@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 import Header from '@/components/Header'
 import axios from 'axios'
 import { Lending } from '@/types'
@@ -30,8 +31,8 @@ const StyledMain = styled.main.withConfig({
 `
 
 const LendingListShow = () => {
+  const router = useRouter()
   const [lendingList, setLendingList] = useState<Lending[]>([])
-  const [envCheck, setEnvCheck] = useState(false)
 
   useEffect(() => {
     ;(async () => {
@@ -42,15 +43,15 @@ const LendingListShow = () => {
           const get_lending_list_result = await axios.get(get_lending_list_url)
           const lending_list: Lending[] = get_lending_list_result.data
           setLendingList(lending_list)
+          console.log(lendingList)
         } catch (err) {
           toast.error('貸し出し中の物品のリストの取得に失敗しました')
-          setEnvCheck(!envCheck)
+          setLendingList([])
         }
       } else {
-        setEnvCheck(!envCheck)
       }
     })()
-  }, [envCheck])
+  }, [router])
 
   return (
     <>

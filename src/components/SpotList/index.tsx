@@ -92,11 +92,11 @@ const SpotList = ({ spot_list }: SpotListProps) => {
   const deleteSpot = (name: string): void => {
     const api_url = process.env.NEXT_PUBLIC_QR_API_URL
     if (api_url) {
-      const url = api_url + '/delete_spot?id=' + name
+      const url = api_url + '/delete_spot?name=' + name
       ;(async () => {
         try {
-          await axios.post(url)
-          toast.error('削除に成功')
+          await axios.delete(url)
+          toast.success('削除に成功')
         } catch (err) {
           toast.error('削除に失敗')
         }
@@ -108,7 +108,6 @@ const SpotList = ({ spot_list }: SpotListProps) => {
     <StyledSpotList>
       <List
         style={{
-          backgroundColor: 'white',
           padding: '5px 13px',
           borderRadius: '10px',
         }}
@@ -227,9 +226,9 @@ const SpotList = ({ spot_list }: SpotListProps) => {
                 }}
               >
                 <Item label='場所' value={area2string(spot.area)} />
-                {spot.building !== null ? <Item label='建物' value={spot.building} /> : <></>}
-                {spot.floor !== null ? <Item label='階' value={spot.floor.toString()} /> : <></>}
-                {spot.room !== null ? <Item label='部屋番号' value={spot.room} /> : <></>}
+                {spot.building ? <Item label='建物' value={spot.building} /> : <></>}
+                {spot.floor ? <Item label='階' value={spot.floor.toString()} /> : <></>}
+                {spot.room ? <Item label='部屋番号' value={spot.room} /> : <></>}
               </List>
             </Collapse>
           </>

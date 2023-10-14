@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { useRouter } from 'next/router'
+import router, { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import CssBaseline from '@mui/material/CssBaseline'
@@ -43,10 +43,11 @@ const SpotEdit = () => {
 
   const [spotName, setSpotName] = useState('')
 
-  const [areaName, setAreaName] = useState('未選択')
+  const [areaName, setAreaName] = useState('')
   const onChangeAreaName = (event: React.ChangeEvent<HTMLSelectElement>): void => {
     setAreaName(event.target.value)
   }
+  const [initialAreaName, setInitialAreaName] = useState('')
 
   const [building, setBuilding] = useState('')
   const onChangeBuilding = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -66,9 +67,9 @@ const SpotEdit = () => {
   useEffect(() => {
     if (typeof route.query.name !== 'string') return
 
-    const spot_name = route.query.spot_name
+    const spot_name = route.query.name
     const api_url = process.env.NEXT_PUBLIC_QR_API_URL
-    if (api_url) {
+    if (api_url && spot_name) {
       ;(async () => {
         const url_spot = api_url + '/get_spot?name=' + spot_name
         try {
@@ -76,6 +77,7 @@ const SpotEdit = () => {
           const spot_data: Spot = response_spot.data
           setSpotName(spot_data.name)
           setAreaName(area2string(spot_data.area))
+          setInitialAreaName(area2string(spot_data.area))
           spot_data.building ? setBuilding(spot_data.building) : setBuilding('')
           spot_data.floor ? setFloor(spot_data.floor.toString()) : setFloor('')
           spot_data.room ? setRoom(spot_data.room) : setRoom('')
@@ -83,12 +85,11 @@ const SpotEdit = () => {
           toast.error('場所情報の取得に失敗')
         }
       })()
-    } else {
     }
   }, [route])
 
   const validButton = (): boolean => {
-    return spotName == '' || areaName == '未選択'
+    return spotName == '' || areaName == ''
   }
 
   const onClickRegisterButton = (): void => {
@@ -104,20 +105,25 @@ const SpotEdit = () => {
 
     ;(async () => {
       const api_url = process.env.NEXT_PUBLIC_QR_API_URL
-      if (api_url !== undefined) {
-        const url = api_url + '/insert_spot'
+      if (api_url) {
+        const url = api_url + '/update_spot'
+        const headers = {
+          'Content-Type': 'application/json',
+        }
         try {
-          const result = await axios.post(url, json)
-          toast.success('地点の登録に成功')
+          const result = await axios.post(url, json, { headers: headers })
+          toast.success('地点情報の編集に成功')
+          router.replace(`/spot/list`)
           return result
         } catch (err) {
-          toast.error('地点の登録に失敗')
+          toast.error('地点情報の編集に失敗')
+          router.replace(`/spot/list`)
         }
       }
     })()
 
     setSpotName('')
-    setAreaName('未選択')
+    setAreaName('')
     setBuilding('')
     setFloor('')
     setRoom('')
@@ -127,7 +133,7 @@ const SpotEdit = () => {
       <Header />
       <CssBaseline />
       <Head>
-        <title>地点情報の登録 | QR</title>
+        <title>地点情報の編集 | QR</title>
         <meta name='description' content='' />
         <link rel='icon' href='/favicon.ico' />
       </Head>
@@ -141,9 +147,8 @@ const SpotEdit = () => {
           <Select
             label='エリア'
             required={true}
-            initial='未選択'
+            initial={initialAreaName}
             options={[
-              '未選択',
               '第一エリア',
               '第二エリア',
               '第三エリア',
@@ -188,7 +193,7 @@ const SpotEdit = () => {
         </div>
 
         <div className='SpotRegisterButton'>
-          <Button onClick={onClickRegisterButton} disabled={validButton()} text='登録' />
+          <Button onClick={onClickRegisterButton} disabled={validButton()} text='更新' />
         </div>
       </StyledMain>
     </>

@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import { Router, useRouter } from 'next/router'
+import router, { useRouter } from 'next/router'
 import { v4 as uuidv4 } from 'uuid'
 import { useState, useEffect } from 'react'
 import styled from 'styled-components'
@@ -17,6 +17,7 @@ import {
   qrcolor2string,
   string2qrcolor,
   string2storage,
+  storage2string,
 } from '@/types'
 import axios from 'axios'
 import { toast } from 'react-toastify'
@@ -47,7 +48,9 @@ const StyledMain = styled.main.withConfig({
  * 物品を登録できる
  */
 const FixturesEdit = () => {
-  const route = useRouter()
+  const router = useRouter()
+
+  const [fixtures, setFixtures] = useState<Fixtures | null>(null)
 
   const [qrID, setQRID] = useState('')
   const onChangeQRID = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -104,9 +107,9 @@ const FixturesEdit = () => {
   }
 
   useEffect(() => {
-    if (typeof route.query.fixtures_id !== 'string') return
+    if (typeof router.query.fixtures_id !== 'string') return
 
-    const fixtures_id = route.query.fixtures_id
+    const fixtures_id = router.query.fixtures_id
     const api_url = process.env.NEXT_PUBLIC_QR_API_URL
     if (fixtures_id && api_url) {
       console.log('called')
@@ -116,10 +119,10 @@ const FixturesEdit = () => {
         try {
           const response_fixtures = await axios.get(url_fixtures)
           const fixtures_data: Fixtures = response_fixtures.data
+          setFixtures(fixtures_data)
           setQRID(fixtures_data.qr_id)
           setQRColor(qrcolor2string(fixtures_data.qr_color))
           setInitialQRColor(qrcolor2string(fixtures_data.qr_color))
-          setQRColor('赤')
           setFixturesName(fixtures_data.name)
           {
             fixtures_data.description
@@ -140,10 +143,10 @@ const FixturesEdit = () => {
               : setUsageSeason('')
           }
           {
-            setRepository(string2storage(fixtures_data.storage))
+            setRepository(storage2string(fixtures_data.storage))
           }
           {
-            setInitialRepository(string2storage(fixtures_data.storage))
+            setInitialRepository(storage2string(fixtures_data.storage))
           }
           setNote(fixtures_data.note)
           setParentID(fixtures_data.parent_id)
@@ -152,7 +155,7 @@ const FixturesEdit = () => {
         }
       })()
     }
-  }, [route])
+  }, [router])
 
   const validButton = (): boolean => {
     return (
@@ -165,48 +168,56 @@ const FixturesEdit = () => {
   }
 
   const onClickRegisterButton = (): void => {
-    const now = new Date()
-    const storage: Storage = string2storage(repository)
-    const qr_color: QRCodeColor = string2qrcolor(qrColor)
+    if (fixtures) {
+      const storage: Storage = string2storage(repository)
+      const qr_color: QRCodeColor = string2qrcolor(qrColor)
 
-    const json: Fixtures = {
-      id: uuidv4(),
-      created_at: now,
-      name: fixturesName,
-      description: fixturesDescription,
-      storage: storage,
-      qr_id: qrID,
-      qr_color: qr_color,
-      note: note,
-      parent_id: parentID,
-      model_number: modelNumber == '' ? null : modelNumber,
-      usage: usage == '' ? null : usage,
-      usage_season: usageSeason == '' ? null : usageSeason,
-    }
-
-    ;(async () => {
-      const api_url = process.env.NEXT_PUBLIC_QR_API_URL
-      if (api_url !== undefined) {
-        const url = api_url + '/update_fixtures'
-        try {
-          const result = await axios.post(url, json)
-          toast.success('更新に成功')
-          return result
-        } catch (err) {
-          toast.error('更新に失敗')
-        }
+      const json: Fixtures = {
+        id: fixtures.id,
+        created_at: fixtures.created_at,
+        name: fixturesName,
+        description: fixturesDescription,
+        storage: storage,
+        qr_id: qrID,
+        qr_color: qr_color,
+        note: note,
+        parent_id: parentID,
+        model_number: modelNumber == '' ? null : modelNumber,
+        usage: usage == '' ? null : usage,
+        usage_season: usageSeason == '' ? null : usageSeason,
       }
-    })()
 
-    setQRID('')
-    setQRColor('未選択')
-    setFixturesName('')
-    setFixturesDescription('')
-    setRepository('未選択')
-    setNote('')
-    setUsage('')
-    setUsageSeason('')
-    setParentID('')
+      ;(async () => {
+        const api_url = process.env.NEXT_PUBLIC_QR_API_URL
+        if (api_url) {
+          const url = api_url + '/update_fixtures'
+          const headers = {
+            'Content-Type': 'application/json',
+          }
+          try {
+            const result = await axios.post(url, json, { headers: headers })
+            toast.success('更新に成功')
+            router.replace(`/items/${qrID}`)
+            return result
+          } catch (err) {
+            toast.error('更新に失敗')
+            router.replace(`/items/${qrID}`)
+          }
+        }
+      })()
+
+      setQRID('')
+      setQRColor('未選択')
+      setFixturesName('')
+      setFixturesDescription('')
+      setRepository('未選択')
+      setNote('')
+      setUsage('')
+      setUsageSeason('')
+      setParentID('')
+    } else {
+      toast.error('更新に失敗')
+    }
   }
   return (
     <>
@@ -218,7 +229,7 @@ const FixturesEdit = () => {
         <link rel='icon' href='/favicon.ico' />
       </Head>
       <StyledMain>
-        <h1>物品の登録</h1>
+        <h1>物品情報の編集</h1>
         <div className='QRColorID'>
           <TextInput
             label='QR ID'

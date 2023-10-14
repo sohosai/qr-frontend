@@ -136,20 +136,20 @@ const FixturesList = ({ fixtures_list }: FixturesListProps) => {
                   label='QR'
                   value={fixtures.qr_id + '（' + qrcolor2string(fixtures.qr_color) + ')'}
                 />
-                {fixtures.model_number !== null ? (
+                {fixtures.model_number ? (
                   <Item label='モデル番号' value={fixtures.model_number} />
                 ) : (
                   <></>
                 )}
                 <Item label='保管場所' value={fixtures.storage + '/' + fixtures.parent_id} />
-                {fixtures.description == null ? (
-                  <></>
-                ) : (
+                {fixtures.description ? (
                   <Item label='description' value={fixtures.description} />
+                ) : (
+                  <></>
                 )}
-                {fixtures.note == null ? <></> : <Item label='note' value={fixtures.note} />}
-                {fixtures.usage !== null ? <Item label='用途' value={fixtures.usage} /> : <></>}
-                {fixtures.usage_season !== null ? (
+                {fixtures.note ? <Item label='note' value={fixtures.note} /> : <></>}
+                {fixtures.usage ? <Item label='用途' value={fixtures.usage} /> : <></>}
+                {fixtures.usage_season ? (
                   <Item label='使用時期' value={fixtures.usage_season} />
                 ) : (
                   <></>

@@ -58,7 +58,7 @@ const FixturesSearch = () => {
 
     ;(async () => {
       const api_url = process.env.NEXT_PUBLIC_QR_API_URL
-      if (api_url !== undefined) {
+      if (api_url) {
         const url = api_url + '/search_fixtures?keywords=' + words
         try {
           const result = await axios.get(url)
