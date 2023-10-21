@@ -12,12 +12,7 @@ export default function LinkButton({ text, onClick }: ButtonProp) {
       variant='outlined'
       size='large'
       sx={{ textTransform: 'none', boxShadow: 3 }}
-      className='
-        m-2
-        h-11
-        w-40
-        rounded-md
-        '
+      className='m-1 h-11 w-36 rounded-md'
       onClick={onClick}
     >
       <span className='center font-bold'>{text}</span>

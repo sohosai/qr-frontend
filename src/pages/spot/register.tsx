@@ -36,7 +36,7 @@ const StyledMain = styled.main.withConfig({
 /**
  * 物品を登録できる
  */
-const FixturesRegister = () => {
+const SpotFixturesRegister = () => {
   const [spotName, setSpotName] = useState('')
   const onChangeSpotName = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setSpotName(event.target.value)
@@ -102,14 +102,6 @@ const FixturesRegister = () => {
   }
   return (
     <>
-      <Header />
-      <CssBaseline />
-      <Head>
-        <title>地点情報の登録 | QR</title>
-        <meta name='description' content='' />
-        <link rel='icon' href='/favicon.ico' />
-      </Head>
-
       <StyledMain>
         <h1>地点情報の登録</h1>
         <div className='SpotNameInput'>
@@ -179,4 +171,4 @@ const FixturesRegister = () => {
   )
 }
 
-export default FixturesRegister
+export default SpotFixturesRegister

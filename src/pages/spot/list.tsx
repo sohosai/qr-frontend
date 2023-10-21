@@ -54,12 +54,6 @@ const SpotListShow = () => {
 
   return (
     <>
-      <Header />
-      <Head>
-        <title>場所情報の一覧取得 | QR</title>
-        <meta name='description' content='物品管理' />
-        <link rel='icon' href='/favicon.ico' />
-      </Head>
       <StyledMain>
         <h1>場所情報の一覧</h1>
         {spotList.length == 0 ? (

@@ -102,7 +102,7 @@ function a11yProps(index: number) {
   }
 }
 
-export default function BasicTabs() {
+export default function Page() {
   const [value, setValue] = React.useState(0)
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -116,7 +116,7 @@ export default function BasicTabs() {
       <Grid container alignItems='center' justifyContent='center' direction='column'>
         <Stack spacing={2} direction='row'>
           <LinkButton
-            text={'貸し出し / 返却'}
+            text={'貸出 / 返却'}
             onClick={() => {
               window.location.href = '/sub/lending'
             }}
@@ -129,6 +129,7 @@ export default function BasicTabs() {
           />
         </Stack>
       </Grid>
+      <Box sx={{ width: '100%', height: '50px' }}></Box>
       <Box sx={{ width: '100%', maxWidth: 'lg', m: 'auto' }}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs value={value} onChange={handleChange} aria-label='top tabs'>

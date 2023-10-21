@@ -43,12 +43,6 @@ export default function Printing() {
 
   return (
     <>
-      <Header />
-      <Head>
-        <title>印刷する | QR</title>
-        <meta name='description' content='物品管理' />
-        <link rel='icon' href='/favicon.ico' />
-      </Head>
       <StyledMain>
         <h1>QRコードを印刷する</h1>
         <p>未印刷のQRコードをまとめて印刷することができます</p>
