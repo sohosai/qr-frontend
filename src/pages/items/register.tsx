@@ -160,13 +160,6 @@ const FixturesRegister = () => {
   }
   return (
     <>
-      <Header />
-      <CssBaseline />
-      <Head>
-        <title>物品の登録 | QR</title>
-        <meta name='description' content='物品管理' />
-        <link rel='icon' href='/favicon.ico' />
-      </Head>
       <StyledMain>
         <h1>物品の登録</h1>
         {isOpenQrReader ? (

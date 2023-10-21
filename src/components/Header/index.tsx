@@ -13,6 +13,8 @@ import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
 import Link from 'next/link'
 import Button from '@mui/material/Button'
+import ListItemButton from '@mui/material/ListItemButton'
+import ListItemText from '@mui/material/ListItemText'
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -29,7 +31,11 @@ const Header = () => {
       <AppBar position='static' color='default'>
         <Toolbar>
           <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
-            <Button LinkComponent={Link} href='/'>
+            <Button
+              onClick={() => {
+                window.location.href = '/'
+              }}
+            >
               <p
                 style={{
                   color: '#6600CC',
@@ -76,25 +82,74 @@ const Header = () => {
           <Divider />
           <List>
             <ListItem key='menu-lending'>
-              <Link href='/lending'>貸し出し・返却</Link>
+              <ListItemButton
+                sx={{ textAlign: 'center' }}
+                onClick={() => {
+                  window.location.href = '/lending'
+                }}
+              >
+                <ListItemText primary='貸し出し・返却' />
+              </ListItemButton>
             </ListItem>
             <ListItem key='menu-lending-list'>
-              <Link href='/lending/list'>貸し出し中一覧</Link>
+              <ListItemButton
+                sx={{ textAlign: 'center' }}
+                onClick={() => {
+                  window.location.href = '/lending/list'
+                }}
+              >
+                <ListItemText primary='貸し出し中一覧' />
+              </ListItemButton>
             </ListItem>
             <ListItem key='menu-items-search'>
-              <Link href='/items/search'>物品検索</Link>
+              <ListItemButton
+                sx={{ textAlign: 'center' }}
+                onClick={() => {
+                  window.location.href = '/items/search'
+                }}
+              >
+                <ListItemText primary='物品検索' />
+              </ListItemButton>
             </ListItem>
             <ListItem key='menu-items-register'>
-              <Link href='/items/register'>物品登録</Link>
+              <ListItemButton
+                sx={{ textAlign: 'center' }}
+                onClick={() => {
+                  window.location.href = '/items/register'
+                }}
+              >
+                <ListItemText primary='物品登録' />
+              </ListItemButton>
             </ListItem>
             <ListItem key='menu-spot-register'>
-              <Link href='/spot/register'>地点情報の登録</Link>
+              <ListItemButton
+                sx={{ textAlign: 'center' }}
+                onClick={() => {
+                  window.location.href = '/spot/register'
+                }}
+              >
+                <ListItemText primary='地点情報の登録' />
+              </ListItemButton>
             </ListItem>
             <ListItem key='menu-spot-list'>
-              <Link href='/spot/list'>地点情報の一覧</Link>
+              <ListItemButton
+                sx={{ textAlign: 'center' }}
+                onClick={() => {
+                  window.location.href = '/spot/list'
+                }}
+              >
+                <ListItemText primary='地点情報の一覧' />
+              </ListItemButton>
             </ListItem>
             <ListItem key='menu-printing'>
-              <Link href='/printing'>印刷</Link>
+              <ListItemButton
+                sx={{ textAlign: 'center' }}
+                onClick={() => {
+                  window.location.href = '/printing'
+                }}
+              >
+                <ListItemText primary='印刷' />
+              </ListItemButton>
             </ListItem>
           </List>
         </Drawer>

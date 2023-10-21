@@ -93,13 +93,6 @@ const FixturesSearch = () => {
 
   return (
     <>
-      <Header />
-      <CssBaseline />
-      <Head>
-        <title>物品の検索 | QR</title>
-        <meta name='description' content='物品検索' />
-        <link rel='icon' href='/favicon.ico' />
-      </Head>
       <StyledMain>
         <h1>物品の検索</h1>
         <div className='SearchWordsInput'>

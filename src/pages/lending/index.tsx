@@ -5,14 +5,12 @@ import TextInput from '@/components/TextInput'
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
 import IconButton from '@mui/material/IconButton'
 import QrCodeReader from '@/components/QRCodeReader'
-import Header from '@/components/Header'
 import Item from '@/components/Item'
 import axios from 'axios'
 import { Fixtures, Lending, Spot } from '@/types'
 import { toast } from 'react-toastify'
 import Select from '@/components/Select'
 import styled from 'styled-components'
-import Head from 'next/head'
 
 const StyledMain = styled.main.withConfig({
   displayName: 'StyledMain',
@@ -191,12 +189,6 @@ const Lending = () => {
 
   return (
     <>
-      <Header />
-      <Head>
-        <title>貸し出し・返却 | QR</title>
-        <meta name='description' content='物品管理' />
-        <link rel='icon' href='/favicon.ico' />
-      </Head>
       <StyledMain>
         {isOpenQrReader ? (
           <QrCodeReader

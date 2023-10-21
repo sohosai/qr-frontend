@@ -55,12 +55,6 @@ const LendingListShow = () => {
 
   return (
     <>
-      <Header />
-      <Head>
-        <title>貸し出し中の物品の一覧取得 | QR</title>
-        <meta name='description' content='物品管理' />
-        <link rel='icon' href='/favicon.ico' />
-      </Head>
       <StyledMain>
         <h1>貸し出し中の物品の一覧</h1>
         {lendingList.length == 0 ? (
