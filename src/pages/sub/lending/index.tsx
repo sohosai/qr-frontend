@@ -46,25 +46,6 @@ export default function LendingPage() {
 
   return (
     <>
-      <Header />
-      <h1 className='p-10 text-center text-3xl'>物品管理アプリケーション</h1>
-      <Grid container alignItems='center' justifyContent='center' direction='column'>
-        <Stack spacing={2} direction='row'>
-          <LinkButton
-            text={'貸出 / 返却'}
-            onClick={() => {
-              window.location.href = '/sub/lending'
-            }}
-          />
-          <LinkButton
-            text={'登録'}
-            onClick={() => {
-              window.location.href = '/sub/register'
-            }}
-          />
-        </Stack>
-      </Grid>
-      <Box sx={{ width: '100%', height: '50px' }}></Box>
       <Box sx={{ width: '100%', maxWidth: 'lg', m: 'auto' }}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs value={value} onChange={handleChange} aria-label='top tabs'>

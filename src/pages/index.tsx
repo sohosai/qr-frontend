@@ -66,14 +66,12 @@
 'use client'
 
 import React from 'react'
-import Tabs from '@mui/material/Tabs'
-import Tab from '@mui/material/Tab'
-import { Box, Stack, Button, Grid } from '@mui/material'
+import { Box, Stack, Grid } from '@mui/material'
 import Header from '@/components/Header'
-import Lending from '@/pages/lending'
-import LendingListShow from '@/pages/lending/list'
-import FixturesSearch from '@/pages/items/search'
 import LinkButton from '@/components/LinkButton'
+import SearchPage from '@/pages/sub/search'
+import RegisterPage from '@/pages/sub/register'
+import LendingPage from '@/pages/sub/lending'
 
 type TabPanelProps = {
   children?: React.ReactNode
@@ -104,6 +102,7 @@ function a11yProps(index: number) {
 
 export default function Page() {
   const [value, setValue] = React.useState(0)
+  const [flag, setFlag] = React.useState(0)
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue)
@@ -115,35 +114,14 @@ export default function Page() {
       <h1 className='p-10 text-center text-3xl'>物品管理アプリケーション</h1>
       <Grid container alignItems='center' justifyContent='center' direction='column'>
         <Stack spacing={2} direction='row'>
-          <LinkButton
-            text={'貸出 / 返却'}
-            onClick={() => {
-              window.location.href = '/sub/lending'
-            }}
-          />
-          <LinkButton
-            text={'登録'}
-            onClick={() => {
-              window.location.href = '/sub/register'
-            }}
-          />
+          <LinkButton text={'貸出 / 返却'} onClick={() => setFlag(1)} />
+          <LinkButton text={'登録'} onClick={() => setFlag(2)} />
         </Stack>
       </Grid>
       <Box sx={{ width: '100%', height: '50px' }}></Box>
-      <Box sx={{ width: '100%', maxWidth: 'lg', m: 'auto' }}>
-        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <Tabs value={value} onChange={handleChange} aria-label='top tabs'>
-            <Tab label='物品検索' {...a11yProps(0)} />
-            <Tab label='貸し出し中一覧' {...a11yProps(1)} />
-          </Tabs>
-        </Box>
-        <CustomTabPanel value={value} index={0}>
-          <FixturesSearch />
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={1}>
-          <LendingListShow />
-        </CustomTabPanel>
-      </Box>
+      {flag == 0 ? <SearchPage /> : null}
+      {flag == 1 ? <RegisterPage /> : null}
+      {flag == 2 ? <LendingPage /> : null}
     </>
   )
 }

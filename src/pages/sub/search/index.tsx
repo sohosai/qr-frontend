@@ -4,15 +4,8 @@ import React from 'react'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import { Box, Stack, Button, Grid } from '@mui/material'
-import Header from '@/components/Header'
-import Lending from '@/pages/lending'
 import LendingListShow from '@/pages/lending/list'
 import FixturesSearch from '@/pages/items/search'
-import FixturesRegister from '@/pages/items/register'
-import SpotFixturesRegister from '@/pages/spot/register'
-import SpotListShow from '@/pages/spot/list'
-import Printing from '@/pages/printing'
-import LinkButton from '@/components/LinkButton'
 
 type TabPanelProps = {
   children?: React.ReactNode
@@ -41,7 +34,7 @@ function a11yProps(index: number) {
   }
 }
 
-export default function RegisterPage() {
+export default function SearchPage() {
   const [value, setValue] = React.useState(0)
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
@@ -53,23 +46,15 @@ export default function RegisterPage() {
       <Box sx={{ width: '100%', maxWidth: 'lg', m: 'auto' }}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs value={value} onChange={handleChange} aria-label='top tabs'>
-            <Tab label='物品登録' {...a11yProps(0)} />
-            <Tab label='地点情報の登録' {...a11yProps(1)} />
-            <Tab label='地点情報の一覧' {...a11yProps(2)} />
-            <Tab label='印刷' {...a11yProps(3)} />
+            <Tab label='物品検索' {...a11yProps(0)} />
+            <Tab label='貸出中一覧' {...a11yProps(1)} />
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
-          <FixturesRegister />
+          <FixturesSearch />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          <SpotFixturesRegister />
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={2}>
-          <SpotListShow />
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={3}>
-          <Printing />
+          <LendingListShow />
         </CustomTabPanel>
       </Box>
     </>

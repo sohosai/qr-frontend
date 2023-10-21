@@ -85,70 +85,30 @@ const Header = () => {
               <ListItemButton
                 sx={{ textAlign: 'center' }}
                 onClick={() => {
-                  window.location.href = '/lending'
+                  window.location.href = '/'
                 }}
               >
-                <ListItemText primary='貸し出し・返却' />
+                <ListItemText primary='物品検索' />
               </ListItemButton>
             </ListItem>
             <ListItem key='menu-lending-list'>
               <ListItemButton
                 sx={{ textAlign: 'center' }}
                 onClick={() => {
-                  window.location.href = '/lending/list'
+                  window.location.href = '/sub/lending'
                 }}
               >
-                <ListItemText primary='貸し出し中一覧' />
+                <ListItemText primary='貸出 / 返却' />
               </ListItemButton>
             </ListItem>
             <ListItem key='menu-items-search'>
               <ListItemButton
                 sx={{ textAlign: 'center' }}
                 onClick={() => {
-                  window.location.href = '/items/search'
+                  window.location.href = '/sub/register'
                 }}
               >
-                <ListItemText primary='物品検索' />
-              </ListItemButton>
-            </ListItem>
-            <ListItem key='menu-items-register'>
-              <ListItemButton
-                sx={{ textAlign: 'center' }}
-                onClick={() => {
-                  window.location.href = '/items/register'
-                }}
-              >
-                <ListItemText primary='物品登録' />
-              </ListItemButton>
-            </ListItem>
-            <ListItem key='menu-spot-register'>
-              <ListItemButton
-                sx={{ textAlign: 'center' }}
-                onClick={() => {
-                  window.location.href = '/spot/register'
-                }}
-              >
-                <ListItemText primary='地点情報の登録' />
-              </ListItemButton>
-            </ListItem>
-            <ListItem key='menu-spot-list'>
-              <ListItemButton
-                sx={{ textAlign: 'center' }}
-                onClick={() => {
-                  window.location.href = '/spot/list'
-                }}
-              >
-                <ListItemText primary='地点情報の一覧' />
-              </ListItemButton>
-            </ListItem>
-            <ListItem key='menu-printing'>
-              <ListItemButton
-                sx={{ textAlign: 'center' }}
-                onClick={() => {
-                  window.location.href = '/printing'
-                }}
-              >
-                <ListItemText primary='印刷' />
+                <ListItemText primary='登録' />
               </ListItemButton>
             </ListItem>
           </List>
