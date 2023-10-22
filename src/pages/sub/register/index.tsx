@@ -3,16 +3,11 @@
 import React from 'react'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
-import { Box, Stack, Button, Grid } from '@mui/material'
-import Header from '@/components/Header'
-import Lending from '@/pages/lending'
-import LendingListShow from '@/pages/lending/list'
-import FixturesSearch from '@/pages/items/search'
+import Box from '@mui/material/Box'
 import FixturesRegister from '@/pages/items/register'
 import SpotFixturesRegister from '@/pages/spot/register'
 import SpotListShow from '@/pages/spot/list'
 import Printing from '@/pages/printing'
-import LinkButton from '@/components/LinkButton'
 
 type TabPanelProps = {
   children?: React.ReactNode

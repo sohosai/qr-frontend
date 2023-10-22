@@ -73,40 +73,40 @@ import SearchPage from '@/pages/sub/search'
 import RegisterPage from '@/pages/sub/register'
 import LendingPage from '@/pages/sub/lending'
 
-type TabPanelProps = {
-  children?: React.ReactNode
-  index: number
-  value: number
-}
+// type TabPanelProps = {
+//   children?: React.ReactNode
+//   index: number
+//   value: number
+// }
 
-function CustomTabPanel(props: TabPanelProps) {
-  const { value, index, ...other } = props
+// function CustomTabPanel(props: TabPanelProps) {
+//   const { value, index, ...other } = props
 
-  return (
-    <div
-      role='tabpanel'
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    ></div>
-  )
-}
+//   return (
+//     <div
+//       role='tabpanel'
+//       hidden={value !== index}
+//       id={`simple-tabpanel-${index}`}
+//       aria-labelledby={`simple-tab-${index}`}
+//       {...other}
+//     ></div>
+//   )
+// }
 
-function a11yProps(index: number) {
-  return {
-    id: `tab-${index}`,
-    'aria-controls': `tabpanel-${index}`,
-  }
-}
+// function a11yProps(index: number) {
+//   return {
+//     id: `tab-${index}`,
+//     'aria-controls': `tabpanel-${index}`,
+//   }
+// }
 
 export default function Page() {
-  const [value, setValue] = React.useState(0)
+  // const [value, setValue] = React.useState(0)
   const [flag, setFlag] = React.useState(0)
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue)
-  }
+  // const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  //   setValue(newValue)
+  // }
 
   return (
     <>
