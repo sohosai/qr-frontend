@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import CssBaseline from '@mui/material/CssBaseline'
 
 import TextInput from '@/components/TextInput'
-import Button from '@/components/Button'
+import SystemButton from '@/components/SystemButton'
 import Header from '@/components/Header'
 import FixturesList from '@/components/FixturesList'
 import { Fixtures, SearchFixtures } from '@/types'
@@ -105,7 +105,7 @@ const FixturesSearch = () => {
           />
         </div>
         <div className='FixturesSearchButton'>
-          <Button onClick={onClickSearchButton} disabled={validButton()} text='検索' />
+          <SystemButton onClick={onClickSearchButton} disabled={validButton()} text='検索' />
         </div>
         <FixturesList fixtures_list={fixturesList}></FixturesList>
       </StyledMain>

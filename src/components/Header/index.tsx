@@ -11,10 +11,10 @@ import Divider from '@mui/material/Divider'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import List from '@mui/material/List'
 import ListItem from '@mui/material/ListItem'
-import Link from 'next/link'
 import Button from '@mui/material/Button'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemText from '@mui/material/ListItemText'
+import { useRouter } from 'next/router'
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -26,6 +26,9 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false)
+  //!変更したよ~~~~~~~~
+  const router = useRouter()
+  //!変更したよ~~~~~~~~
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position='static' color='default'>
@@ -33,7 +36,7 @@ const Header = () => {
           <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
             <Button
               onClick={() => {
-                window.location.href = '/'
+                router.push('/')
               }}
             >
               <p
@@ -85,7 +88,8 @@ const Header = () => {
               <ListItemButton
                 sx={{ textAlign: 'center' }}
                 onClick={() => {
-                  window.location.href = '/'
+                  router.push('/')
+                  setMenuOpen(false)
                 }}
               >
                 <ListItemText primary='物品検索' />
@@ -95,7 +99,8 @@ const Header = () => {
               <ListItemButton
                 sx={{ textAlign: 'center' }}
                 onClick={() => {
-                  window.location.href = '/sub/lending'
+                  router.push('/checkout-return')
+                  setMenuOpen(false)
                 }}
               >
                 <ListItemText primary='貸出 / 返却' />
@@ -105,10 +110,22 @@ const Header = () => {
               <ListItemButton
                 sx={{ textAlign: 'center' }}
                 onClick={() => {
-                  window.location.href = '/sub/register'
+                  router.push('/register-item')
+                  setMenuOpen(false)
                 }}
               >
-                <ListItemText primary='登録' />
+                <ListItemText primary='物品登録' />
+              </ListItemButton>
+            </ListItem>
+            <ListItem key='menu-items-search'>
+              <ListItemButton
+                sx={{ textAlign: 'center' }}
+                onClick={() => {
+                  router.push('/spot')
+                  setMenuOpen(false)
+                }}
+              >
+                <ListItemText primary='地点情報' />
               </ListItemButton>
             </ListItem>
           </List>

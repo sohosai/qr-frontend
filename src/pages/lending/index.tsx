@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid'
 import { useState, useEffect } from 'react'
-import Button from '@/components/Button'
+import SystemButton from '@/components/SystemButton'
 import TextInput from '@/components/TextInput'
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
 import IconButton from '@mui/material/IconButton'
@@ -205,7 +205,7 @@ const Lending = () => {
             <h1>貸し出し・返却</h1>
             <div>
               <TextInput
-                label='貸し出し物品のID'
+                label='貸し出し物品又は返却物品のID'
                 required={true}
                 placeholder=''
                 value={qrId}
@@ -249,7 +249,11 @@ const Lending = () => {
               />
             </div>
             <div className='LendingRegisterButton'>
-              <Button onClick={onClickRegisterButton} disabled={validButton()} text='貸し出し' />
+              <SystemButton
+                onClick={onClickRegisterButton}
+                disabled={validButton()}
+                text='貸し出し'
+              />
             </div>
             <IconButton
               size='large'
@@ -271,7 +275,7 @@ const Lending = () => {
           <>
             <Item label='返却機材ID' value={qrId} />
             <div className='ReturnedButton'>
-              <Button onClick={onClickReturnedButton} disabled={false} text='返却' />
+              <SystemButton onClick={onClickReturnedButton} disabled={false} text='返却' />
             </div>
           </>
         )}

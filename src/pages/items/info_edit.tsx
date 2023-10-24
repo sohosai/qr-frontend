@@ -7,7 +7,7 @@ import CssBaseline from '@mui/material/CssBaseline'
 
 import TextInput from '@/components/TextInput'
 import TextArea from '@/components/TextArea'
-import Button from '@/components/Button'
+import SytemButton from '@/components/SystemButton'
 import Select from '@/components/Select'
 import Header from '@/components/Header'
 import {
@@ -219,8 +219,6 @@ const FixturesEdit = () => {
       toast.error('更新に失敗')
     }
   }
-  //更新ボタンのラップ
-  //後でやる
   return (
     <>
       <Header />
@@ -324,7 +322,7 @@ const FixturesEdit = () => {
         </div>
 
         <div className='FixturesRegisterButton'>
-          <Button onClick={onClickRegisterButton} disabled={validButton()} text='更新' />
+          <SytemButton onClick={onClickRegisterButton} disabled={validButton()} text='更新' />
         </div>
       </StyledMain>
     </>

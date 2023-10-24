@@ -6,7 +6,7 @@ import CssBaseline from '@mui/material/CssBaseline'
 
 import TextInput from '@/components/TextInput'
 import Item from '@/components/Item'
-import Button from '@/components/Button'
+import SystemButton from '@/components/SystemButton'
 import Select from '@/components/Select'
 import Header from '@/components/Header'
 import { Area, Spot, area2string, string2area } from '@/types'
@@ -113,11 +113,15 @@ const SpotEdit = () => {
         try {
           const result = await axios.post(url, json, { headers: headers })
           toast.success('地点情報の編集に成功')
-          router.replace(`/spot/list`)
+          //! 変更したよ～～～～～～！！！！
+          router.replace(`/`)
+          //! 変更したよ～～～～～～！！！！
           return result
         } catch (err) {
           toast.error('地点情報の編集に失敗')
-          router.replace(`/spot/list`)
+          //! 変更したよ～～～～～～！！！！
+          router.replace(`/`)
+          //! 変更したよ～～～～～～！！！！
         }
       }
     })()
@@ -193,7 +197,7 @@ const SpotEdit = () => {
         </div>
 
         <div className='SpotRegisterButton'>
-          <Button onClick={onClickRegisterButton} disabled={validButton()} text='更新' />
+          <SystemButton onClick={onClickRegisterButton} disabled={validButton()} text='更新' />
         </div>
       </StyledMain>
     </>

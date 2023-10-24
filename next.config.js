@@ -2,17 +2,9 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
+  //以下の記述は、安定してstyleのstyleを充てるのに必要なもの
   compiler: {
     styledComponents: true,
-  },
-  async redirects() {
-    return [
-      {
-        source: '/spot/list', // リダイレクト元のURL
-        destination: '/', // リダイレクト先のURL
-        permanent: true, // 永続的なリダイレクトかのフラグ
-      },
-    ]
   },
 }
 

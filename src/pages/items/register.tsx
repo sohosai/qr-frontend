@@ -7,7 +7,7 @@ import CssBaseline from '@mui/material/CssBaseline'
 
 import TextInput from '@/components/TextInput'
 import TextArea from '@/components/TextArea'
-import Button from '@/components/Button'
+import SystemButton from '@/components/SystemButton'
 import Select from '@/components/Select'
 import Header from '@/components/Header'
 import Item from '@/components/Item'
@@ -257,7 +257,7 @@ const FixturesRegister = () => {
         </div>
 
         <div className='FixturesRegisterButton'>
-          <Button onClick={onClickRegisterButton} disabled={validButton()} text='登録' />
+          <SystemButton onClick={onClickRegisterButton} disabled={validButton()} text='登録' />
         </div>
         <IconButton
           size='large'

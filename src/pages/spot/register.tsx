@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import CssBaseline from '@mui/material/CssBaseline'
 
 import TextInput from '@/components/TextInput'
-import Button from '@/components/Button'
+import SystemButton from '@/components/SystemButton'
 import Select from '@/components/Select'
 import Header from '@/components/Header'
 import { Area, Spot, string2area } from '@/types'
@@ -164,7 +164,7 @@ const SpotFixturesRegister = () => {
         </div>
 
         <div className='SpotRegisterButton'>
-          <Button onClick={onClickRegisterButton} disabled={validButton()} text='登録' />
+          <SystemButton onClick={onClickRegisterButton} disabled={validButton()} text='登録' />
         </div>
       </StyledMain>
     </>
