@@ -25,7 +25,7 @@ Common.args = {
       building: '3A',
       floor: 2,
       room: '204',
-      note: "備考"
+      note: '備考',
     },
   ],
 }
