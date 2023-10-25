@@ -17,6 +17,7 @@ Common.args = {
       building: null,
       floor: null,
       room: null,
+      note: null,
     },
     {
       name: 'テスト2',
@@ -24,6 +25,7 @@ Common.args = {
       building: '3A',
       floor: 2,
       room: '204',
+      note: "備考"
     },
   ],
 }
