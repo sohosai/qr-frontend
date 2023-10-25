@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import CssBaseline from '@mui/material/CssBaseline'
 
 import TextInput from '@/components/TextInput'
+import TextArea from '@/components/TextArea'
 import Item from '@/components/Item'
 import Button from '@/components/Button'
 import Select from '@/components/Select'
@@ -64,6 +65,11 @@ const SpotEdit = () => {
     setRoom(event.target.value)
   }
 
+  const [note, setNote] = useState('')
+  const onChangeNote = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
+    setNote(event.target.value)
+  }
+
   useEffect(() => {
     if (typeof route.query.name !== 'string') return
 
@@ -101,6 +107,7 @@ const SpotEdit = () => {
       building: building == '' ? null : building,
       floor: floor == '' ? null : Number(floor),
       room: room == '' ? null : room,
+      note: note == '' ? null : note,
     }
 
     ;(async () => {
@@ -154,12 +161,14 @@ const SpotEdit = () => {
               '第三エリア',
               '中央図書館',
               '石の広場',
+              '大学会館',
               '医学エリア',
               '体育芸術エリア',
               '春日エリア',
               '一の矢',
               '平砂',
               '追越',
+              '移動する人',
             ]}
             onChange={onChangeAreaName}
           />
@@ -189,6 +198,15 @@ const SpotEdit = () => {
             placeholder='3C213'
             value={room}
             onChange={onChangeRoom}
+          />
+        </div>
+        <div className='NoteInput'>
+          <TextArea
+            label='備考'
+            required={false}
+            placeholder='機材を置くのに使う'
+            text={note}
+            onChange={onChangeNote}
           />
         </div>
 

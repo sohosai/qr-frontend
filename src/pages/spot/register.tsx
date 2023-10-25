@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import CssBaseline from '@mui/material/CssBaseline'
 
 import TextInput from '@/components/TextInput'
+import TextArea from '@/components/TextArea'
 import Button from '@/components/Button'
 import Select from '@/components/Select'
 import Header from '@/components/Header'
@@ -62,6 +63,11 @@ const FixturesRegister = () => {
     setRoom(event.target.value)
   }
 
+  const [note, setNote] = useState('')
+  const onChangeNote = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
+    setNote(event.target.value)
+  }
+
   const validButton = (): boolean => {
     return spotName == '' || areaName == '未選択'
   }
@@ -75,6 +81,7 @@ const FixturesRegister = () => {
       building: building == '' ? null : building,
       floor: floor == '' ? null : Number(floor),
       room: room == '' ? null : room,
+      note: note == '' ? null : note,
     }
 
     ;(async () => {
@@ -133,12 +140,14 @@ const FixturesRegister = () => {
               '第三エリア',
               '中央図書館',
               '石の広場',
+              '大学会館',
               '医学エリア',
               '体育芸術エリア',
               '春日エリア',
               '一の矢',
               '平砂',
               '追越',
+              '移動する人',
             ]}
             onChange={onChangeAreaName}
           />
@@ -168,6 +177,15 @@ const FixturesRegister = () => {
             placeholder='3C213'
             value={room}
             onChange={onChangeRoom}
+          />
+        </div>
+        <div className='NoteInput'>
+          <TextArea
+            label='備考'
+            required={false}
+            placeholder='ものを置く場所'
+            text={note}
+            onChange={onChangeNote}
           />
         </div>
 
