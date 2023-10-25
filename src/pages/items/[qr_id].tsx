@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Fixtures, Lending } from '@/types'
-import { useRouter } from 'next/router'
+import router, { useRouter } from 'next/router'
 import { initQRCode } from '@/lib/QRCode'
 import QRCode from '@/components/QRCode'
 import Header from '@/components/Header'
@@ -137,6 +137,9 @@ const FixturesShow = () => {
                     onClick={() => {
                       deleteFixtures(fixtures.id)
                       setDeleteDialogOpen(false)
+                      //! 変更 (Myxogastria0808)
+                      router.replace('/')
+                      //! 変更 (Myxogastria0808)
                     }}
                   >
                     削除する

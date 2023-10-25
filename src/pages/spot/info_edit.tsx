@@ -3,7 +3,6 @@ import router, { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import CssBaseline from '@mui/material/CssBaseline'
-
 import TextInput from '@/components/TextInput'
 import Item from '@/components/Item'
 import SystemButton from '@/components/SystemButton'
@@ -113,15 +112,15 @@ const SpotEdit = () => {
         try {
           const result = await axios.post(url, json, { headers: headers })
           toast.success('地点情報の編集に成功')
-          //! 変更したよ～～～～～～！！！！
-          router.replace(`/`)
-          //! 変更したよ～～～～～～！！！！
+          //! 変更 (Myxogastria0808)
+          router.replace(`/post`)
+          //! 変更 (Myxogastria0808)
           return result
         } catch (err) {
           toast.error('地点情報の編集に失敗')
-          //! 変更したよ～～～～～～！！！！
-          router.replace(`/`)
-          //! 変更したよ～～～～～～！！！！
+          //! 変更 (Myxogastria0808)
+          router.replace(`/post`)
+          //! 変更 (Myxogastria0808)
         }
       }
     })()
@@ -135,12 +134,6 @@ const SpotEdit = () => {
   return (
     <>
       <Header />
-      <CssBaseline />
-      <Head>
-        <title>地点情報の編集 | QR</title>
-        <meta name='description' content='' />
-        <link rel='icon' href='/favicon.ico' />
-      </Head>
 
       <StyledMain>
         <h1>地点情報の登録</h1>

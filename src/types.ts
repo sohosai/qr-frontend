@@ -182,12 +182,14 @@ export type Area =
   | 'area3'
   | 'center_library'
   | 'ishi_square'
+  | 'kaikan'
   | 'igaku'
   | 'taigei'
   | 'kasuga'
   | 'ichinoya'
   | 'hirasuna'
   | 'oikoshi'
+  | 'move'
 
 export const area2string = (area: Area): string => {
   switch (area) {
@@ -201,6 +203,8 @@ export const area2string = (area: Area): string => {
       return '中央図書館'
     case 'ishi_square':
       return '石の広場'
+    case 'kaikan':
+      return '大学会館'
     case 'igaku':
       return '医学エリア'
     case 'taigei':
@@ -213,6 +217,8 @@ export const area2string = (area: Area): string => {
       return '平砂'
     case 'oikoshi':
       return '追越'
+    case 'move':
+      return '移動する人'
     default:
       throw new Exception('不正なarea')
   }
@@ -228,6 +234,8 @@ export const string2area = (str: string): Area => {
       return 'area3'
     case '中央図書館':
       return 'center_library'
+    case '大学会館':
+      return 'kaikan'
     case '石の広場':
       return 'ishi_square'
     case '医学エリア':
@@ -242,6 +250,8 @@ export const string2area = (str: string): Area => {
       return 'hirasuna'
     case '追越':
       return 'oikoshi'
+    case '移動する人':
+      return 'move'
     default:
       throw new Exception('不正なarea')
   }
