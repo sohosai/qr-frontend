@@ -24,6 +24,7 @@ import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
 import IconButton from '@mui/material/IconButton'
 import axios from 'axios'
 import { toast } from 'react-toastify'
+import { Box } from '@mui/material'
 
 const StyledMain = styled.main.withConfig({
   displayName: 'StyledMain',
@@ -161,6 +162,29 @@ const FixturesRegister = () => {
   return (
     <>
       <StyledMain>
+        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+          <IconButton
+            background-color='#6600CC'
+            sx={{
+              color: '#6600CC',
+              border: '1px solid #6600CC',
+              boxShadow: '1px 1px 5px 1px  #998fa3',
+              width: '90px',
+              height: '90px',
+            }}
+            onClick={() => {
+              setIsOpenQrReader(!isOpenQrReader)
+            }}
+          >
+            <QrCodeScannerIcon
+              fontSize='inherit'
+              sx={{
+                width: '50px',
+                height: '50px',
+              }}
+            />
+          </IconButton>
+        </Box>
         <h1>物品の登録</h1>
         {isOpenQrReader ? (
           <QrCodeReader
@@ -259,20 +283,6 @@ const FixturesRegister = () => {
         <div className='FixturesRegisterButton'>
           <SystemButton onClick={onClickRegisterButton} disabled={validButton()} text='登録' />
         </div>
-        <IconButton
-          size='large'
-          background-color='#6600CC'
-          sx={{
-            color: '#6600CC',
-            border: '1px solid #6600CC',
-            boxShadow: '1px 1px 5px 1px #998fa3',
-          }}
-          onClick={() => {
-            setIsOpenQrReader(!isOpenQrReader)
-          }}
-        >
-          <QrCodeScannerIcon fontSize='inherit' />
-        </IconButton>
       </StyledMain>
     </>
   )

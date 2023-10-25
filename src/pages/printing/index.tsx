@@ -48,8 +48,7 @@ export default function Printing() {
         <h1>QRコードを印刷する</h1>
         <p>未印刷のQRコードをまとめて印刷することができます</p>
         <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-          <SystemButton disabled={false} onClick={onClickResetUuid} text='生成' />
-          <SystemButton disabled={false} onClick={onClickResetUuid} text='リセット' />
+          <SystemButton disabled={false} onClick={onClickResetUuid} text='生成 /再生成' />
           <SystemButton disabled={false} onClick={onClickDownloadPdf} text='ダウンロード' />
         </Box>
         <QRListPdf ref={targetRef} qrs={qrs} />

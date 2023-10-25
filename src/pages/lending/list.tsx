@@ -45,7 +45,7 @@ const LendingListShow = () => {
           setLendingList(lending_list)
           console.log(lendingList)
         } catch (err) {
-          toast.error('貸し出し中の物品のリストの取得に失敗しました')
+          toast.error('貸出中の物品のリストの取得に失敗しました')
           setLendingList([])
         }
       } else {
@@ -56,9 +56,9 @@ const LendingListShow = () => {
   return (
     <>
       <StyledMain>
-        <h1>貸し出し中の物品の一覧</h1>
+        <h1>貸出中の物品の一覧</h1>
         {lendingList.length == 0 ? (
-          <>貸し出し中の物品はありません</>
+          <>貸出中の物品はありません</>
         ) : (
           <LendingList lending_list={lendingList} />
         )}

@@ -1,6 +1,7 @@
 import { useMemo, useEffect, useRef } from 'react'
 import { Result } from '@zxing/library'
 import { BrowserQRCodeReader } from '@zxing/browser'
+import { Box } from '@mui/material'
 
 type QRCodeReaderProps = {
   /**
@@ -32,7 +33,14 @@ const QrCodeReader = ({ f }: QRCodeReaderProps) => {
       }
     })
   }, [f])
-  return <video ref={videoRef} style={{ width: '75%' }}></video>
+  return (
+    <Box sx={{ widht: '100%' }}>
+      <video
+        ref={videoRef}
+        style={{ width: '100%', maxWidth: '700px', display: 'block', margin: 'auto' }}
+      ></video>
+    </Box>
+  )
 }
 
 export default QrCodeReader
