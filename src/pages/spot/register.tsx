@@ -88,13 +88,13 @@ const SpotFixturesRegister = () => {
           const result = await axios.post(url, json, { headers: headers })
           toast.success('地点の登録に成功')
           //! 変更 (Myxogastria0808)
-          window.location.href = '/'
+          window.location.href = '/spot'
           //! 変更 (Myxogastria0808)
           return result
         } catch (err) {
           toast.error('地点の登録に失敗')
           //! 変更 (Myxogastria0808)
-          window.location.href = '/'
+          window.location.href = '/spot'
           //! 変更 (Myxogastria0808)
         }
       }

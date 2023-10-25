@@ -113,13 +113,13 @@ const SpotEdit = () => {
           const result = await axios.post(url, json, { headers: headers })
           toast.success('地点情報の編集に成功')
           //! 変更 (Myxogastria0808)
-          router.replace(`/post`)
+          router.replace(`/spot`)
           //! 変更 (Myxogastria0808)
           return result
         } catch (err) {
           toast.error('地点情報の編集に失敗')
           //! 変更 (Myxogastria0808)
-          router.replace(`/post`)
+          router.replace(`/spot`)
           //! 変更 (Myxogastria0808)
         }
       }

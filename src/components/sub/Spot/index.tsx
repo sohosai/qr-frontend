@@ -46,15 +46,15 @@ export default function SpotPage() {
       <Box sx={{ width: '100%', maxWidth: 'lg', m: 'auto' }}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs value={value} onChange={handleChange} aria-label='top tabs'>
-            <Tab label='地点情報の登録' {...a11yProps(0)} />
-            <Tab label='地点情報の一覧' {...a11yProps(1)} />
+            <Tab label='地点情報の一覧' {...a11yProps(0)} />
+            <Tab label='地点情報の登録' {...a11yProps(1)} />
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
-          <SpotFixturesRegister />
+          <SpotListShow />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          <SpotListShow />
+          <SpotFixturesRegister />
         </CustomTabPanel>
       </Box>
     </>
