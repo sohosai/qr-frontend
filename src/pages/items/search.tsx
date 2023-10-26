@@ -4,18 +4,18 @@ import styled from 'styled-components'
 import CssBaseline from '@mui/material/CssBaseline'
 
 import TextInput from '@/components/TextInput'
-import Button from '@/components/Button'
+import SystemButton from '@/components/SystemButton'
 import Header from '@/components/Header'
 import FixturesList from '@/components/FixturesList'
 import { Fixtures, SearchFixtures } from '@/types'
 import axios from 'axios'
 import { toast } from 'react-toastify'
+import { Box } from '@mui/material'
 
 const StyledMain = styled.main.withConfig({
   displayName: 'StyledMain',
 })`
   position: static;
-  margin: 30px 30px;
   font-weight: 700;
   h1 {
     margin-top: 15px;
@@ -23,13 +23,19 @@ const StyledMain = styled.main.withConfig({
     font-size: 16px;
   }
   div {
-    margin: 4px;
     margin-bottom: 10px;
+    margin-top: 10px;
   }
   .buttonContainer {
     display: flex;
     justify-content: flex-end;
     margin: 20px;
+  }
+  .css-1yq5fb3-MuiButtonBase-root-MuiIconButton-root {
+    margin-bottom: 18px;
+  }
+  .FixturesList__StyledFixturesList-sc-8098f719-0 {
+    padding: 0px;
   }
 `
 
@@ -93,27 +99,22 @@ const FixturesSearch = () => {
 
   return (
     <>
-      <Header />
-      <CssBaseline />
-      <Head>
-        <title>物品の検索 | QR</title>
-        <meta name='description' content='物品検索' />
-        <link rel='icon' href='/favicon.ico' />
-      </Head>
       <StyledMain>
-        <h1>物品の検索</h1>
-        <div className='SearchWordsInput'>
-          <TextInput
-            label='検索単語'
-            required={true}
-            placeholder='三脚 袋'
-            value={searchWords}
-            onChange={onChangeSearchWords}
-          />
-        </div>
-        <div className='FixturesSearchButton'>
-          <Button onClick={onClickSearchButton} disabled={validButton()} text='検索' />
-        </div>
+        <Box sx={{ ml: '30px', mr: '30px' }}>
+          <h1>物品の検索</h1>
+          <div className='SearchWordsInput'>
+            <TextInput
+              label='検索単語'
+              required={true}
+              placeholder='三脚 袋'
+              value={searchWords}
+              onChange={onChangeSearchWords}
+            />
+            <div className='FixturesSearchButton'>
+              <SystemButton onClick={onClickSearchButton} disabled={validButton()} text='検索' />
+            </div>
+          </div>
+        </Box>
         <FixturesList fixtures_list={fixturesList}></FixturesList>
       </StyledMain>
     </>

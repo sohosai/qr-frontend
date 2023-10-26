@@ -11,3 +11,9 @@ body {
   margin: 0;
   font-family: 'M PLUS 1p', sans-serif;
 }
+
+@media screen and (max-width: 767px) {
+  .header-PC {
+    display: none;
+  }
+}

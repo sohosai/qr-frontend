@@ -1,13 +1,11 @@
 import Head from 'next/head'
 import { useState } from 'react'
 import styled from 'styled-components'
-import CssBaseline from '@mui/material/CssBaseline'
 
 import TextInput from '@/components/TextInput'
+import SystemButton from '@/components/SystemButton'
 import TextArea from '@/components/TextArea'
-import Button from '@/components/Button'
 import Select from '@/components/Select'
-import Header from '@/components/Header'
 import { Area, Spot, string2area } from '@/types'
 import axios from 'axios'
 import { toast } from 'react-toastify'
@@ -37,7 +35,7 @@ const StyledMain = styled.main.withConfig({
 /**
  * 物品を登録できる
  */
-const FixturesRegister = () => {
+const SpotRegister = () => {
   const [spotName, setSpotName] = useState('')
   const onChangeSpotName = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setSpotName(event.target.value)
@@ -94,9 +92,13 @@ const FixturesRegister = () => {
         try {
           const result = await axios.post(url, json, { headers: headers })
           toast.success('地点の登録に成功')
+          //登録情報を地点情報一覧に反映するために必要
+          window.location.href = '/spot'
           return result
         } catch (err) {
           toast.error('地点の登録に失敗')
+          //登録情報を地点情報一覧に反映するために必要
+          window.location.href = '/spot'
         }
       }
     })()
@@ -109,14 +111,6 @@ const FixturesRegister = () => {
   }
   return (
     <>
-      <Header />
-      <CssBaseline />
-      <Head>
-        <title>地点情報の登録 | QR</title>
-        <meta name='description' content='' />
-        <link rel='icon' href='/favicon.ico' />
-      </Head>
-
       <StyledMain>
         <h1>地点情報の登録</h1>
         <div className='SpotNameInput'>
@@ -190,11 +184,11 @@ const FixturesRegister = () => {
         </div>
 
         <div className='SpotRegisterButton'>
-          <Button onClick={onClickRegisterButton} disabled={validButton()} text='登録' />
+          <SystemButton onClick={onClickRegisterButton} disabled={validButton()} text='登録' />
         </div>
       </StyledMain>
     </>
   )
 }
 
-export default FixturesRegister
+export default SpotRegister

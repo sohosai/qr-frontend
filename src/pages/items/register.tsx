@@ -7,7 +7,7 @@ import CssBaseline from '@mui/material/CssBaseline'
 
 import TextInput from '@/components/TextInput'
 import TextArea from '@/components/TextArea'
-import Button from '@/components/Button'
+import SystemButton from '@/components/SystemButton'
 import Select from '@/components/Select'
 import Header from '@/components/Header'
 import Item from '@/components/Item'
@@ -24,6 +24,7 @@ import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
 import IconButton from '@mui/material/IconButton'
 import axios from 'axios'
 import { toast } from 'react-toastify'
+import { Box } from '@mui/material'
 
 const StyledMain = styled.main.withConfig({
   displayName: 'StyledMain',
@@ -160,14 +161,30 @@ const FixturesRegister = () => {
   }
   return (
     <>
-      <Header />
-      <CssBaseline />
-      <Head>
-        <title>物品の登録 | QR</title>
-        <meta name='description' content='物品管理' />
-        <link rel='icon' href='/favicon.ico' />
-      </Head>
       <StyledMain>
+        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+          <IconButton
+            background-color='#6600CC'
+            sx={{
+              color: '#6600CC',
+              border: '1px solid #6600CC',
+              boxShadow: '1px 1px 5px 1px  #998fa3',
+              width: '90px',
+              height: '90px',
+            }}
+            onClick={() => {
+              setIsOpenQrReader(!isOpenQrReader)
+            }}
+          >
+            <QrCodeScannerIcon
+              fontSize='inherit'
+              sx={{
+                width: '50px',
+                height: '50px',
+              }}
+            />
+          </IconButton>
+        </Box>
         <h1>物品の登録</h1>
         {isOpenQrReader ? (
           <QrCodeReader
@@ -264,22 +281,8 @@ const FixturesRegister = () => {
         </div>
 
         <div className='FixturesRegisterButton'>
-          <Button onClick={onClickRegisterButton} disabled={validButton()} text='登録' />
+          <SystemButton onClick={onClickRegisterButton} disabled={validButton()} text='登録' />
         </div>
-        <IconButton
-          size='large'
-          background-color='#6600CC'
-          sx={{
-            color: '#6600CC',
-            border: '1px solid #6600CC',
-            boxShadow: '1px 1px 5px 1px #998fa3',
-          }}
-          onClick={() => {
-            setIsOpenQrReader(!isOpenQrReader)
-          }}
-        >
-          <QrCodeScannerIcon fontSize='inherit' />
-        </IconButton>
       </StyledMain>
     </>
   )

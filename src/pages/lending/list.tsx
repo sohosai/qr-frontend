@@ -12,21 +12,25 @@ const StyledMain = styled.main.withConfig({
   displayName: 'StyledMain',
 })`
   position: static;
-  margin: 30px 30px;
   font-weight: 700;
   h1 {
     margin-top: 15px;
     margin-bottom: 15px;
+    margin-left: 30px;
     font-size: 16px;
   }
   div {
-    margin: 4px;
+    margin-top:10px
     margin-bottom: 10px;
   }
   .buttonContainer {
     display: flex;
     justify-content: flex-end;
     margin: 20px;
+  }
+  p {
+    padding-right: 15px;
+    padding-left: 15px;
   }
 `
 
@@ -45,7 +49,7 @@ const LendingListShow = () => {
           setLendingList(lending_list)
           console.log(lendingList)
         } catch (err) {
-          toast.error('貸し出し中の物品のリストの取得に失敗しました')
+          toast.error('貸出中の物品のリストの取得に失敗しました')
           setLendingList([])
         }
       } else {
@@ -55,16 +59,10 @@ const LendingListShow = () => {
 
   return (
     <>
-      <Header />
-      <Head>
-        <title>貸し出し中の物品の一覧取得 | QR</title>
-        <meta name='description' content='物品管理' />
-        <link rel='icon' href='/favicon.ico' />
-      </Head>
       <StyledMain>
-        <h1>貸し出し中の物品の一覧</h1>
+        <h1>貸出中の物品の一覧</h1>
         {lendingList.length == 0 ? (
-          <>貸し出し中の物品はありません</>
+          <p>貸出中の物品はありません</p>
         ) : (
           <LendingList lending_list={lendingList} />
         )}

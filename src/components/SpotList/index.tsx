@@ -69,7 +69,6 @@ const Text: React.FC<TextProps> = ({ children, numberOfLines }) => {
  */
 const SpotList = ({ spot_list }: SpotListProps) => {
   const [isMoreList, setIsMoreList] = useState<boolean[]>(Array(spot_list.length).fill(false))
-
   useEffect(() => {
     setIsMoreList(Array(spot_list.length).fill(false))
   }, [spot_list])
@@ -97,8 +96,12 @@ const SpotList = ({ spot_list }: SpotListProps) => {
         try {
           await axios.delete(url)
           toast.success('削除に成功')
+          //同一パスにリダイレクトをかけて、位置情報の一覧を再取得する。
+          window.location.href = '/spot'
         } catch (err) {
           toast.error('削除に失敗')
+          //同一パスにリダイレクトをかけて、位置情報の一覧を再取得する。
+          window.location.href = '/spot'
         }
       })()
     }

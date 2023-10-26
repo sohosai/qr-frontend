@@ -2,7 +2,7 @@
 
 import React from 'react'
 import Header from '@/components/Header'
-import SearchPage from '@/components/sub/Search'
+import SpotPage from '@/components/sub/Spot'
 import Top from '@/components/Top'
 
 export default function Page() {
@@ -10,7 +10,7 @@ export default function Page() {
     <>
       <Header />
       <Top />
-      <SearchPage />
+      <SpotPage />
     </>
   )
 }

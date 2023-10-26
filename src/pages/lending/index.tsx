@@ -1,18 +1,17 @@
 import { v4 as uuidv4 } from 'uuid'
 import { useState, useEffect } from 'react'
-import Button from '@/components/Button'
+import SystemButton from '@/components/SystemButton'
 import TextInput from '@/components/TextInput'
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
 import IconButton from '@mui/material/IconButton'
 import QrCodeReader from '@/components/QRCodeReader'
-import Header from '@/components/Header'
 import Item from '@/components/Item'
 import axios from 'axios'
 import { Fixtures, Lending, Spot } from '@/types'
 import { toast } from 'react-toastify'
 import Select from '@/components/Select'
 import styled from 'styled-components'
-import Head from 'next/head'
+import { Box } from '@mui/material'
 
 const StyledMain = styled.main.withConfig({
   displayName: 'StyledMain',
@@ -143,7 +142,7 @@ const Lending = () => {
           }
           const result = await axios.post(url, lending, { headers: headers })
           if (100 < result.status && result.status < 300) {
-            toast.success('貸し出しに成功しました')
+            toast.success('貸出に成功しました')
             // 初期化
             setQrId('')
             setSpotName('')
@@ -152,10 +151,10 @@ const Lending = () => {
             setBorrowerOrg('')
             setIsLending(true)
           } else {
-            toast.error('貸し出しに失敗しました')
+            toast.error('貸出に失敗しました')
           }
         } catch (err) {
-          toast.error('貸し出しに失敗しました')
+          toast.error('貸出に失敗しました')
         }
       }
     })()
@@ -191,29 +190,46 @@ const Lending = () => {
 
   return (
     <>
-      <Header />
-      <Head>
-        <title>貸し出し・返却 | QR</title>
-        <meta name='description' content='物品管理' />
-        <link rel='icon' href='/favicon.ico' />
-      </Head>
       <StyledMain>
-        {isOpenQrReader ? (
-          <QrCodeReader
-            f={(qr_id) => {
-              setIsLending(true)
-              setQrId(qr_id)
-            }}
-          />
-        ) : (
-          <></>
-        )}
         {isLending ? (
           <>
-            <h1>貸し出し・返却</h1>
+            <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+              <IconButton
+                background-color='#6600CC'
+                sx={{
+                  color: '#6600CC',
+                  border: '1px solid #6600CC',
+                  boxShadow: '1px 1px 5px 1px  #998fa3',
+                  width: '90px',
+                  height: '90px',
+                }}
+                onClick={() => {
+                  setIsOpenQrReader(!isOpenQrReader)
+                }}
+              >
+                <QrCodeScannerIcon
+                  fontSize='inherit'
+                  sx={{
+                    width: '50px',
+                    height: '50px',
+                  }}
+                />
+              </IconButton>
+            </Box>
+            <h1>貸出・返却</h1>
+            {isOpenQrReader ? (
+              <QrCodeReader
+                f={(qr_id) => {
+                  setIsLending(true)
+                  setQrId(qr_id)
+                }}
+              />
+            ) : (
+              <></>
+            )}
             <div>
               <TextInput
-                label='貸し出し物品のID'
+                label='貸出物品又は返却物品のID'
                 required={true}
                 placeholder=''
                 value={qrId}
@@ -257,29 +273,15 @@ const Lending = () => {
               />
             </div>
             <div className='LendingRegisterButton'>
-              <Button onClick={onClickRegisterButton} disabled={validButton()} text='貸し出し' />
+              <SystemButton onClick={onClickRegisterButton} disabled={validButton()} text='貸出' />
             </div>
-            <IconButton
-              size='large'
-              background-color='#6600CC'
-              sx={{
-                color: '#6600CC',
-                border: '1px solid #6600CC',
-                boxShadow: '1px 1px 5px 1px  #998fa3',
-              }}
-              onClick={() => {
-                setIsOpenQrReader(!isOpenQrReader)
-              }}
-            >
-              <QrCodeScannerIcon fontSize='inherit' />
-            </IconButton>
           </>
         ) : (
           // 返却画面
           <>
             <Item label='返却機材ID' value={qrId} />
             <div className='ReturnedButton'>
-              <Button onClick={onClickReturnedButton} disabled={false} text='返却' />
+              <SystemButton onClick={onClickReturnedButton} disabled={false} text='返却' />
             </div>
           </>
         )}

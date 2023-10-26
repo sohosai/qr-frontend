@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Fixtures, Lending } from '@/types'
-import { useRouter } from 'next/router'
+import router, { useRouter } from 'next/router'
 import { initQRCode } from '@/lib/QRCode'
 import QRCode from '@/components/QRCode'
 import Header from '@/components/Header'
@@ -17,6 +17,8 @@ import { toast } from 'react-toastify'
 import axios from 'axios'
 import styled from 'styled-components'
 import Link from 'next/link'
+import { Box } from '@mui/material'
+import LinkButton from '@/components/LinkButton'
 
 const StyledMain = styled.main.withConfig({
   displayName: 'StyledMain',
@@ -90,85 +92,96 @@ const FixturesShow = () => {
     return (
       <>
         <Header />
+        <Box sx={{ width: '100%', height: '120px' }}></Box>
         <StyledMain>
           {fixtures ? (
             <>
-              <h1>
-                {fixtures.name}
-                <IconButton
-                  edge='end'
-                  aria-label='more-info'
-                  href={'/items/info_edit?&fixtures_id=' + fixtures.id}
-                  LinkComponent={Link}
-                >
-                  <EditIcon />
-                </IconButton>
-                <IconButton
-                  edge='end'
-                  aria-label='more-info'
-                  onClick={() => {
-                    setDeleteDialogOpen(true)
+              <Box sx={{ width: '100%', maxWidth: '1024px', m: 'auto' }}>
+                <h1>
+                  {fixtures.name}
+                  <IconButton
+                    edge='end'
+                    aria-label='more-info'
+                    href={'/items/info_edit?&fixtures_id=' + fixtures.id}
+                    LinkComponent={Link}
+                  >
+                    <EditIcon />
+                  </IconButton>
+                  <IconButton
+                    edge='end'
+                    aria-label='more-info'
+                    onClick={() => {
+                      setDeleteDialogOpen(true)
+                    }}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </h1>
+                <Dialog
+                  open={deleteDialogOpen}
+                  onClose={() => {
+                    setDeleteDialogOpen(false)
                   }}
+                  aria-labelledby='fixtures delete dialog'
                 >
-                  <DeleteIcon />
-                </IconButton>
-              </h1>
-              <Dialog
-                open={deleteDialogOpen}
-                onClose={() => {
-                  setDeleteDialogOpen(false)
-                }}
-                aria-labelledby='fixtures delete dialog'
-              >
-                <DialogContent>
-                  <DialogContentText id='delete dialog text'>
-                    本当にこの物品情報を削除しますか？
-                  </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                  <Button
-                    onClick={() => {
-                      setDeleteDialogOpen(false)
-                    }}
-                  >
-                    削除しない
-                  </Button>
-                  <Button
-                    onClick={() => {
-                      deleteFixtures(fixtures.id)
-                      setDeleteDialogOpen(false)
-                    }}
-                  >
-                    削除する
-                  </Button>
-                </DialogActions>
-              </Dialog>
-              {fixtures.model_number ? <p>{fixtures.model_number}</p> : <></>}
-              <Item label='uuid' value={fixtures.id} />
-              <QRCode qr={initQRCode(fixtures.qr_id, fixtures.qr_color)}></QRCode>
-              <Item label='保管場所' value={fixtures.storage + '/' + fixtures.parent_id} />
-              {lending ? (
-                <>
-                  <Item label='現在位置（貸出）' value={lending.spot_name} />
-                </>
-              ) : (
-                <></>
-              )}
-              {fixtures.description ? (
-                <Item label='description' value={fixtures.description} />
-              ) : (
-                <></>
-              )}
-              {fixtures.note ? <Item label='note' value={fixtures.note} /> : <></>}
-              {fixtures.usage ? <Item label='用途' value={fixtures.usage} /> : <></>}
-              {fixtures.usage_season ? (
-                <Item label='使用時期' value={fixtures.usage_season} />
-              ) : (
-                <></>
-              )}
+                  <DialogContent>
+                    <DialogContentText id='delete dialog text'>
+                      本当にこの物品情報を削除しますか？
+                    </DialogContentText>
+                  </DialogContent>
+                  <DialogActions>
+                    <Button
+                      onClick={() => {
+                        setDeleteDialogOpen(false)
+                      }}
+                    >
+                      削除しない
+                    </Button>
+                    <Button
+                      onClick={() => {
+                        deleteFixtures(fixtures.id)
+                        setDeleteDialogOpen(false)
+                        //物品検索ページに誘導するために必要
+                        router.replace('/')
+                      }}
+                    >
+                      削除する
+                    </Button>
+                  </DialogActions>
+                </Dialog>
+                {fixtures.model_number ? <p>{fixtures.model_number}</p> : <></>}
+                <Item label='uuid' value={fixtures.id} />
+                <QRCode qr={initQRCode(fixtures.qr_id, fixtures.qr_color)}></QRCode>
+                <Item label='保管場所' value={fixtures.storage + '/' + fixtures.parent_id} />
+                {lending ? (
+                  <>
+                    <Item label='現在位置（貸出）' value={lending.spot_name} />
+                  </>
+                ) : (
+                  <></>
+                )}
+                {fixtures.description ? (
+                  <Item label='description' value={fixtures.description} />
+                ) : (
+                  <></>
+                )}
+                {fixtures.note ? <Item label='note' value={fixtures.note} /> : <></>}
+                {fixtures.usage ? <Item label='用途' value={fixtures.usage} /> : <></>}
+                {fixtures.usage_season ? (
+                  <Item label='使用時期' value={fixtures.usage_season} />
+                ) : (
+                  <></>
+                )}
+                <LinkButton text={'トップに戻る'} onClick={() => router.push('/')} />
+              </Box>
             </>
           ) : (
-            <>fixturesがnull or undefined</>
+            <>
+              <Box sx={{ width: '100%', maxWidth: '1024px', m: 'auto' }}>
+                <p>fixturesがnull or undefined</p>
+                <LinkButton text={'トップに戻る'} onClick={() => router.push('/')} />
+              </Box>
+            </>
           )}
         </StyledMain>
       </>
@@ -177,7 +190,11 @@ const FixturesShow = () => {
     return (
       <>
         <Header />
-        <p>クエリが存在しない</p>
+        <Box sx={{ width: '100%', height: '120px' }}></Box>
+        <Box sx={{ width: '100%', maxWidth: '1024px', m: 'auto' }}>
+          <p>クエリが存在しない</p>
+          <LinkButton text={'トップに戻る'} onClick={() => router.push('/')} />
+        </Box>
       </>
     )
   }

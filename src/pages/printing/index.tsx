@@ -1,12 +1,13 @@
 import Head from 'next/head'
 import Header from '@/components/Header'
-import Button from '@/components/Button'
+import SystemButton from '@/components/SystemButton'
 
 import usePdf from '@/hooks/usePdf'
 import QRListPdf from '@/components/QRCodeListPdf'
 import { initQRCode, QRCodeObject } from '@/lib/QRCode'
 import { useState } from 'react'
 import styled from 'styled-components'
+import { Box } from '@mui/material'
 
 const StyledMain = styled.main.withConfig({
   displayName: 'StyledMain',
@@ -43,21 +44,14 @@ export default function Printing() {
 
   return (
     <>
-      <Header />
-      <Head>
-        <title>印刷する | QR</title>
-        <meta name='description' content='物品管理' />
-        <link rel='icon' href='/favicon.ico' />
-      </Head>
       <StyledMain>
         <h1>QRコードを印刷する</h1>
         <p>未印刷のQRコードをまとめて印刷することができます</p>
-        <Button disabled={false} onClick={onClickResetUuid} text='生成' />
-        <div style={{ margin: '25px' }} />
-        <Button disabled={false} onClick={onClickResetUuid} text='リセット' />
-        <div style={{ margin: '15px' }} />
+        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+          <SystemButton disabled={false} onClick={onClickResetUuid} text='生成 /再生成' />
+          <SystemButton disabled={false} onClick={onClickDownloadPdf} text='ダウンロード' />
+        </Box>
         <QRListPdf ref={targetRef} qrs={qrs} />
-        <Button disabled={false} onClick={onClickDownloadPdf} text='ダウンロード' />
       </StyledMain>
     </>
   )
