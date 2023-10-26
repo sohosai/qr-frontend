@@ -2,7 +2,6 @@ import Head from 'next/head'
 import router, { useRouter } from 'next/router'
 import { useState, useEffect } from 'react'
 import styled from 'styled-components'
-import CssBaseline from '@mui/material/CssBaseline'
 import TextInput from '@/components/TextInput'
 import Item from '@/components/Item'
 import SystemButton from '@/components/SystemButton'
@@ -64,6 +63,11 @@ const SpotEdit = () => {
     setRoom(event.target.value)
   }
 
+  const [note, setNote] = useState('')
+  const onChangeNote = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
+    setNote(event.target.value)
+  }
+
   useEffect(() => {
     if (typeof route.query.name !== 'string') return
 
@@ -101,6 +105,7 @@ const SpotEdit = () => {
       building: building == '' ? null : building,
       floor: floor == '' ? null : Number(floor),
       room: room == '' ? null : room,
+      note: note == '' ? null : note,
     }
 
     ;(async () => {

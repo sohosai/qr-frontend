@@ -267,4 +267,5 @@ export type Spot = {
   building: string | null
   floor: number | null
   room: string | null
+  note: string | null
 }

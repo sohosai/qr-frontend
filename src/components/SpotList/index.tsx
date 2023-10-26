@@ -232,6 +232,7 @@ const SpotList = ({ spot_list }: SpotListProps) => {
                 {spot.building ? <Item label='建物' value={spot.building} /> : <></>}
                 {spot.floor ? <Item label='階' value={spot.floor.toString()} /> : <></>}
                 {spot.room ? <Item label='部屋番号' value={spot.room} /> : <></>}
+                {spot.note ? <Item label='備考' value={spot.note} /> : <></>}
               </List>
             </Collapse>
           </>

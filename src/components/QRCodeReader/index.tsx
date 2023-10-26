@@ -1,5 +1,4 @@
-import { useMemo, useEffect, useRef } from 'react'
-import { Result } from '@zxing/library'
+import { useEffect, useRef } from 'react'
 import { BrowserQRCodeReader } from '@zxing/browser'
 import { Box } from '@mui/material'
 

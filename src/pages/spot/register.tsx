@@ -1,12 +1,11 @@
 import Head from 'next/head'
 import { useState } from 'react'
 import styled from 'styled-components'
-import CssBaseline from '@mui/material/CssBaseline'
 
 import TextInput from '@/components/TextInput'
 import SystemButton from '@/components/SystemButton'
+import TextArea from '@/components/TextArea'
 import Select from '@/components/Select'
-import Header from '@/components/Header'
 import { Area, Spot, string2area } from '@/types'
 import axios from 'axios'
 import { toast } from 'react-toastify'
@@ -62,6 +61,11 @@ const SpotRegister = () => {
     setRoom(event.target.value)
   }
 
+  const [note, setNote] = useState('')
+  const onChangeNote = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
+    setNote(event.target.value)
+  }
+
   const validButton = (): boolean => {
     return spotName == '' || areaName == '未選択'
   }
@@ -75,6 +79,7 @@ const SpotRegister = () => {
       building: building == '' ? null : building,
       floor: floor == '' ? null : Number(floor),
       room: room == '' ? null : room,
+      note: note == '' ? null : note,
     }
 
     ;(async () => {
@@ -129,12 +134,14 @@ const SpotRegister = () => {
               '第三エリア',
               '中央図書館',
               '石の広場',
+              '大学会館',
               '医学エリア',
               '体育芸術エリア',
               '春日エリア',
               '一の矢',
               '平砂',
               '追越',
+              '移動する人',
             ]}
             onChange={onChangeAreaName}
           />
@@ -164,6 +171,15 @@ const SpotRegister = () => {
             placeholder='3C213'
             value={room}
             onChange={onChangeRoom}
+          />
+        </div>
+        <div className='NoteInput'>
+          <TextArea
+            label='備考'
+            required={false}
+            placeholder='ものを置く場所'
+            text={note}
+            onChange={onChangeNote}
           />
         </div>
 
