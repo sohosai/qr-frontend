@@ -36,7 +36,7 @@ const StyledMain = styled.main.withConfig({
 /**
  * 物品を登録できる
  */
-const SpotFixturesRegister = () => {
+const SpotRegister = () => {
   const [spotName, setSpotName] = useState('')
   const onChangeSpotName = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setSpotName(event.target.value)
@@ -87,15 +87,13 @@ const SpotFixturesRegister = () => {
         try {
           const result = await axios.post(url, json, { headers: headers })
           toast.success('地点の登録に成功')
-          //! 変更 (Myxogastria0808)
+          //登録情報を地点情報一覧に反映するために必要
           window.location.href = '/spot'
-          //! 変更 (Myxogastria0808)
           return result
         } catch (err) {
           toast.error('地点の登録に失敗')
-          //! 変更 (Myxogastria0808)
+          //登録情報を地点情報一覧に反映するために必要
           window.location.href = '/spot'
-          //! 変更 (Myxogastria0808)
         }
       }
     })()
@@ -177,4 +175,4 @@ const SpotFixturesRegister = () => {
   )
 }
 
-export default SpotFixturesRegister
+export default SpotRegister

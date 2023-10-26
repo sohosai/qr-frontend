@@ -4,7 +4,7 @@ import React from 'react'
 import Tabs from '@mui/material/Tabs'
 import Tab from '@mui/material/Tab'
 import Box from '@mui/material/Box'
-import SpotFixturesRegister from '@/pages/spot/register'
+import SpotRegister from '@/pages/spot/register'
 import SpotListShow from '@/pages/spot/list'
 
 type TabPanelProps = {
@@ -54,7 +54,7 @@ export default function SpotPage() {
           <SpotListShow />
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
-          <SpotFixturesRegister />
+          <SpotRegister />
         </CustomTabPanel>
       </Box>
     </>

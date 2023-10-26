@@ -96,14 +96,12 @@ const SpotList = ({ spot_list }: SpotListProps) => {
         try {
           await axios.delete(url)
           toast.success('削除に成功')
-          //! 変更 (Myxogastria0808)
+          //同一パスにリダイレクトをかけて、位置情報の一覧を再取得する。
           window.location.href = '/spot'
-          //! 変更 (Myxogastria0808)
         } catch (err) {
           toast.error('削除に失敗')
-          //! 変更 (Myxogastria0808)
+          //同一パスにリダイレクトをかけて、位置情報の一覧を再取得する。
           window.location.href = '/spot'
-          //! 変更 (Myxogastria0808)
         }
       })()
     }

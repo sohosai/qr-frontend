@@ -11,6 +11,7 @@ import Header from '@/components/Header'
 import { Area, Spot, area2string, string2area } from '@/types'
 import axios from 'axios'
 import { toast } from 'react-toastify'
+import { Box } from '@mui/material'
 
 const StyledMain = styled.main.withConfig({
   displayName: 'StyledMain',
@@ -112,15 +113,13 @@ const SpotEdit = () => {
         try {
           const result = await axios.post(url, json, { headers: headers })
           toast.success('地点情報の編集に成功')
-          //! 変更 (Myxogastria0808)
+          //位置情報ページに誘導するために必要
           router.replace(`/spot`)
-          //! 変更 (Myxogastria0808)
           return result
         } catch (err) {
           toast.error('地点情報の編集に失敗')
-          //! 変更 (Myxogastria0808)
+          //位置情報ページに誘導するために必要
           router.replace(`/spot`)
-          //! 変更 (Myxogastria0808)
         }
       }
     })()
@@ -134,65 +133,67 @@ const SpotEdit = () => {
   return (
     <>
       <Header />
+      <Box sx={{ width: '100%', height: '120px' }}></Box>
+      <Box sx={{ width: '100%', maxWidth: '1024px', m: 'auto' }}>
+        <StyledMain>
+          <h1>地点情報の登録</h1>
+          <div className='SpotNameInput'>
+            <Item label='地点の名称' value={spotName} />
+          </div>
+          <div className='AreaSelect'>
+            <Select
+              label='エリア'
+              required={true}
+              initial={initialAreaName}
+              options={[
+                '第一エリア',
+                '第二エリア',
+                '第三エリア',
+                '中央図書館',
+                '石の広場',
+                '医学エリア',
+                '体育芸術エリア',
+                '春日エリア',
+                '一の矢',
+                '平砂',
+                '追越',
+              ]}
+              onChange={onChangeAreaName}
+            />
+          </div>
+          <div className='BuildingInput'>
+            <TextInput
+              label='建物名'
+              required={false}
+              placeholder='3C棟'
+              value={building}
+              onChange={onChangeBuilding}
+            />
+          </div>
+          <div className='FloorInput'>
+            <TextInput
+              label='階数'
+              required={false}
+              placeholder='2'
+              value={floor}
+              onChange={onChangeFloor}
+            />
+          </div>
+          <div className='RoomInput'>
+            <TextInput
+              label='部屋番号'
+              required={false}
+              placeholder='3C213'
+              value={room}
+              onChange={onChangeRoom}
+            />
+          </div>
 
-      <StyledMain>
-        <h1>地点情報の登録</h1>
-        <div className='SpotNameInput'>
-          <Item label='地点の名称' value={spotName} />
-        </div>
-        <div className='AreaSelect'>
-          <Select
-            label='エリア'
-            required={true}
-            initial={initialAreaName}
-            options={[
-              '第一エリア',
-              '第二エリア',
-              '第三エリア',
-              '中央図書館',
-              '石の広場',
-              '医学エリア',
-              '体育芸術エリア',
-              '春日エリア',
-              '一の矢',
-              '平砂',
-              '追越',
-            ]}
-            onChange={onChangeAreaName}
-          />
-        </div>
-        <div className='BuildingInput'>
-          <TextInput
-            label='建物名'
-            required={false}
-            placeholder='3C棟'
-            value={building}
-            onChange={onChangeBuilding}
-          />
-        </div>
-        <div className='FloorInput'>
-          <TextInput
-            label='階数'
-            required={false}
-            placeholder='2'
-            value={floor}
-            onChange={onChangeFloor}
-          />
-        </div>
-        <div className='RoomInput'>
-          <TextInput
-            label='部屋番号'
-            required={false}
-            placeholder='3C213'
-            value={room}
-            onChange={onChangeRoom}
-          />
-        </div>
-
-        <div className='SpotRegisterButton'>
-          <SystemButton onClick={onClickRegisterButton} disabled={validButton()} text='更新' />
-        </div>
-      </StyledMain>
+          <div className='SpotRegisterButton'>
+            <SystemButton onClick={onClickRegisterButton} disabled={validButton()} text='更新' />
+          </div>
+        </StyledMain>
+      </Box>
     </>
   )
 }

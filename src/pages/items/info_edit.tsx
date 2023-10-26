@@ -21,6 +21,7 @@ import {
 } from '@/types'
 import axios from 'axios'
 import { toast } from 'react-toastify'
+import { Box } from '@mui/material'
 
 const StyledMain = styled.main.withConfig({
   displayName: 'StyledMain',
@@ -222,109 +223,106 @@ const FixturesEdit = () => {
   return (
     <>
       <Header />
-      <CssBaseline />
-      <Head>
-        <title>物品の編集 | QR</title>
-        <meta name='description' content='物品管理' />
-        <link rel='icon' href='/favicon.ico' />
-      </Head>
-      <StyledMain>
-        <h1>物品情報の編集</h1>
-        <div className='QRColorID'>
-          <TextInput
-            label='QR ID'
-            required={true}
-            placeholder='x234'
-            value={qrID}
-            onChange={onChangeQRID}
-          />
-        </div>
-        <div className='QRColorSelect'>
-          <Select
-            label='QRコードカラー（QRコード実物を見て入力してください）'
-            required={true}
-            initial={initialQRColor}
-            options={['赤', '青', '緑', '橙', '紫', '水', '桃', '黄', '茶']}
-            onChange={onChangeQRColor}
-          />
-        </div>
-        <div className='FixturesNameTextInput'>
-          <TextInput
-            label='物品名'
-            required={true}
-            placeholder='LANケーブル 100m'
-            value={fixturesName}
-            onChange={onChangeFixturesName}
-          />
-        </div>
-        <div className='FixturesModelNumberTextInput'>
-          <TextInput
-            label='型番'
-            required={false}
-            placeholder='SLIK F153'
-            value={modelNumber}
-            onChange={onChangeModelNumber}
-          />
-        </div>
-        <div className='fixturesDescriptionTextArea'>
-          <TextArea
-            label='物品詳細'
-            required={false}
-            placeholder='赤色ケース・緑色パッチシール貼り付け済み'
-            text={fixturesDescription}
-            onChange={onChangeFixturesDescription}
-          />
-        </div>
-        <div className='fixturesRepositoryOption'>
-          <Select
-            label='格納場所'
-            required={true}
-            initial={initialRepository}
-            options={['101号室', '102号室', '206号室']}
-            onChange={onChangeRepository}
-          />
-        </div>
-        <div className='FixturesParentIDTextInput'>
-          <TextInput
-            label='親物品ID'
-            required={true}
-            placeholder='root・root-袋・9E4Q'
-            value={parentID}
-            onChange={onChangeParentID}
-          />
-        </div>
-        <div className='fixturesNoteTextArea'>
-          <TextArea
-            label='備考を入力'
-            required={false}
-            placeholder='22からの引継ぎ'
-            text={note}
-            onChange={onChangeNote}
-          />
-        </div>
-        <div className='FixturesUsageTextInput'>
-          <TextInput
-            label='使用用途'
-            required={false}
-            placeholder='生中継'
-            value={usage}
-            onChange={onChangeUsage}
-          />
-        </div>
-        <div className='FixturesUsageSeasonTextInput'>
-          <TextInput
-            label='使用時期'
-            required={false}
-            placeholder='当日'
-            value={usageSeason}
-            onChange={onChangeUsageSeason}
-          />
-        </div>
+      <Box sx={{ width: '100%', height: '120px' }}></Box>
+      <Box sx={{ width: '100%', maxWidth: '1024px', m: 'auto' }}>
+        <StyledMain>
+          <h1>物品情報の編集</h1>
+          <div className='QRColorID'>
+            <TextInput
+              label='QR ID'
+              required={true}
+              placeholder='x234'
+              value={qrID}
+              onChange={onChangeQRID}
+            />
+          </div>
+          <div className='QRColorSelect'>
+            <Select
+              label='QRコードカラー（QRコード実物を見て入力してください）'
+              required={true}
+              initial={initialQRColor}
+              options={['赤', '青', '緑', '橙', '紫', '水', '桃', '黄', '茶']}
+              onChange={onChangeQRColor}
+            />
+          </div>
+          <div className='FixturesNameTextInput'>
+            <TextInput
+              label='物品名'
+              required={true}
+              placeholder='LANケーブル 100m'
+              value={fixturesName}
+              onChange={onChangeFixturesName}
+            />
+          </div>
+          <div className='FixturesModelNumberTextInput'>
+            <TextInput
+              label='型番'
+              required={false}
+              placeholder='SLIK F153'
+              value={modelNumber}
+              onChange={onChangeModelNumber}
+            />
+          </div>
+          <div className='fixturesDescriptionTextArea'>
+            <TextArea
+              label='物品詳細'
+              required={false}
+              placeholder='赤色ケース・緑色パッチシール貼り付け済み'
+              text={fixturesDescription}
+              onChange={onChangeFixturesDescription}
+            />
+          </div>
+          <div className='fixturesRepositoryOption'>
+            <Select
+              label='格納場所'
+              required={true}
+              initial={initialRepository}
+              options={['101号室', '102号室', '206号室']}
+              onChange={onChangeRepository}
+            />
+          </div>
+          <div className='FixturesParentIDTextInput'>
+            <TextInput
+              label='親物品ID'
+              required={true}
+              placeholder='root・root-袋・9E4Q'
+              value={parentID}
+              onChange={onChangeParentID}
+            />
+          </div>
+          <div className='fixturesNoteTextArea'>
+            <TextArea
+              label='備考を入力'
+              required={false}
+              placeholder='22からの引継ぎ'
+              text={note}
+              onChange={onChangeNote}
+            />
+          </div>
+          <div className='FixturesUsageTextInput'>
+            <TextInput
+              label='使用用途'
+              required={false}
+              placeholder='生中継'
+              value={usage}
+              onChange={onChangeUsage}
+            />
+          </div>
+          <div className='FixturesUsageSeasonTextInput'>
+            <TextInput
+              label='使用時期'
+              required={false}
+              placeholder='当日'
+              value={usageSeason}
+              onChange={onChangeUsageSeason}
+            />
+          </div>
 
-        <div className='FixturesRegisterButton'>
-          <SytemButton onClick={onClickRegisterButton} disabled={validButton()} text='更新' />
-        </div>
-      </StyledMain>
+          <div className='FixturesRegisterButton'>
+            <SytemButton onClick={onClickRegisterButton} disabled={validButton()} text='更新' />
+          </div>
+        </StyledMain>
+      </Box>
     </>
   )
 }

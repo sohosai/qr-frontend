@@ -15,6 +15,7 @@ import Button from '@mui/material/Button'
 import ListItemButton from '@mui/material/ListItemButton'
 import ListItemText from '@mui/material/ListItemText'
 import { useRouter } from 'next/router'
+import Link from 'next/link'
 
 const DrawerHeader = styled('div')(({ theme }) => ({
   display: 'flex',
@@ -26,13 +27,11 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false)
-  //!変更したよ~~~~~~~~
   const router = useRouter()
-  //!変更したよ~~~~~~~~
   return (
-    <Box sx={{ flexGrow: 1 }}>
+    <Box sx={{ flexGrow: 1, position: 'fixed', width: '100%', zIndex: '1' }}>
       <AppBar position='static' color='default'>
-        <Toolbar>
+        <Toolbar sx={{ width: '100%', maxWidth: '1110px', m: 'auto' }}>
           <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}>
             <Button
               onClick={() => {
@@ -53,11 +52,27 @@ const Header = () => {
               </p>
             </Button>
           </Typography>
+          <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}></Typography>
+          <Box sx={{ display: 'flex' }} className='header-PC'>
+            <Link href={'/'} className='p-5 text-base font-bold text-gray-800'>
+              物品検索
+            </Link>
+            <Link href={'/checkout-return'} className='p-5 text-base font-bold text-gray-800'>
+              貸出 / 返却
+            </Link>
+            <Link href={'/register-item'} className='p-5 text-base font-bold text-gray-800'>
+              物品登録
+            </Link>
+            <Link href={'/spot'} className='p-5 text-base font-bold text-gray-800'>
+              位置情報
+            </Link>
+          </Box>
           <IconButton
             size='large'
             edge='end'
             color='inherit'
             aria-label='menu'
+            className='md:hidden'
             sx={{ mr: 2 }}
             onClick={() => {
               setMenuOpen(true)
@@ -72,6 +87,7 @@ const Header = () => {
           onClose={() => {
             setMenuOpen(false)
           }}
+          sx={{ zindex: '2' }}
         >
           <DrawerHeader>
             <IconButton

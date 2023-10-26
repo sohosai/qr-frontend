@@ -21,12 +21,12 @@ const QRListPdf = forwardRef<HTMLDivElement, ChildProps>(({ qrs }, ref) => {
       style={{
         display: 'flex',
         flexWrap: 'wrap',
-        width: '100vw',
+        width: '100%',
       }}
     >
       {qrs.map((qr) => {
         return (
-          <div style={{ margin: '10px' }} key={qr.id}>
+          <div style={{ margin: 'auto' }} key={qr.id}>
             <QRCode qr={qr} />
           </div>
         )
