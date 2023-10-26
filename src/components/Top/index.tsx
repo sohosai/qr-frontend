@@ -15,9 +15,9 @@ export default function Top() {
   return (
     <>
       <Box sx={{ width: '100%', height: '150px' }}></Box>
-      <div className='block p-10 text-center text-3xl'>
+      <div style={{ fontSize: '36px' }} className='block p-10 text-center'>
         <span className='inline-block'>物品管理</span>
-        <span className='inline-block'>アプリケーション</span>
+        <span className='inline-block'>アプリ</span>
       </div>
       <Box sx={{ width: '100%', height: '50px' }}></Box>
       <Box sx={{ width: '100%', m: 'auto', maxWidth: '1024px' }}>
@@ -48,9 +48,13 @@ export default function Top() {
                 className='h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14'
               />
             </IconButton>
-            検索
-            <br />
-            物品を検索します。
+            <p style={{ margin: 0 }}>
+              <span style={{ fontSize: '18px' }} className='font-bold'>
+                検索
+              </span>
+              <br />
+              <span>物品を検索します。</span>
+            </p>
           </Stack>
 
           <Stack
@@ -73,9 +77,13 @@ export default function Top() {
                 className='h-10 w-10 max-w-full sm:h-12 sm:w-12 md:h-14 md:w-14'
               />
             </IconButton>
-            貸出 / 返却
-            <br />
-            物品の貸出 / 返却用QRコードを読み取ります。
+            <p style={{ margin: 0 }}>
+              <span style={{ fontSize: '18px' }} className='font-bold'>
+                貸出 / 返却
+              </span>
+              <br />
+              <span>物品の貸出 / 返却用QRコードを読み取ります。</span>
+            </p>
           </Stack>
 
           <Stack
@@ -95,9 +103,13 @@ export default function Top() {
             >
               <AddIcon fontSize='inherit' className='h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14' />
             </IconButton>
-            登録
-            <br />
-            物品登録・QRコードの印刷できます。
+            <p style={{ margin: 0 }}>
+              <span style={{ fontSize: '18px' }} className='font-bold'>
+                登録
+              </span>
+              <br />
+              <span>物品登録・QRコードの印刷できます。</span>
+            </p>
           </Stack>
 
           <Stack
@@ -117,9 +129,13 @@ export default function Top() {
             >
               <RoomIcon fontSize='inherit' className='h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14' />
             </IconButton>
-            位置情報
-            <br />
-            物品の位置を管理します。
+            <p style={{ margin: 0 }}>
+              <span style={{ fontSize: '18px' }} className='font-bold'>
+                位置情報
+              </span>
+              <br />
+              <span>物品の位置を管理します。</span>
+            </p>
           </Stack>
         </Grid>
       </Box>
