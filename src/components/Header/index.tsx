@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useState } from 'react'
 import { styled } from '@mui/material/styles'
 import Box from '@mui/material/Box'
@@ -53,33 +55,36 @@ const Header = () => {
             </Button>
           </Typography>
           <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}></Typography>
-          <Box sx={{ display: 'flex' }} className='header-PC'>
-            <Link href={'/'} className='p-5 text-base font-bold text-gray-800'>
-              物品検索
-            </Link>
-            <Link href={'/checkout-return'} className='p-5 text-base font-bold text-gray-800'>
-              貸出 / 返却
-            </Link>
-            <Link href={'/register-item'} className='p-5 text-base font-bold text-gray-800'>
-              物品登録
-            </Link>
-            <Link href={'/spot'} className='p-5 text-base font-bold text-gray-800'>
-              位置情報
-            </Link>
-          </Box>
-          <IconButton
-            size='large'
-            edge='end'
-            color='inherit'
-            aria-label='menu'
-            className='md:hidden'
-            sx={{ mr: 2 }}
-            onClick={() => {
-              setMenuOpen(true)
-            }}
-          >
-            <MenuIcon />
-          </IconButton>
+          <div className='header-PC'>
+            <Box sx={{ display: 'flex' }}>
+              <Link href={'/'} className='p-5 text-base font-bold text-gray-800'>
+                物品検索
+              </Link>
+              <Link href={'/checkout-return'} className='p-5 text-base font-bold text-gray-800'>
+                貸出 / 返却
+              </Link>
+              <Link href={'/register-item'} className='p-5 text-base font-bold text-gray-800'>
+                物品登録
+              </Link>
+              <Link href={'/spot'} className='p-5 text-base font-bold text-gray-800'>
+                位置情報
+              </Link>
+            </Box>
+          </div>
+          <div className='md:hidden'>
+            <IconButton
+              size='large'
+              edge='end'
+              color='inherit'
+              aria-label='menu'
+              sx={{ mr: 2 }}
+              onClick={() => {
+                setMenuOpen(true)
+              }}
+            >
+              <MenuIcon />
+            </IconButton>
+          </div>
         </Toolbar>
         <Drawer
           anchor='right'
