@@ -43,10 +43,7 @@ export default function Top() {
               }}
               onClick={() => router.push('/')}
             >
-              <SearchIcon
-                fontSize='inherit'
-                className='h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14'
-              />
+              <SearchIcon fontSize='inherit' className='h-12 w-12' />
             </IconButton>
             <p style={{ margin: 0 }}>
               <span style={{ fontSize: '18px' }} className='font-bold'>
@@ -72,10 +69,7 @@ export default function Top() {
               }}
               onClick={() => router.push('/checkout-return')}
             >
-              <CategoryIcon
-                fontSize='inherit'
-                className='h-10 w-10 max-w-full sm:h-12 sm:w-12 md:h-14 md:w-14'
-              />
+              <CategoryIcon fontSize='inherit' className='h-12 w-12' />
             </IconButton>
             <p style={{ margin: 0 }}>
               <span style={{ fontSize: '18px' }} className='font-bold'>
@@ -101,7 +95,7 @@ export default function Top() {
               }}
               onClick={() => router.push('/register-item')}
             >
-              <AddIcon fontSize='inherit' className='h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14' />
+              <AddIcon fontSize='inherit' className='h-12 w-12' />
             </IconButton>
             <p style={{ margin: 0 }}>
               <span style={{ fontSize: '18px' }} className='font-bold'>
@@ -127,7 +121,7 @@ export default function Top() {
               }}
               onClick={() => router.push('/spot')}
             >
-              <RoomIcon fontSize='inherit' className='h-10 w-10 sm:h-12 sm:w-12 md:h-14 md:w-14' />
+              <RoomIcon fontSize='inherit' className='h-12 w-12' />
             </IconButton>
             <p style={{ margin: 0 }}>
               <span style={{ fontSize: '18px' }} className='font-bold'>
