@@ -9,7 +9,7 @@ type ButtonProp = {
 
 export default function SystemButton({ disabled, text, onClick }: ButtonProp) {
   let bgColorClassName = disabled ? 'bg-neutral-300' : 'bg-violet-200'
-  let textColorClassName = disabled ? 'text-neutral-500' : 'text-violet-700'
+  let textColorClassName = disabled ? 'text-neutral-500' : 'text-sky-700'
   return (
     <Button
       variant='outlined'
