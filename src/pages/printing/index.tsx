@@ -8,6 +8,7 @@ import { initQRCode, QRCodeObject } from '@/lib/QRCode'
 import { useState } from 'react'
 import styled from 'styled-components'
 import { Box } from '@mui/material'
+import { toast } from 'react-toastify'
 
 const StyledMain = styled.main.withConfig({
   displayName: 'StyledMain',
@@ -29,7 +30,9 @@ const StyledMain = styled.main.withConfig({
 
 export default function Printing() {
   const { targetRef, pdfHandler } = usePdf()
+  const [clicked, setClicked] = useState(0)
   const onClickResetUuid = (): void => {
+    setClicked(1)
     let qrids = []
     for (let _ = 0; _ < 70; _++) {
       qrids.push(initQRCode())
@@ -39,7 +42,13 @@ export default function Printing() {
   const [qrs, setQRIDs] = useState<QRCodeObject[]>([])
 
   const onClickDownloadPdf = (): void => {
-    pdfHandler({ name: 'test' })
+    if (clicked === 0) {
+      toast.error('QRコードが生成されていません。')
+    } else if (clicked === 1) {
+      pdfHandler({ name: 'test' })
+    } else {
+      toast.error('予期せぬエラーが発生しました。')
+    }
   }
 
   return (
@@ -49,6 +58,7 @@ export default function Printing() {
         <p>未印刷のQRコードをまとめて印刷することができます</p>
         <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
           <SystemButton disabled={false} onClick={onClickResetUuid} text='生成 /再生成' />
+          <div style={{ height: '1px', width: '12px' }}></div>
           <SystemButton disabled={false} onClick={onClickDownloadPdf} text='ダウンロード' />
         </Box>
         <QRListPdf ref={targetRef} qrs={qrs} />
