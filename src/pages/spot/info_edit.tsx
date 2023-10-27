@@ -11,6 +11,7 @@ import { Area, Spot, area2string, string2area } from '@/types'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import { Box } from '@mui/material'
+import CustomHead from '@/components/CustomHead'
 
 const StyledMain = styled.main.withConfig({
   displayName: 'StyledMain',
@@ -137,6 +138,7 @@ const SpotEdit = () => {
   }
   return (
     <>
+      <CustomHead />
       <Header />
       <Box sx={{ width: '100%', height: '120px' }}></Box>
       <Box sx={{ width: '100%', maxWidth: '1024px', m: 'auto' }}>
