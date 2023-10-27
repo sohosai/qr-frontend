@@ -4,6 +4,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import CssBaseline from '@mui/material/CssBaseline'
+import CustomHead from '@/components/CustomHead'
 
 import TextInput from '@/components/TextInput'
 import TextArea from '@/components/TextArea'
@@ -222,6 +223,7 @@ const FixturesEdit = () => {
   }
   return (
     <>
+      <CustomHead />
       <Header />
       <Box sx={{ width: '100%', height: '120px' }}></Box>
       <Box sx={{ width: '100%', maxWidth: '1024px', m: 'auto' }}>

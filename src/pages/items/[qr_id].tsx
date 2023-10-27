@@ -19,6 +19,7 @@ import styled from 'styled-components'
 import Link from 'next/link'
 import { Box } from '@mui/material'
 import LinkButton from '@/components/LinkButton'
+import CustomHead from '@/components/CustomHead'
 
 const StyledMain = styled.main.withConfig({
   displayName: 'StyledMain',
@@ -91,6 +92,7 @@ const FixturesShow = () => {
   if (queried) {
     return (
       <>
+        <CustomHead />
         <Header />
         <Box sx={{ width: '100%', height: '120px' }}></Box>
         <StyledMain>
@@ -189,6 +191,7 @@ const FixturesShow = () => {
   } else {
     return (
       <>
+        <CustomHead />
         <Header />
         <Box sx={{ width: '100%', height: '120px' }}></Box>
         <Box sx={{ width: '100%', maxWidth: '1024px', m: 'auto' }}>
