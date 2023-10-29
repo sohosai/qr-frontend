@@ -6,6 +6,7 @@ import { toast } from 'react-toastify'
 import styled from 'styled-components'
 import SpotList from '@/components/SpotList'
 import Head from 'next/head'
+import { get_spot_list } from '@/lib/api'
 
 const StyledMain = styled.main.withConfig({
   displayName: 'StyledMain',
@@ -44,19 +45,14 @@ const SpotListShow = () => {
 
   useEffect(() => {
     ;(async () => {
-      const api_url = process.env.NEXT_PUBLIC_QR_API_URL
-      if (api_url) {
-        try {
-          const get_spot_list_url = api_url + '/get_spot_list'
-          const get_spot_list_result = await axios.get(get_spot_list_url)
-          const spot_list: Spot[] = get_spot_list_result.data
-          setSpotList(spot_list)
-        } catch (err) {
-          toast.error('場所情報のリストの取得に失敗しました')
-          setEnvCheck(!envCheck)
-        }
-      } else {
+      const spot_list = await get_spot_list()
+      if (spot_list == 'auth') {
+        toast.error('認証')
+      } else if (spot_list == 'env' || spot_list == 'notfound' || spot_list == 'server') {
+        toast.error('場所情報のリストの取得に失敗しました')
         setEnvCheck(!envCheck)
+      } else {
+        setSpotList(spot_list)
       }
     })()
   }, [envCheck])

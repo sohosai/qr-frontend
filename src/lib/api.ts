@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { ApiResult, Lending, Spot, Fixtures } from '@/types'
+import { ApiResult, Lending, Spot, Fixtures, SearchFixtures } from '@/types'
 
 const get_auth_token = () => {
   return localStorage.getItem('auth-token')
@@ -44,7 +44,9 @@ export async function insert_fixtures(fixtures: Fixtures): Promise<Result<void>>
   if (api_url && auth_token) {
     const url = `${api_url}/insert_fixtures`
     const res = axios
-      .post(url, fixtures, { headers: { Authorization: `Bearer ${auth_token}` } })
+      .post(url, fixtures, {
+        headers: { Authorization: `Bearer ${auth_token}`, 'Content-Type': 'application/json' },
+      })
       .then(function (response) {
         const result: ApiResult<void> = response.data
         return result_handling(result)
@@ -71,7 +73,9 @@ export async function update_fixtures(fixtures: Fixtures): Promise<Result<void>>
   if (api_url && auth_token) {
     const url = `${api_url}/update_fixtures`
     const res = axios
-      .post(url, fixtures, { headers: { Authorization: `Bearer ${auth_token}` } })
+      .post(url, fixtures, {
+        headers: { Authorization: `Bearer ${auth_token}`, 'Content-Type': 'application/json' },
+      })
       .then(function (response) {
         const result: ApiResult<void> = response.data
         return result_handling(result)
@@ -149,19 +153,19 @@ export async function get_fixtures(id: id): Promise<Result<Fixtures>> {
   }
 }
 
-export async function search_fixtures(text: string): Promise<Result<Fixtures>> {
+export async function search_fixtures(text: string): Promise<Result<SearchFixtures[]>> {
   const api_url = process.env.NEXT_PUBLIC_QR_API_URL
   if (api_url) {
     const url = `${api_url}/search_fixtures?keywords=${text}`
     const res = axios
       .get(url)
       .then(function (response) {
-        const result: ApiResult<Fixtures> = response.data
+        const result: ApiResult<SearchFixtures[]> = response.data
         return result_handling(result)
       })
       .catch(function (error) {
         if (error.response) {
-          const result: ApiResult<Fixtures> = error.response.data
+          const result: ApiResult<SearchFixtures[]> = error.response.data
           return result_handling(result)
         } else {
           return 'server'
@@ -179,7 +183,9 @@ export async function insert_lending(lending: Lending): Promise<Result<void>> {
   if (api_url && auth_token) {
     const url = `${api_url}/insert_lending`
     const res = axios
-      .post(url, lending, { headers: { Authorization: `Bearer ${auth_token}` } })
+      .post(url, lending, {
+        headers: { Authorization: `Bearer ${auth_token}`, 'Content-Type': 'application/json' },
+      })
       .then(function (response) {
         const result: ApiResult<void> = response.data
         return result_handling(result)
@@ -320,7 +326,9 @@ export async function insert_spot(spot: Spot): Promise<Result<void>> {
   if (api_url && auth_token) {
     const url = `${api_url}/insert_spot`
     const res = axios
-      .post(url, spot, { headers: { Authorization: `Bearer ${auth_token}` } })
+      .post(url, spot, {
+        headers: { Authorization: `Bearer ${auth_token}`, 'Content-Type': 'application/json' },
+      })
       .then(function (response) {
         const result: ApiResult<void> = response.data
         return result_handling(result)
@@ -347,7 +355,9 @@ export async function update_spot(spot: Spot): Promise<Result<void>> {
   if (api_url && auth_token) {
     const url = `${api_url}/update_spot`
     const res = axios
-      .post(url, spot, { headers: { Authorization: `Bearer ${auth_token}` } })
+      .post(url, spot, {
+        headers: { Authorization: `Bearer ${auth_token}`, 'Content-Type': 'application/json' },
+      })
       .then(function (response) {
         const result: ApiResult<void> = response.data
         return result_handling(result)
@@ -368,10 +378,10 @@ export async function update_spot(spot: Spot): Promise<Result<void>> {
   }
 }
 
-export async function get_spot(): Promise<Result<Spot>> {
+export async function get_spot(name: string): Promise<Result<Spot>> {
   const api_url = process.env.NEXT_PUBLIC_QR_API_URL
   if (api_url) {
-    const url = `${api_url}/get_spot`
+    const url = `${api_url}/get_spot?name=${name}`
     const res = axios
       .get(url)
       .then(function (response) {

@@ -25,6 +25,7 @@ import IconButton from '@mui/material/IconButton'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import { Box } from '@mui/material'
+import { insert_fixtures } from '@/lib/api'
 
 const StyledMain = styled.main.withConfig({
   displayName: 'StyledMain',
@@ -132,20 +133,14 @@ const FixturesRegister = () => {
     }
 
     ;(async () => {
-      const api_url = process.env.NEXT_PUBLIC_QR_API_URL
-      if (api_url) {
-        const url = api_url + '/insert_fixtures'
-        const headers = {
-          'Content-Type': 'application/json',
-        }
-        try {
-          const result = await axios.post(url, json, { headers: headers })
-          toast.success('登録に成功')
-          router.replace(`/items/${qrID}`)
-          return result
-        } catch (err) {
-          toast.error('登録に失敗')
-        }
+      const res = await insert_fixtures(json)
+      if (res == 'auth') {
+        toast.error('認証')
+      } else if (res == 'env' || res == 'notfound' || res == 'server') {
+        toast.error('登録に失敗')
+      } else {
+        toast.success('登録に成功')
+        router.replace(`/items/${qrID}`)
       }
     })()
 

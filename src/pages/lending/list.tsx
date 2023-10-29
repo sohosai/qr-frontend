@@ -7,6 +7,7 @@ import { toast } from 'react-toastify'
 import styled from 'styled-components'
 import LendingList from '@/components/LendingList'
 import Head from 'next/head'
+import { get_lending_list } from '@/lib/api'
 
 const StyledMain = styled.main.withConfig({
   displayName: 'StyledMain',
@@ -40,19 +41,14 @@ const LendingListShow = () => {
 
   useEffect(() => {
     ;(async () => {
-      const api_url = process.env.NEXT_PUBLIC_QR_API_URL
-      if (api_url) {
-        try {
-          const get_lending_list_url = api_url + '/get_lending_list'
-          const get_lending_list_result = await axios.get(get_lending_list_url)
-          const lending_list: Lending[] = get_lending_list_result.data
-          setLendingList(lending_list)
-          console.log(lendingList)
-        } catch (err) {
-          toast.error('貸出中の物品のリストの取得に失敗しました')
-          setLendingList([])
-        }
+      const lending_list = await get_lending_list()
+      if (lending_list == 'auth') {
+        toast.error('認証')
+      } else if (lending_list == 'env' || lending_list == 'notfound' || lending_list == 'server') {
+        toast.error('貸出中の物品のリストの取得に失敗しました')
+        setLendingList([])
       } else {
+        setLendingList(lending_list)
       }
     })()
   }, [router])

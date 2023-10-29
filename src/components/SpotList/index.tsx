@@ -18,7 +18,7 @@ import DialogActions from '@mui/material/DialogActions'
 import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import { toast } from 'react-toastify'
-import axios from 'axios'
+import { delete_spot } from '@/lib/api'
 
 /**
  * FixturesProps型の作成
@@ -89,22 +89,20 @@ const SpotList = ({ spot_list }: SpotListProps) => {
   }
 
   const deleteSpot = (name: string): void => {
-    const api_url = process.env.NEXT_PUBLIC_QR_API_URL
-    if (api_url) {
-      const url = api_url + '/delete_spot?name=' + name
-      ;(async () => {
-        try {
-          await axios.delete(url)
-          toast.success('削除に成功')
-          //同一パスにリダイレクトをかけて、位置情報の一覧を再取得する。
-          window.location.href = '/spot'
-        } catch (err) {
-          toast.error('削除に失敗')
-          //同一パスにリダイレクトをかけて、位置情報の一覧を再取得する。
-          window.location.href = '/spot'
-        }
-      })()
-    }
+    ;(async () => {
+      const res = await delete_spot(name)
+      if (res == 'auth') {
+        toast.error('認証')
+      } else if (res == 'env' || res == 'notfound' || res == 'server') {
+        toast.error('削除に失敗')
+        //同一パスにリダイレクトをかけて、位置情報の一覧を再取得する。
+        window.location.href = '/spot'
+      } else {
+        toast.success('削除に成功')
+        //同一パスにリダイレクトをかけて、位置情報の一覧を再取得する。
+        window.location.href = '/spot'
+      }
+    })()
   }
 
   return (

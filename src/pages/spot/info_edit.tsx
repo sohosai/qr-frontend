@@ -12,6 +12,7 @@ import axios from 'axios'
 import { toast } from 'react-toastify'
 import { Box } from '@mui/material'
 import CustomHead from '@/components/CustomHead'
+import { get_spot, update_spot } from '@/lib/api'
 
 const StyledMain = styled.main.withConfig({
   displayName: 'StyledMain',
@@ -73,21 +74,20 @@ const SpotEdit = () => {
     if (typeof route.query.name !== 'string') return
 
     const spot_name = route.query.name
-    const api_url = process.env.NEXT_PUBLIC_QR_API_URL
-    if (api_url && spot_name) {
+    if (spot_name) {
       ;(async () => {
-        const url_spot = api_url + '/get_spot?name=' + spot_name
-        try {
-          const response_spot = await axios.get(url_spot)
-          const spot_data: Spot = response_spot.data
+        const spot_data = await get_spot(spot_name)
+        if (spot_data == 'auth') {
+          toast.error('認証')
+        } else if (spot_data == 'env' || spot_data == 'notfound' || spot_data == 'server') {
+          toast.error('場所情報の取得に失敗')
+        } else {
           setSpotName(spot_data.name)
           setAreaName(area2string(spot_data.area))
           setInitialAreaName(area2string(spot_data.area))
           spot_data.building ? setBuilding(spot_data.building) : setBuilding('')
           spot_data.floor ? setFloor(spot_data.floor.toString()) : setFloor('')
           spot_data.room ? setRoom(spot_data.room) : setRoom('')
-        } catch (err) {
-          toast.error('場所情報の取得に失敗')
         }
       })()
     }
@@ -110,31 +110,19 @@ const SpotEdit = () => {
     }
 
     ;(async () => {
-      const api_url = process.env.NEXT_PUBLIC_QR_API_URL
-      if (api_url) {
-        const url = api_url + '/update_spot'
-        const headers = {
-          'Content-Type': 'application/json',
-        }
-        try {
-          const result = await axios.post(url, json, { headers: headers })
-          toast.success('地点情報の編集に成功')
-          //位置情報ページに誘導するために必要
-          router.replace(`/spot`)
-          return result
-        } catch (err) {
-          toast.error('地点情報の編集に失敗')
-          //位置情報ページに誘導するために必要
-          router.replace(`/spot`)
-        }
+      const res = await update_spot(json)
+      if (res == 'auth') {
+        toast.error('認証')
+      } else if (res == 'env' || res == 'notfound' || res == 'server') {
+        toast.success('地点情報の編集に成功')
+        //位置情報ページに誘導するために必要
+        router.replace(`/spot`)
+      } else {
+        toast.error('地点情報の編集に失敗')
+        //位置情報ページに誘導するために必要
+        router.replace(`/spot`)
       }
     })()
-
-    setSpotName('')
-    setAreaName('')
-    setBuilding('')
-    setFloor('')
-    setRoom('')
   }
   return (
     <>
