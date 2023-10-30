@@ -57,7 +57,6 @@ async function gen_api_fun<T, V>(
     if (is_auth) {
       const auth_token = get_auth_token()
       if (auth_token) {
-        console.log('auth token: ', auth_token)
         const headers = {
           Authorization: `Bearer ${auth_token}`,
           'Content-Type': 'application/json',
@@ -199,9 +198,9 @@ export async function delete_spot(name: string): Promise<Result<void>> {
 }
 
 export async function gen_passtoken(pass: string): Promise<Result<string>> {
+  console.log(pass)
   const api_url = process.env.NEXT_PUBLIC_QR_API_URL
-  const auth_token = get_auth_token()
-  if (api_url && auth_token) {
+  if (api_url) {
     const url = `${api_url}/gen_passtoken`
     const res = axios
       // とりあえず管理者権限で発行
@@ -209,6 +208,7 @@ export async function gen_passtoken(pass: string): Promise<Result<string>> {
       .post(url, null, { auth: { username: 'administrator', password: pass } })
       .then(function (response) {
         const result: ApiResult<string> = response.data
+        console.log(result)
         return result_handling(result)
       })
       .catch(function (error) {
@@ -221,8 +221,6 @@ export async function gen_passtoken(pass: string): Promise<Result<string>> {
         }
       })
     return res
-  } else if (!auth_token) {
-    return 'auth'
   } else {
     return 'env'
   }
