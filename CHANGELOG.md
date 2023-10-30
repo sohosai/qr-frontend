@@ -6,6 +6,10 @@
 
 ## [Unreleased]
 
+### Added
+
+- Apach-2.0ライセンスをつけた([\#26](https://github.com/sohosai/qr-frontend/issues/26), [\#136](https://github.com/sohosai/qr-frontend/pull/136))
+
 ## [2.0.0]- 2023-10-30
 
 ### Added
