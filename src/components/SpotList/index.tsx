@@ -98,7 +98,6 @@ const SpotList = ({ spot_list }: SpotListProps) => {
   const deleteSpot = (name: string): void => {
     ;(async () => {
       const res = await delete_spot(name)
-      console.log(res)
       if (res == 'auth') {
         setAuthOpen(true)
       } else if (res == 'env' || res == 'notfound' || res == 'server') {
