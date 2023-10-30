@@ -25,6 +25,8 @@ import IconButton from '@mui/material/IconButton'
 import axios from 'axios'
 import { toast } from 'react-toastify'
 import { Box } from '@mui/material'
+import { insert_fixtures } from '@/lib/api'
+import AuthDialog from '@/components/AuthDialog'
 
 const StyledMain = styled.main.withConfig({
   displayName: 'StyledMain',
@@ -52,6 +54,11 @@ const StyledMain = styled.main.withConfig({
  * 物品を登録できる
  */
 const FixturesRegister = () => {
+  const [authOpen, setAuthOpen] = useState(false)
+  const handleAuthDialogClose = (): void => {
+    setAuthOpen(false)
+  }
+
   const [isOpenQrReader, setIsOpenQrReader] = useState(false)
 
   const [qrID, setQRID] = useState('')
@@ -132,20 +139,14 @@ const FixturesRegister = () => {
     }
 
     ;(async () => {
-      const api_url = process.env.NEXT_PUBLIC_QR_API_URL
-      if (api_url) {
-        const url = api_url + '/insert_fixtures'
-        const headers = {
-          'Content-Type': 'application/json',
-        }
-        try {
-          const result = await axios.post(url, json, { headers: headers })
-          toast.success('登録に成功')
-          router.replace(`/items/${qrID}`)
-          return result
-        } catch (err) {
-          toast.error('登録に失敗')
-        }
+      const res = await insert_fixtures(json)
+      if (res == 'auth') {
+        setAuthOpen(true)
+      } else if (res == 'env' || res == 'notfound' || res == 'server') {
+        toast.error('登録に失敗')
+      } else {
+        toast.success('登録に成功')
+        router.replace(`/items/${qrID}`)
       }
     })()
 
@@ -283,6 +284,7 @@ const FixturesRegister = () => {
         <div className='FixturesRegisterButton'>
           <SystemButton onClick={onClickRegisterButton} disabled={validButton()} text='登録' />
         </div>
+        <AuthDialog is_open={authOpen} handleClose={handleAuthDialogClose} />
       </StyledMain>
     </>
   )

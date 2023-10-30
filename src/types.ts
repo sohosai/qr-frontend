@@ -269,3 +269,32 @@ export type Spot = {
   room: string | null
   note: string | null
 }
+
+/**
+ * APIを叩くと返ってくる値
+ */
+export type ApiResult<T> = {
+  ok: boolean
+  data: T | null
+  error_type: ApiErrType | null
+  error_message: string | null
+}
+
+export type ApiErrType =
+  | 'CouldNotFoundEnv'
+  | 'SearchEngineAddOrReplace'
+  | 'SearchEngineDelete'
+  | 'SearchEngineSearch'
+  | 'DatabaseAdd'
+  | 'DatabaseUpdate'
+  | 'DatabaseDelete'
+  | 'DatabaseGet'
+  | 'UrlQuery'
+  | 'Authorized'
+  | 'BrokenUuid'
+  | 'DatabaseNotFound'
+  | 'TokioRutime'
+  | 'ConnectionPool'
+  | 'Migrations'
+  | 'LoggingConfing'
+  | 'Serve'

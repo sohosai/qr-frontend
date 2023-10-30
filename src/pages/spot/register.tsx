@@ -9,6 +9,9 @@ import Select from '@/components/Select'
 import { Area, Spot, string2area } from '@/types'
 import axios from 'axios'
 import { toast } from 'react-toastify'
+import { insert_spot } from '@/lib/api'
+import router from 'next/router'
+import AuthDialog from '@/components/AuthDialog'
 
 const StyledMain = styled.main.withConfig({
   displayName: 'StyledMain',
@@ -36,6 +39,11 @@ const StyledMain = styled.main.withConfig({
  * 物品を登録できる
  */
 const SpotRegister = () => {
+  const [authOpen, setAuthOpen] = useState(false)
+  const handleAuthDialogClose = (): void => {
+    setAuthOpen(false)
+  }
+
   const [spotName, setSpotName] = useState('')
   const onChangeSpotName = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setSpotName(event.target.value)
@@ -83,23 +91,19 @@ const SpotRegister = () => {
     }
 
     ;(async () => {
-      const api_url = process.env.NEXT_PUBLIC_QR_API_URL
-      if (api_url) {
-        const url = api_url + '/insert_spot'
-        const headers = {
-          'Content-Type': 'application/json',
-        }
-        try {
-          const result = await axios.post(url, json, { headers: headers })
-          toast.success('地点の登録に成功')
-          //登録情報を地点情報一覧に反映するために必要
-          window.location.href = '/spot'
-          return result
-        } catch (err) {
-          toast.error('地点の登録に失敗')
-          //登録情報を地点情報一覧に反映するために必要
-          window.location.href = '/spot'
-        }
+      const res = await insert_spot(json)
+      if (res == 'auth') {
+        setAuthOpen(true)
+      } else if (res == 'env' || res == 'notfound' || res == 'server') {
+        toast.error('地点の登録に失敗')
+        //登録情報を地点情報一覧に反映するために必要
+        router.reload()
+        router.replace('/spot')
+      } else {
+        toast.success('地点の登録に成功')
+        //登録情報を地点情報一覧に反映するために必要
+        router.reload()
+        router.replace('/spot')
       }
     })()
 
@@ -186,6 +190,7 @@ const SpotRegister = () => {
         <div className='SpotRegisterButton'>
           <SystemButton onClick={onClickRegisterButton} disabled={validButton()} text='登録' />
         </div>
+        <AuthDialog is_open={authOpen} handleClose={handleAuthDialogClose} />
       </StyledMain>
     </>
   )

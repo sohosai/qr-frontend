@@ -8,9 +8,10 @@ import SystemButton from '@/components/SystemButton'
 import Header from '@/components/Header'
 import FixturesList from '@/components/FixturesList'
 import { Fixtures, SearchFixtures } from '@/types'
-import axios from 'axios'
 import { toast } from 'react-toastify'
 import { Box } from '@mui/material'
+import { search_fixtures } from '@/lib/api'
+import AuthDialog from '@/components/AuthDialog'
 
 const StyledMain = styled.main.withConfig({
   displayName: 'StyledMain',
@@ -43,6 +44,11 @@ const StyledMain = styled.main.withConfig({
  * 物品を検索する
  */
 const FixturesSearch = () => {
+  const [authOpen, setAuthOpen] = useState(false)
+  const handleAuthDialogClose = (): void => {
+    setAuthOpen(false)
+  }
+
   const [searchWords, setSearchWords] = useState('')
   const onChangeSearchWords = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setSearchWords(event.target.value)
@@ -63,36 +69,37 @@ const FixturesSearch = () => {
     //.join(',')
 
     ;(async () => {
-      const api_url = process.env.NEXT_PUBLIC_QR_API_URL
-      if (api_url) {
-        const url = api_url + '/search_fixtures?keywords=' + words
-        try {
-          const result = await axios.get(url)
-          const search_data_list: SearchFixtures[] = result.data
-          const fixtures_list = search_data_list
-            .sort((a, b) => {
-              const a_r = a.ranking
-              const b_r = b.ranking
-              if (a_r) {
-                if (b_r) {
-                  return b_r - a_r
-                } else {
-                  return 1
-                }
+      const search_data_list = await search_fixtures(words)
+      if (search_data_list == 'auth') {
+        setAuthOpen(true)
+      } else if (
+        search_data_list == 'env' ||
+        search_data_list == 'notfound' ||
+        search_data_list == 'server' ||
+        search_data_list == 'void'
+      ) {
+        toast.error('検索に失敗')
+      } else {
+        const fixtures_list = search_data_list
+          .sort((a, b) => {
+            const a_r = a.ranking
+            const b_r = b.ranking
+            if (a_r) {
+              if (b_r) {
+                return b_r - a_r
               } else {
-                if (b_r) {
-                  return -1
-                } else {
-                  return 0
-                }
+                return 1
               }
-            })
-            .map((s) => s.data)
-          setFixturesList(fixtures_list)
-          return result
-        } catch (err) {
-          toast.error('検索に失敗')
-        }
+            } else {
+              if (b_r) {
+                return -1
+              } else {
+                return 0
+              }
+            }
+          })
+          .map((s) => s.data)
+        setFixturesList(fixtures_list)
       }
     })()
   }
@@ -116,6 +123,7 @@ const FixturesSearch = () => {
           </div>
         </Box>
         <FixturesList fixtures_list={fixturesList}></FixturesList>
+        <AuthDialog is_open={authOpen} handleClose={handleAuthDialogClose} />
       </StyledMain>
     </>
   )

@@ -20,9 +20,10 @@ import {
   string2storage,
   storage2string,
 } from '@/types'
-import axios from 'axios'
 import { toast } from 'react-toastify'
 import { Box } from '@mui/material'
+import { get_fixtures, update_fixtures } from '@/lib/api'
+import AuthDialog from '@/components/AuthDialog'
 
 const StyledMain = styled.main.withConfig({
   displayName: 'StyledMain',
@@ -51,6 +52,11 @@ const StyledMain = styled.main.withConfig({
  */
 const FixturesEdit = () => {
   const router = useRouter()
+
+  const [authOpen, setAuthOpen] = useState(false)
+  const handleAuthDialogClose = (): void => {
+    setAuthOpen(false)
+  }
 
   const [fixtures, setFixtures] = useState<Fixtures | null>(null)
 
@@ -112,48 +118,51 @@ const FixturesEdit = () => {
     if (typeof router.query.fixtures_id !== 'string') return
 
     const fixtures_id = router.query.fixtures_id
-    const api_url = process.env.NEXT_PUBLIC_QR_API_URL
-    if (fixtures_id && api_url) {
+    if (fixtures_id) {
       console.log('called')
       ;(async () => {
-        const url_fixtures = api_url + '/get_fixtures?id=' + fixtures_id
-        console.log({ url_fixtures })
-        try {
-          const response_fixtures = await axios.get(url_fixtures)
-          const fixtures_data: Fixtures = response_fixtures.data
-          setFixtures(fixtures_data)
-          setQRID(fixtures_data.qr_id)
-          setQRColor(qrcolor2string(fixtures_data.qr_color))
-          setInitialQRColor(qrcolor2string(fixtures_data.qr_color))
-          setFixturesName(fixtures_data.name)
+        const fixtures_res = await get_fixtures({ id_type: 'FixturesId', id: fixtures_id })
+        if (fixtures_res == 'auth') {
+          setAuthOpen(true)
+        } else if (
+          fixtures_res == 'env' ||
+          fixtures_res == 'notfound' ||
+          fixtures_res == 'server' ||
+          fixtures_res == 'void'
+        ) {
+          toast.error('取得に失敗')
+        } else {
+          setFixtures(fixtures_res)
+          setQRID(fixtures_res.qr_id)
+          setQRColor(qrcolor2string(fixtures_res.qr_color))
+          setInitialQRColor(qrcolor2string(fixtures_res.qr_color))
+          setFixturesName(fixtures_res.name)
           {
-            fixtures_data.description
-              ? setFixturesDescription(fixtures_data.description)
+            fixtures_res.description
+              ? setFixturesDescription(fixtures_res.description)
               : setFixturesDescription('')
           }
           {
-            fixtures_data.model_number
-              ? setModelNumber(fixtures_data.model_number)
+            fixtures_res.model_number
+              ? setModelNumber(fixtures_res.model_number)
               : setModelNumber('')
           }
           {
-            fixtures_data.usage ? setUsage(fixtures_data.usage) : setUsage('')
+            fixtures_res.usage ? setUsage(fixtures_res.usage) : setUsage('')
           }
           {
-            fixtures_data.usage_season
-              ? setUsageSeason(fixtures_data.usage_season)
+            fixtures_res.usage_season
+              ? setUsageSeason(fixtures_res.usage_season)
               : setUsageSeason('')
           }
           {
-            setRepository(storage2string(fixtures_data.storage))
+            setRepository(storage2string(fixtures_res.storage))
           }
           {
-            setInitialRepository(storage2string(fixtures_data.storage))
+            setInitialRepository(storage2string(fixtures_res.storage))
           }
-          setNote(fixtures_data.note)
-          setParentID(fixtures_data.parent_id)
-        } catch (err) {
-          toast.error('URLが無効なため失敗')
+          setNote(fixtures_res.note)
+          setParentID(fixtures_res.parent_id)
         }
       })()
     }
@@ -190,21 +199,15 @@ const FixturesEdit = () => {
       }
 
       ;(async () => {
-        const api_url = process.env.NEXT_PUBLIC_QR_API_URL
-        if (api_url) {
-          const url = api_url + '/update_fixtures'
-          const headers = {
-            'Content-Type': 'application/json',
-          }
-          try {
-            const result = await axios.post(url, json, { headers: headers })
-            toast.success('更新に成功')
-            router.replace(`/items/${qrID}`)
-            return result
-          } catch (err) {
-            toast.error('更新に失敗')
-            router.replace(`/items/${qrID}`)
-          }
+        const res = await update_fixtures(json)
+        if (res == 'auth') {
+          setAuthOpen(true)
+        } else if (res == 'env' || res == 'notfound' || res == 'server') {
+          toast.error('更新に失敗')
+          router.replace(`/items/${qrID}`)
+        } else {
+          toast.success('更新に成功')
+          router.replace(`/items/${qrID}`)
         }
       })()
 
@@ -323,6 +326,7 @@ const FixturesEdit = () => {
           <div className='FixturesRegisterButton'>
             <SytemButton onClick={onClickRegisterButton} disabled={validButton()} text='更新' />
           </div>
+          <AuthDialog is_open={authOpen} handleClose={handleAuthDialogClose} />
         </StyledMain>
       </Box>
     </>

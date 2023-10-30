@@ -14,12 +14,13 @@ import DialogContentText from '@mui/material/DialogContentText'
 import Button from '@mui/material/Button'
 import IconButton from '@mui/material/IconButton'
 import { toast } from 'react-toastify'
-import axios from 'axios'
 import styled from 'styled-components'
 import Link from 'next/link'
 import { Box } from '@mui/material'
 import LinkButton from '@/components/LinkButton'
 import CustomHead from '@/components/CustomHead'
+import { get_fixtures, get_lending, delete_fixtures, Result } from '@/lib/api'
+import AuthDialog from '@/components/AuthDialog'
 
 const StyledMain = styled.main.withConfig({
   displayName: 'StyledMain',
@@ -42,31 +43,53 @@ const FixturesShow = () => {
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
 
+  const [authOpen, setAuthOpen] = useState(false)
+  const handleAuthDialogClose = (): void => {
+    setAuthOpen(false)
+  }
+
   useEffect(() => {
     if (typeof route.query.qr_id !== 'string') return
 
     const qr_id = route.query.qr_id
-    const api_url = process.env.NEXT_PUBLIC_QR_API_URL
-    if (qr_id && api_url) {
+    if (qr_id) {
       console.log('called')
       ;(async () => {
-        const url_fixtures = api_url + '/get_fixtures?qr_id=' + qr_id
-        const url_lending = api_url + '/get_lending?fixtures_qr_id=' + qr_id
-        console.log({ url_fixtures })
-        setQueried(true)
-        try {
-          const response_fixtures = await axios.get(url_fixtures)
-          const f: Fixtures = response_fixtures.data
-          setFixtures(f)
-          const response_lending = await axios.get(url_lending)
-          const l: Lending = response_lending.data
-          setLending(l)
-          console.log('lending: ', l)
-          console.log('lending2: ', lending)
-        } catch (err) {
-          toast.error('URLが無効なため表示に失敗')
+        const fixtures_res: Result<Fixtures> = await get_fixtures({
+          id_type: 'FixturesQrId',
+          id: qr_id,
+        })
+        const lending_res: Result<Lending> = await get_lending({
+          id_type: 'FixturesQrId',
+          id: qr_id,
+        })
+        if (fixtures_res == 'auth') {
+          // 認証を生成させる表示を出すようにする
+          setAuthOpen(true)
           setFixtures(null)
           setLending(null)
+          setQueried(false)
+        } else if (
+          fixtures_res == 'env' ||
+          fixtures_res == 'server' ||
+          fixtures_res == 'notfound' ||
+          fixtures_res == 'void' ||
+          lending_res == 'env' ||
+          lending_res == 'server' ||
+          lending_res == 'void'
+        ) {
+          toast.error('表示に失敗')
+          setFixtures(null)
+          setLending(null)
+          setQueried(false)
+        } else {
+          setFixtures(fixtures_res)
+          if (lending_res == 'notfound' || lending_res == 'auth') {
+            setLending(null)
+          } else {
+            setLending(lending_res)
+          }
+          setQueried(true)
         }
       })()
     } else {
@@ -75,18 +98,24 @@ const FixturesShow = () => {
   }, [route])
 
   const deleteFixtures = (id: string): void => {
-    const api_url = process.env.NEXT_PUBLIC_QR_API_URL
-    if (api_url) {
-      const url = api_url + '/delete_fixtures?id=' + id
-      ;(async () => {
-        try {
-          await axios.delete(url)
-          toast.success('削除に成功')
-        } catch (err) {
-          toast.error('削除に失敗')
-        }
-      })()
-    }
+    ;(async () => {
+      const res: Result<void> = await delete_fixtures({
+        id_type: 'FixturesQrId',
+        id: id,
+      })
+      if (res == 'auth') {
+        // 認証を生成させる表示を出すようにする
+        setAuthOpen(true)
+      } else if (res == 'env' || res == 'server' || res == 'notfound') {
+        toast.error('削除に失敗')
+        setDeleteDialogOpen(false)
+      } else {
+        toast.success('削除に成功')
+        setDeleteDialogOpen(false)
+        //物品検索ページに誘導するために必要
+        router.replace('/')
+      }
+    })()
   }
 
   if (queried) {
@@ -142,9 +171,6 @@ const FixturesShow = () => {
                     <Button
                       onClick={() => {
                         deleteFixtures(fixtures.id)
-                        setDeleteDialogOpen(false)
-                        //物品検索ページに誘導するために必要
-                        router.replace('/')
                       }}
                     >
                       削除する
@@ -185,6 +211,7 @@ const FixturesShow = () => {
               </Box>
             </>
           )}
+          <AuthDialog is_open={authOpen} handleClose={handleAuthDialogClose} />
         </StyledMain>
       </>
     )
@@ -195,7 +222,6 @@ const FixturesShow = () => {
         <Header />
         <Box sx={{ width: '100%', height: '120px' }}></Box>
         <Box sx={{ width: '100%', maxWidth: '1024px', m: 'auto' }}>
-          <p>クエリが存在しない</p>
           <LinkButton text={'トップに戻る'} onClick={() => router.push('/')} />
         </Box>
       </>

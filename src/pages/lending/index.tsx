@@ -6,12 +6,19 @@ import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
 import IconButton from '@mui/material/IconButton'
 import QrCodeReader from '@/components/QRCodeReader'
 import Item from '@/components/Item'
-import axios from 'axios'
-import { Fixtures, Lending, Spot } from '@/types'
+import { Lending } from '@/types'
 import { toast } from 'react-toastify'
 import Select from '@/components/Select'
 import styled from 'styled-components'
 import { Box } from '@mui/material'
+import {
+  insert_lending,
+  get_fixtures,
+  get_spot_list,
+  get_is_lending,
+  returned_lending,
+} from '@/lib/api'
+import AuthDialog from '@/components/AuthDialog'
 
 const StyledMain = styled.main.withConfig({
   displayName: 'StyledMain',
@@ -36,6 +43,11 @@ const StyledMain = styled.main.withConfig({
 `
 
 const Lending = () => {
+  const [authOpen, setAuthOpen] = useState(false)
+  const handleAuthDialogClose = (): void => {
+    setAuthOpen(false)
+  }
+
   const [qrId, setQrId] = useState('')
   const onChangeQrId = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setQrId(event.target.value)
@@ -45,16 +57,18 @@ const Lending = () => {
   const [spotNameList, setSpotNameList] = useState<string[]>([])
   useEffect(() => {
     ;(async () => {
-      const api_url = process.env.NEXT_PUBLIC_QR_API_URL
-      if (api_url) {
-        const get_spot_list_url = api_url + '/get_spot_list'
-        try {
-          const get_spot_list_reslt = await axios.get(get_spot_list_url)
-          const spot_list: Spot[] = get_spot_list_reslt.data
-          setSpotNameList(spot_list.map((spot) => spot.name))
-        } catch {
-          setSpotNameList([])
-        }
+      const spot_list = await get_spot_list()
+      if (spot_list == 'auth') {
+        setAuthOpen(true)
+      } else if (
+        spot_list == 'env' ||
+        spot_list == 'notfound' ||
+        spot_list == 'server' ||
+        spot_list == 'void'
+      ) {
+        setSpotNameList([])
+      } else {
+        setSpotNameList(spot_list.map((spot) => spot.name))
       }
     })()
   }, [])
@@ -93,22 +107,18 @@ const Lending = () => {
 
   useEffect(() => {
     ;(async () => {
-      const api_url = process.env.NEXT_PUBLIC_QR_API_URL
-      if (api_url) {
-        if (qrId !== '') {
-          const get_lending_url = api_url + '/get_lending?fixtures_qr_id=' + qrId
-          try {
-            const get_lending_result = await axios.get(get_lending_url)
-            const lending: Lending = get_lending_result.data
-            if (lending.fixtures_qr_id == qrId) {
-              setIsLending(false)
-            } else {
-              setIsLending(true)
-            }
-          } catch {
-            setIsLending(true)
-          }
-        }
+      const is_lending = await get_is_lending({ id_type: 'FixturesQrId', id: qrId })
+      if (is_lending == 'auth') {
+        setAuthOpen(true)
+      } else if (
+        is_lending == 'env' ||
+        is_lending == 'notfound' ||
+        is_lending == 'server' ||
+        is_lending == 'void'
+      ) {
+        setIsLending(true)
+      } else {
+        setIsLending(is_lending)
       }
     })()
   }, [qrId])
@@ -118,43 +128,42 @@ const Lending = () => {
     const now = new Date()
 
     ;(async () => {
-      const api_url = process.env.NEXT_PUBLIC_QR_API_URL
-      if (api_url) {
-        try {
-          const get_fixtures_url = api_url + '/get_fixtures?qr_id=' + qrId
-          const get_fixtures_result = await axios.get(get_fixtures_url)
-          const fixtures: Fixtures = get_fixtures_result.data
-          const fixtures_id = fixtures.id
-          const url = api_url + '/insert_lending'
-          const lending: Lending = {
-            id: uuid,
-            fixtures_id: fixtures_id,
-            fixtures_qr_id: qrId,
-            spot_name: spotName,
-            lending_at: now,
-            returned_at: null,
-            borrower_name: borrowerName,
-            borrower_number: Number(borrowerNumber),
-            borrwer_org: borrowerOrg == '' ? null : borrowerOrg,
-          }
-          const headers = {
-            'Content-Type': 'application/json',
-          }
-          const result = await axios.post(url, lending, { headers: headers })
-          if (100 < result.status && result.status < 300) {
-            toast.success('貸出に成功しました')
-            // 初期化
-            setQrId('')
-            setSpotName('')
-            setBorrowerName('')
-            setBorrowerNumber('')
-            setBorrowerOrg('')
-            setIsLending(true)
-          } else {
-            toast.error('貸出に失敗しました')
-          }
-        } catch (err) {
+      const fixtures = await get_fixtures({ id_type: 'FixturesQrId', id: qrId })
+      if (fixtures == 'auth') {
+        setAuthOpen(true)
+      } else if (
+        fixtures == 'env' ||
+        fixtures == 'notfound' ||
+        fixtures == 'server' ||
+        fixtures == 'void'
+      ) {
+        toast.error('物品が存在しません')
+      } else {
+        const lending: Lending = {
+          id: uuid,
+          fixtures_id: fixtures.id,
+          fixtures_qr_id: qrId,
+          spot_name: spotName,
+          lending_at: now,
+          returned_at: null,
+          borrower_name: borrowerName,
+          borrower_number: Number(borrowerNumber),
+          borrwer_org: borrowerOrg == '' ? null : borrowerOrg,
+        }
+        const res = await insert_lending(lending)
+        if (res == 'auth') {
+          setAuthOpen(true)
+        } else if (res == 'env' || res == 'notfound' || res == 'server') {
           toast.error('貸出に失敗しました')
+        } else {
+          toast.success('貸出に成功しました')
+          // 初期化
+          setQrId('')
+          setSpotName('')
+          setBorrowerName('')
+          setBorrowerNumber('')
+          setBorrowerOrg('')
+          setIsLending(true)
         }
       }
     })()
@@ -162,28 +171,20 @@ const Lending = () => {
 
   const onClickReturnedButton = (): void => {
     ;(async () => {
-      const api_url = process.env.NEXT_PUBLIC_QR_API_URL
-      if (api_url) {
-        const url = api_url + '/returned_lending?qr_id=' + qrId
-        console.log(url)
-        try {
-          const result = await axios.post(url)
-          if (100 < result.status && result.status < 300) {
-            toast.success('返却に成功しました')
-            // 初期化
-            setQrId('')
-            setSpotName('')
-            setBorrowerName('')
-            setBorrowerNumber('')
-            setBorrowerOrg('')
-            setIsLending(true)
-          } else {
-            toast.error('返却に失敗しました')
-          }
-          return result
-        } catch (err) {
-          toast.error('返却に失敗しました')
-        }
+      const res = await returned_lending({ id_type: 'FixturesQrId', id: qrId })
+      if (res == 'auth') {
+        setAuthOpen(true)
+      } else if (res == 'env' || res == 'notfound' || res == 'server') {
+        toast.error('返却に失敗しました')
+      } else {
+        toast.success('返却に成功しました')
+        // 初期化
+        setQrId('')
+        setSpotName('')
+        setBorrowerName('')
+        setBorrowerNumber('')
+        setBorrowerOrg('')
+        setIsLending(true)
       }
     })()
   }
@@ -191,31 +192,31 @@ const Lending = () => {
   return (
     <>
       <StyledMain>
+        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+          <IconButton
+            background-color='#6600CC'
+            sx={{
+              color: '#6600CC',
+              border: '1px solid #6600CC',
+              boxShadow: '1px 1px 5px 1px  #998fa3',
+              width: '90px',
+              height: '90px',
+            }}
+            onClick={() => {
+              setIsOpenQrReader(!isOpenQrReader)
+            }}
+          >
+            <QrCodeScannerIcon
+              fontSize='inherit'
+              sx={{
+                width: '50px',
+                height: '50px',
+              }}
+            />
+          </IconButton>
+        </Box>
         {isLending ? (
           <>
-            <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-              <IconButton
-                background-color='#6600CC'
-                sx={{
-                  color: '#6600CC',
-                  border: '1px solid #6600CC',
-                  boxShadow: '1px 1px 5px 1px  #998fa3',
-                  width: '90px',
-                  height: '90px',
-                }}
-                onClick={() => {
-                  setIsOpenQrReader(!isOpenQrReader)
-                }}
-              >
-                <QrCodeScannerIcon
-                  fontSize='inherit'
-                  sx={{
-                    width: '50px',
-                    height: '50px',
-                  }}
-                />
-              </IconButton>
-            </Box>
             <h1>貸出・返却</h1>
             {isOpenQrReader ? (
               <QrCodeReader
@@ -285,6 +286,8 @@ const Lending = () => {
             </div>
           </>
         )}
+
+        <AuthDialog is_open={authOpen} handleClose={handleAuthDialogClose} />
       </StyledMain>
     </>
   )

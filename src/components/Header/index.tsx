@@ -57,6 +57,9 @@ const Header = () => {
           <Typography variant='h6' component='div' sx={{ flexGrow: 1 }}></Typography>
           <div className='header-PC'>
             <Box sx={{ display: 'flex' }}>
+              <Link href={'/login'} className='p-5 text-base font-bold text-gray-800'>
+                ログイン
+              </Link>
               <Link href={'/'} className='p-5 text-base font-bold text-gray-800'>
                 物品検索
               </Link>
@@ -109,7 +112,7 @@ const Header = () => {
               <ListItemButton
                 sx={{ textAlign: 'center' }}
                 onClick={() => {
-                  router.push('/')
+                  router.replace('/')
                   setMenuOpen(false)
                 }}
               >
@@ -120,7 +123,7 @@ const Header = () => {
               <ListItemButton
                 sx={{ textAlign: 'center' }}
                 onClick={() => {
-                  router.push('/checkout-return')
+                  router.replace('/checkout-return')
                   setMenuOpen(false)
                 }}
               >
@@ -131,7 +134,7 @@ const Header = () => {
               <ListItemButton
                 sx={{ textAlign: 'center' }}
                 onClick={() => {
-                  router.push('/register-item')
+                  router.replace('/register-item')
                   setMenuOpen(false)
                 }}
               >
@@ -142,11 +145,22 @@ const Header = () => {
               <ListItemButton
                 sx={{ textAlign: 'center' }}
                 onClick={() => {
-                  router.push('/spot')
+                  router.replace('/spot')
                   setMenuOpen(false)
                 }}
               >
                 <ListItemText primary='地点情報' />
+              </ListItemButton>
+            </ListItem>
+            <ListItem key='menu-login'>
+              <ListItemButton
+                sx={{ textAlign: 'center' }}
+                onClick={() => {
+                  router.replace('/login')
+                  setMenuOpen(false)
+                }}
+              >
+                <ListItemText primary='ログイン' />
               </ListItemButton>
             </ListItem>
           </List>
