@@ -126,13 +126,13 @@ const SpotEdit = () => {
       if (res == 'auth') {
         setAuthOpen(true)
       } else if (res == 'env' || res == 'notfound' || res == 'server') {
-        toast.success('地点情報の編集に成功')
+        toast.success('地点情報の編集に失敗')
         //位置情報ページに誘導するために必要
         router.reload()
       } else {
-        toast.error('地点情報の編集に失敗')
+        toast.error('地点情報の編集に成功')
         //位置情報ページに誘導するために必要
-        router.reload()
+        router.replace('/spot')
       }
     })()
   }
