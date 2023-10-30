@@ -6,6 +6,21 @@
 
 ## [Unreleased]
 
+### Added
+
+- 場所情報に備考を追加([\#122](https://github.com/sohosai/qr-frontend/pull/122))
+- エリア情報に大学会館と人を追加([\#118](https://github.com/sohosai/qr-frontend/pull/118))
+
+### Fixed
+
+- QRコードを生成せずにダウンロードするときにエラーメッセージを出すようにした([\#127](https://github.com/sohosai/qr-frontend/pull/127))
+
+### Changed
+
+- サイトのデザインと構成を変更([\#123](https://github.com/sohosai/qr-frontend/pull/123), [\#125](https://github.com/sohosai/qr-frontend/pull/125), [\#129](https://github.com/sohosai/qr-frontend/pull/129))
+- 認証システムを実装([\#130](https://github.com/sohosai/qr-frontend/pull/130), [\#131](https://github.com/sohosai/qr-frontend/pull/131))
+
+
 
 ## [1.0.0] - 2023-10-15
 
