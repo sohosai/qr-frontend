@@ -23,6 +23,7 @@ import {
 import { toast } from 'react-toastify'
 import { Box } from '@mui/material'
 import { get_fixtures, update_fixtures } from '@/lib/api'
+import AuthDialog from '@/components/AuthDialog'
 
 const StyledMain = styled.main.withConfig({
   displayName: 'StyledMain',
@@ -51,6 +52,11 @@ const StyledMain = styled.main.withConfig({
  */
 const FixturesEdit = () => {
   const router = useRouter()
+
+  const [authOpen, setAuthOpen] = useState(false)
+  const handleAuthDialogClose = (): void => {
+    setAuthOpen(false)
+  }
 
   const [fixtures, setFixtures] = useState<Fixtures | null>(null)
 
@@ -117,11 +123,12 @@ const FixturesEdit = () => {
       ;(async () => {
         const fixtures_res = await get_fixtures({ id_type: 'FixturesId', id: fixtures_id })
         if (fixtures_res == 'auth') {
-          toast.error('再認証')
+          setAuthOpen(true)
         } else if (
           fixtures_res == 'env' ||
           fixtures_res == 'notfound' ||
-          fixtures_res == 'server'
+          fixtures_res == 'server' ||
+          fixtures_res == 'void'
         ) {
           toast.error('取得に失敗')
         } else {
@@ -194,7 +201,7 @@ const FixturesEdit = () => {
       ;(async () => {
         const res = await update_fixtures(json)
         if (res == 'auth') {
-          toast.error('認証')
+          setAuthOpen(true)
         } else if (res == 'env' || res == 'notfound' || res == 'server') {
           toast.error('更新に失敗')
           router.replace(`/items/${qrID}`)
@@ -319,6 +326,7 @@ const FixturesEdit = () => {
           <div className='FixturesRegisterButton'>
             <SytemButton onClick={onClickRegisterButton} disabled={validButton()} text='更新' />
           </div>
+          <AuthDialog is_open={authOpen} handleClose={handleAuthDialogClose} />
         </StyledMain>
       </Box>
     </>

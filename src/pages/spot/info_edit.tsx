@@ -13,6 +13,8 @@ import { toast } from 'react-toastify'
 import { Box } from '@mui/material'
 import CustomHead from '@/components/CustomHead'
 import { get_spot, update_spot } from '@/lib/api'
+import AuthDialog from '@/components/AuthDialog'
+import TextArea from '@/components/TextArea'
 
 const StyledMain = styled.main.withConfig({
   displayName: 'StyledMain',
@@ -41,6 +43,11 @@ const StyledMain = styled.main.withConfig({
  */
 const SpotEdit = () => {
   const route = useRouter()
+
+  const [authOpen, setAuthOpen] = useState(false)
+  const handleAuthDialogClose = (): void => {
+    setAuthOpen(false)
+  }
 
   const [spotName, setSpotName] = useState('')
 
@@ -78,8 +85,13 @@ const SpotEdit = () => {
       ;(async () => {
         const spot_data = await get_spot(spot_name)
         if (spot_data == 'auth') {
-          toast.error('認証')
-        } else if (spot_data == 'env' || spot_data == 'notfound' || spot_data == 'server') {
+          setAuthOpen(true)
+        } else if (
+          spot_data == 'env' ||
+          spot_data == 'notfound' ||
+          spot_data == 'server' ||
+          spot_data == 'void'
+        ) {
           toast.error('場所情報の取得に失敗')
         } else {
           setSpotName(spot_data.name)
@@ -112,15 +124,15 @@ const SpotEdit = () => {
     ;(async () => {
       const res = await update_spot(json)
       if (res == 'auth') {
-        toast.error('認証')
+        setAuthOpen(true)
       } else if (res == 'env' || res == 'notfound' || res == 'server') {
         toast.success('地点情報の編集に成功')
         //位置情報ページに誘導するために必要
-        router.replace(`/spot`)
+        router.reload()
       } else {
         toast.error('地点情報の編集に失敗')
         //位置情報ページに誘導するために必要
-        router.replace(`/spot`)
+        router.reload()
       }
     })()
   }
@@ -185,10 +197,21 @@ const SpotEdit = () => {
               onChange={onChangeRoom}
             />
           </div>
+          <div className='NoteInput'>
+            <TextArea
+              label='備考'
+              required={false}
+              placeholder='備考'
+              text={note}
+              onChange={onChangeNote}
+            />
+          </div>
 
           <div className='SpotRegisterButton'>
             <SystemButton onClick={onClickRegisterButton} disabled={validButton()} text='更新' />
           </div>
+
+          <AuthDialog is_open={authOpen} handleClose={handleAuthDialogClose} />
         </StyledMain>
       </Box>
     </>

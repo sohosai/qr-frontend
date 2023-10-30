@@ -19,6 +19,8 @@ import DialogContent from '@mui/material/DialogContent'
 import DialogContentText from '@mui/material/DialogContentText'
 import { toast } from 'react-toastify'
 import { delete_spot } from '@/lib/api'
+import AuthDialog from '@/components/AuthDialog'
+import router from 'next/router'
 
 /**
  * FixturesProps型の作成
@@ -88,11 +90,17 @@ const SpotList = ({ spot_list }: SpotListProps) => {
     setDeleteSpotName('')
   }
 
+  const [authOpen, setAuthOpen] = useState(false)
+  const handleAuthDialogClose = (): void => {
+    setAuthOpen(false)
+  }
+
   const deleteSpot = (name: string): void => {
     ;(async () => {
       const res = await delete_spot(name)
+      console.log(res)
       if (res == 'auth') {
-        toast.error('認証')
+        setAuthOpen(true)
       } else if (res == 'env' || res == 'notfound' || res == 'server') {
         toast.error('削除に失敗')
         //同一パスにリダイレクトをかけて、位置情報の一覧を再取得する。
@@ -236,6 +244,7 @@ const SpotList = ({ spot_list }: SpotListProps) => {
           </>
         ))}
       </List>
+      <AuthDialog is_open={authOpen} handleClose={handleAuthDialogClose} />
     </StyledSpotList>
   )
 }

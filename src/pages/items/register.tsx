@@ -26,6 +26,7 @@ import axios from 'axios'
 import { toast } from 'react-toastify'
 import { Box } from '@mui/material'
 import { insert_fixtures } from '@/lib/api'
+import AuthDialog from '@/components/AuthDialog'
 
 const StyledMain = styled.main.withConfig({
   displayName: 'StyledMain',
@@ -53,6 +54,11 @@ const StyledMain = styled.main.withConfig({
  * 物品を登録できる
  */
 const FixturesRegister = () => {
+  const [authOpen, setAuthOpen] = useState(false)
+  const handleAuthDialogClose = (): void => {
+    setAuthOpen(false)
+  }
+
   const [isOpenQrReader, setIsOpenQrReader] = useState(false)
 
   const [qrID, setQRID] = useState('')
@@ -135,7 +141,7 @@ const FixturesRegister = () => {
     ;(async () => {
       const res = await insert_fixtures(json)
       if (res == 'auth') {
-        toast.error('認証')
+        setAuthOpen(true)
       } else if (res == 'env' || res == 'notfound' || res == 'server') {
         toast.error('登録に失敗')
       } else {
@@ -278,6 +284,7 @@ const FixturesRegister = () => {
         <div className='FixturesRegisterButton'>
           <SystemButton onClick={onClickRegisterButton} disabled={validButton()} text='登録' />
         </div>
+        <AuthDialog is_open={authOpen} handleClose={handleAuthDialogClose} />
       </StyledMain>
     </>
   )

@@ -7,6 +7,7 @@ import styled from 'styled-components'
 import SpotList from '@/components/SpotList'
 import Head from 'next/head'
 import { get_spot_list } from '@/lib/api'
+import AuthDialog from '@/components/AuthDialog'
 
 const StyledMain = styled.main.withConfig({
   displayName: 'StyledMain',
@@ -43,12 +44,22 @@ const SpotListShow = () => {
   const [spotList, setSpotList] = useState<Spot[]>([])
   const [envCheck, setEnvCheck] = useState(false)
 
+  const [authOpen, setAuthOpen] = useState(false)
+  const handleAuthDialogClose = (): void => {
+    setAuthOpen(false)
+  }
+
   useEffect(() => {
     ;(async () => {
       const spot_list = await get_spot_list()
       if (spot_list == 'auth') {
-        toast.error('認証')
-      } else if (spot_list == 'env' || spot_list == 'notfound' || spot_list == 'server') {
+        setAuthOpen(true)
+      } else if (
+        spot_list == 'env' ||
+        spot_list == 'notfound' ||
+        spot_list == 'server' ||
+        spot_list == 'void'
+      ) {
         toast.error('場所情報のリストの取得に失敗しました')
         setEnvCheck(!envCheck)
       } else {
@@ -66,6 +77,7 @@ const SpotListShow = () => {
         ) : (
           <SpotList spot_list={spotList} />
         )}
+        <AuthDialog is_open={authOpen} handleClose={handleAuthDialogClose} />
       </StyledMain>
     </>
   )

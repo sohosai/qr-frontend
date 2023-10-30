@@ -20,6 +20,7 @@ import { Box } from '@mui/material'
 import LinkButton from '@/components/LinkButton'
 import CustomHead from '@/components/CustomHead'
 import { get_fixtures, get_lending, delete_fixtures, Result } from '@/lib/api'
+import AuthDialog from '@/components/AuthDialog'
 
 const StyledMain = styled.main.withConfig({
   displayName: 'StyledMain',
@@ -42,6 +43,11 @@ const FixturesShow = () => {
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
 
+  const [authOpen, setAuthOpen] = useState(false)
+  const handleAuthDialogClose = (): void => {
+    setAuthOpen(false)
+  }
+
   useEffect(() => {
     if (typeof route.query.qr_id !== 'string') return
 
@@ -57,9 +63,9 @@ const FixturesShow = () => {
           id_type: 'FixturesQrId',
           id: qr_id,
         })
-        if (fixtures_res == 'auth' || lending_res == 'auth') {
+        if (fixtures_res == 'auth') {
           // 認証を生成させる表示を出すようにする
-          toast.error('認証周り')
+          setAuthOpen(true)
           setFixtures(null)
           setLending(null)
           setQueried(false)
@@ -67,9 +73,10 @@ const FixturesShow = () => {
           fixtures_res == 'env' ||
           fixtures_res == 'server' ||
           fixtures_res == 'notfound' ||
+          fixtures_res == 'void' ||
           lending_res == 'env' ||
           lending_res == 'server' ||
-          lending_res == 'notfound'
+          lending_res == 'void'
         ) {
           toast.error('表示に失敗')
           setFixtures(null)
@@ -77,7 +84,11 @@ const FixturesShow = () => {
           setQueried(false)
         } else {
           setFixtures(fixtures_res)
-          setLending(lending_res)
+          if (lending_res == 'notfound' || lending_res == 'auth') {
+            setLending(null)
+          } else {
+            setLending(lending_res)
+          }
           setQueried(true)
         }
       })()
@@ -94,11 +105,15 @@ const FixturesShow = () => {
       })
       if (res == 'auth') {
         // 認証を生成させる表示を出すようにする
-        toast.error('認証周り')
+        setAuthOpen(true)
       } else if (res == 'env' || res == 'server' || res == 'notfound') {
         toast.error('削除に失敗')
+        setDeleteDialogOpen(false)
       } else {
         toast.success('削除に成功')
+        setDeleteDialogOpen(false)
+        //物品検索ページに誘導するために必要
+        router.replace('/')
       }
     })()
   }
@@ -156,9 +171,6 @@ const FixturesShow = () => {
                     <Button
                       onClick={() => {
                         deleteFixtures(fixtures.id)
-                        setDeleteDialogOpen(false)
-                        //物品検索ページに誘導するために必要
-                        router.replace('/')
                       }}
                     >
                       削除する
@@ -199,6 +211,7 @@ const FixturesShow = () => {
               </Box>
             </>
           )}
+          <AuthDialog is_open={authOpen} handleClose={handleAuthDialogClose} />
         </StyledMain>
       </>
     )
@@ -209,7 +222,6 @@ const FixturesShow = () => {
         <Header />
         <Box sx={{ width: '100%', height: '120px' }}></Box>
         <Box sx={{ width: '100%', maxWidth: '1024px', m: 'auto' }}>
-          <p>クエリが存在しない</p>
           <LinkButton text={'トップに戻る'} onClick={() => router.push('/')} />
         </Box>
       </>

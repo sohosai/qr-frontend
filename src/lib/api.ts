@@ -5,7 +5,7 @@ const get_auth_token = () => {
   return localStorage.getItem('auth-token')
 }
 
-const register_auth_token = (v: string) => {
+export const register_auth_token = (v: string) => {
   localStorage.setItem('auth-token', v)
 }
 
@@ -16,11 +16,16 @@ export type id = {
   id: string
 }
 
-export type Result<T> = T | 'auth' | 'notfound' | 'server' | 'env'
+export type Result<T> = T | 'void' | 'auth' | 'notfound' | 'server' | 'env'
 
 function result_handling<T>(result: ApiResult<T>): Result<T> {
-  if (result.ok && result.data) {
-    return result.data
+  console.log(result)
+  if (result.ok) {
+    if (result.data) {
+      return result.data
+    } else {
+      return 'void'
+    }
   } else if (result.error_type == 'Authorized') {
     return 'auth'
   } else if (result.error_type == 'CouldNotFoundEnv') {
@@ -38,419 +43,159 @@ function result_handling<T>(result: ApiResult<T>): Result<T> {
   }
 }
 
-export async function insert_fixtures(fixtures: Fixtures): Promise<Result<void>> {
+type REST = 'GET' | 'POST' | 'DELETE'
+// 関数を生成する関数
+async function gen_api_fun<T, V>(
+  url_str: string,
+  is_auth: boolean,
+  rest: REST,
+  data: T | null,
+): Promise<Result<V>> {
   const api_url = process.env.NEXT_PUBLIC_QR_API_URL
-  const auth_token = get_auth_token()
-  if (api_url && auth_token) {
-    const url = `${api_url}/insert_fixtures`
-    const res = axios
-      .post(url, fixtures, {
-        headers: { Authorization: `Bearer ${auth_token}`, 'Content-Type': 'application/json' },
-      })
-      .then(function (response) {
-        const result: ApiResult<void> = response.data
-        return result_handling(result)
-      })
-      .catch(function (error) {
-        if (error.response) {
-          const result: ApiResult<void> = error.response.data
-          return result_handling(result)
-        } else {
-          return 'server'
+  if (api_url) {
+    const url = `${api_url}${url_str}`
+    if (is_auth) {
+      const auth_token = get_auth_token()
+      if (auth_token) {
+        console.log('auth token: ', auth_token)
+        const headers = {
+          Authorization: `Bearer ${auth_token}`,
+          'Content-Type': 'application/json',
         }
-      })
-    return res
-  } else if (auth_token) {
-    return 'auth'
+        const axios_res =
+          rest == 'GET'
+            ? axios.get(url, { headers: headers })
+            : rest == 'POST'
+            ? axios.post(url, data, { headers: headers })
+            : axios.delete(url, { headers: headers })
+        const res = axios_res
+          .then(function (response) {
+            console.log(response)
+            const result: ApiResult<V> = response.data
+            return result_handling(result)
+          })
+          .catch(function (error) {
+            console.log(error)
+            if (error.response) {
+              const result: ApiResult<V> = error.response.data
+              return result_handling(result)
+            } else {
+              return 'server'
+            }
+          })
+        return res
+      } else {
+        return 'auth'
+      }
+    } else {
+      const headers = { 'Content-Type': 'application/json' }
+      const axios_res =
+        rest == 'GET'
+          ? axios.get(url, { headers: headers })
+          : rest == 'POST'
+          ? axios.post(url, data, { headers: headers })
+          : axios.delete(url, { headers: headers })
+      const res = axios_res
+        .then(function (response) {
+          const result: ApiResult<V> = response.data
+          return result_handling(result)
+        })
+        .catch(function (error) {
+          if (error.response) {
+            const result: ApiResult<V> = error.response.data
+            return result_handling(result)
+          } else {
+            return 'server'
+          }
+        })
+      return res
+    }
   } else {
     return 'env'
   }
+}
+
+export async function insert_fixtures(fixtures: Fixtures): Promise<Result<void>> {
+  return await gen_api_fun('/insert_fixtures', true, 'POST', fixtures)
 }
 
 export async function update_fixtures(fixtures: Fixtures): Promise<Result<void>> {
-  const api_url = process.env.NEXT_PUBLIC_QR_API_URL
-  const auth_token = get_auth_token()
-  if (api_url && auth_token) {
-    const url = `${api_url}/update_fixtures`
-    const res = axios
-      .post(url, fixtures, {
-        headers: { Authorization: `Bearer ${auth_token}`, 'Content-Type': 'application/json' },
-      })
-      .then(function (response) {
-        const result: ApiResult<void> = response.data
-        return result_handling(result)
-      })
-      .catch(function (error) {
-        if (error.response) {
-          const result: ApiResult<void> = error.response.data
-          return result_handling(result)
-        } else {
-          return 'server'
-        }
-      })
-    return res
-  } else if (auth_token) {
-    return 'auth'
-  } else {
-    return 'env'
-  }
+  return await gen_api_fun('/update_fixtures', true, 'POST', fixtures)
 }
 
 export async function delete_fixtures(id: id): Promise<Result<void>> {
-  const api_url = process.env.NEXT_PUBLIC_QR_API_URL
-  const auth_token = get_auth_token()
-  if (api_url && auth_token) {
-    const url =
-      id.id_type == 'FixturesId'
-        ? `${api_url}/delete_fixtures?id=${id.id}`
-        : `${api_url}/delete_fixtures?qr_id${id.id}`
-    const res = axios
-      .post(url, { headers: { Authorization: `Bearer ${auth_token}` } })
-      .then(function (response) {
-        const result: ApiResult<void> = response.data
-        return result_handling(result)
-      })
-      .catch(function (error) {
-        if (error.response) {
-          const result: ApiResult<void> = error.response.data
-          return result_handling(result)
-        } else {
-          return 'server'
-        }
-      })
-    return res
-  } else if (auth_token) {
-    return 'auth'
-  } else {
-    return 'env'
-  }
+  const url =
+    id.id_type == 'FixturesId' ? `/delete_fixtures?id=${id.id}` : `/delete_fixtures?qr_id=${id.id}`
+  return await gen_api_fun(url, true, 'DELETE', null)
 }
 
 export async function get_fixtures(id: id): Promise<Result<Fixtures>> {
-  const api_url = process.env.NEXT_PUBLIC_QR_API_URL
-  if (api_url) {
-    const url =
-      id.id_type == 'FixturesId'
-        ? `${api_url}/delete_fixtures?id=${id.id}`
-        : `${api_url}/delete_fixtures?qr_id${id.id}`
-    const res = axios
-      .get(url)
-      .then(function (response) {
-        const result: ApiResult<Fixtures> = response.data
-        return result_handling(result)
-      })
-      .catch(function (error) {
-        if (error.response) {
-          const result: ApiResult<Fixtures> = error.response.data
-          return result_handling(result)
-        } else {
-          return 'server'
-        }
-      })
-    return res
-  } else {
-    return 'env'
-  }
+  const url =
+    id.id_type == 'FixturesId' ? `/get_fixtures?id=${id.id}` : `/get_fixtures?qr_id=${id.id}`
+  return await gen_api_fun(url, false, 'GET', null)
 }
 
 export async function search_fixtures(text: string): Promise<Result<SearchFixtures[]>> {
-  const api_url = process.env.NEXT_PUBLIC_QR_API_URL
-  if (api_url) {
-    const url = `${api_url}/search_fixtures?keywords=${text}`
-    const res = axios
-      .get(url)
-      .then(function (response) {
-        const result: ApiResult<SearchFixtures[]> = response.data
-        return result_handling(result)
-      })
-      .catch(function (error) {
-        if (error.response) {
-          const result: ApiResult<SearchFixtures[]> = error.response.data
-          return result_handling(result)
-        } else {
-          return 'server'
-        }
-      })
-    return res
-  } else {
-    return 'env'
-  }
+  const url = `/search_fixtures?keywords=${text}`
+  return await gen_api_fun(url, false, 'GET', null)
 }
 
 export async function insert_lending(lending: Lending): Promise<Result<void>> {
-  const api_url = process.env.NEXT_PUBLIC_QR_API_URL
-  const auth_token = get_auth_token()
-  if (api_url && auth_token) {
-    const url = `${api_url}/insert_lending`
-    const res = axios
-      .post(url, lending, {
-        headers: { Authorization: `Bearer ${auth_token}`, 'Content-Type': 'application/json' },
-      })
-      .then(function (response) {
-        const result: ApiResult<void> = response.data
-        return result_handling(result)
-      })
-      .catch(function (error) {
-        if (error.response) {
-          const result: ApiResult<void> = error.response.data
-          return result_handling(result)
-        } else {
-          return 'server'
-        }
-      })
-    return res
-  } else if (auth_token) {
-    return 'auth'
-  } else {
-    return 'env'
-  }
+  return await gen_api_fun('/insert_lending', true, 'POST', lending)
 }
 
 export async function returned_lending(id: id): Promise<Result<void>> {
-  const api_url = process.env.NEXT_PUBLIC_QR_API_URL
-  const auth_token = get_auth_token()
-  if (api_url && auth_token) {
-    const url =
-      id.id_type == 'FixturesId'
-        ? `${api_url}/returned_lending?fixtures_id=${id.id}`
-        : id.id_type == 'FixturesQrId'
-        ? `${api_url}/returned_lending?fixtures_qr_id${id.id}`
-        : `${api_url}/returned_lending?lending_id${id.id}`
-    const res = axios
-      .post(url, { headers: { Authorization: `Bearer ${auth_token}` } })
-      .then(function (response) {
-        const result: ApiResult<void> = response.data
-        return result_handling(result)
-      })
-      .catch(function (error) {
-        if (error.response) {
-          const result: ApiResult<void> = error.response.data
-          return result_handling(result)
-        } else {
-          return 'server'
-        }
-      })
-    return res
-  } else if (auth_token) {
-    return 'auth'
-  } else {
-    return 'env'
-  }
+  const url =
+    id.id_type == 'FixturesId'
+      ? `/returned_lending?fixtures_id=${id.id}`
+      : id.id_type == 'FixturesQrId'
+      ? `/returned_lending?fixtures_qr_id=${id.id}`
+      : `/returned_lending?lending_id=${id.id}`
+  return await gen_api_fun(url, true, 'POST', null)
 }
 
 export async function get_lending_list(): Promise<Result<Lending[]>> {
-  const api_url = process.env.NEXT_PUBLIC_QR_API_URL
-  if (api_url) {
-    const url = `${api_url}/get_lending_list`
-    const res = axios
-      .get(url)
-      .then(function (response) {
-        const result: ApiResult<Lending[]> = response.data
-        return result_handling(result)
-      })
-      .catch(function (error) {
-        if (error.response) {
-          const result: ApiResult<Lending[]> = error.response.data
-          return result_handling(result)
-        } else {
-          return 'server'
-        }
-      })
-    return res
-  } else {
-    return 'env'
-  }
+  return await gen_api_fun('/get_lending_list', false, 'GET', null)
 }
 
 export async function get_lending(id: id): Promise<Result<Lending>> {
-  const api_url = process.env.NEXT_PUBLIC_QR_API_URL
-  if (api_url) {
-    const url =
-      id.id_type == 'FixturesId'
-        ? `${api_url}/get_lending?fixtures_id=${id.id}`
-        : id.id_type == 'FixturesQrId'
-        ? `${api_url}/get_lending?fixtures_qr_id${id.id}`
-        : `${api_url}/get_lending?lending_id${id.id}`
-    const res = axios
-      .get(url)
-      .then(function (response) {
-        const result: ApiResult<Lending> = response.data
-        return result_handling(result)
-      })
-      .catch(function (error) {
-        if (error.response) {
-          const result: ApiResult<Lending> = error.response.data
-          return result_handling(result)
-        } else {
-          return 'server'
-        }
-      })
-    return res
-  } else {
-    return 'env'
-  }
+  const url =
+    id.id_type == 'FixturesId'
+      ? `/get_lending?fixtures_id=${id.id}`
+      : id.id_type == 'FixturesQrId'
+      ? `/get_lending?fixtures_qr_id=${id.id}`
+      : `/get_lending?lending_id=${id.id}`
+  return await gen_api_fun(url, false, 'GET', null)
 }
 
 export async function get_is_lending(id: id): Promise<Result<boolean>> {
-  const api_url = process.env.NEXT_PUBLIC_QR_API_URL
-  if (api_url) {
-    const url =
-      id.id_type == 'FixturesId'
-        ? `${api_url}/get_is_lending?fixtures_id=${id.id}`
-        : id.id_type == 'FixturesQrId'
-        ? `${api_url}/get_is_lending?fixtures_qr_id${id.id}`
-        : `${api_url}/get_is_lending?lending_id${id.id}`
-    const res = axios
-      .get(url)
-      .then(function (response) {
-        const result: ApiResult<boolean> = response.data
-        return result_handling(result)
-      })
-      .catch(function (error) {
-        if (error.response) {
-          const result: ApiResult<boolean> = error.response.data
-          return result_handling(result)
-        } else {
-          return 'server'
-        }
-      })
-    return res
-  } else {
-    return 'env'
-  }
+  const url =
+    id.id_type == 'FixturesId'
+      ? `/get_is_lending?fixtures_id=${id.id}`
+      : id.id_type == 'FixturesQrId'
+      ? `/get_is_lending?fixtures_qr_id=${id.id}`
+      : `/get_is_lending?lending_id=${id.id}`
+  return await gen_api_fun(url, false, 'GET', null)
 }
 
 export async function insert_spot(spot: Spot): Promise<Result<void>> {
-  const api_url = process.env.NEXT_PUBLIC_QR_API_URL
-  const auth_token = get_auth_token()
-  if (api_url && auth_token) {
-    const url = `${api_url}/insert_spot`
-    const res = axios
-      .post(url, spot, {
-        headers: { Authorization: `Bearer ${auth_token}`, 'Content-Type': 'application/json' },
-      })
-      .then(function (response) {
-        const result: ApiResult<void> = response.data
-        return result_handling(result)
-      })
-      .catch(function (error) {
-        if (error.response) {
-          const result: ApiResult<void> = error.response.data
-          return result_handling(result)
-        } else {
-          return 'server'
-        }
-      })
-    return res
-  } else if (auth_token) {
-    return 'auth'
-  } else {
-    return 'env'
-  }
+  return await gen_api_fun('/insert_spot', true, 'POST', spot)
 }
 
 export async function update_spot(spot: Spot): Promise<Result<void>> {
-  const api_url = process.env.NEXT_PUBLIC_QR_API_URL
-  const auth_token = get_auth_token()
-  if (api_url && auth_token) {
-    const url = `${api_url}/update_spot`
-    const res = axios
-      .post(url, spot, {
-        headers: { Authorization: `Bearer ${auth_token}`, 'Content-Type': 'application/json' },
-      })
-      .then(function (response) {
-        const result: ApiResult<void> = response.data
-        return result_handling(result)
-      })
-      .catch(function (error) {
-        if (error.response) {
-          const result: ApiResult<void> = error.response.data
-          return result_handling(result)
-        } else {
-          return 'server'
-        }
-      })
-    return res
-  } else if (auth_token) {
-    return 'auth'
-  } else {
-    return 'env'
-  }
+  return await gen_api_fun('/update_spot', true, 'POST', spot)
 }
 
 export async function get_spot(name: string): Promise<Result<Spot>> {
-  const api_url = process.env.NEXT_PUBLIC_QR_API_URL
-  if (api_url) {
-    const url = `${api_url}/get_spot?name=${name}`
-    const res = axios
-      .get(url)
-      .then(function (response) {
-        const result: ApiResult<Spot> = response.data
-        return result_handling(result)
-      })
-      .catch(function (error) {
-        if (error.response) {
-          const result: ApiResult<Spot> = error.response.data
-          return result_handling(result)
-        } else {
-          return 'server'
-        }
-      })
-    return res
-  } else {
-    return 'env'
-  }
+  return await gen_api_fun(`/get_spot?name=${name}`, false, 'GET', null)
 }
 
 export async function get_spot_list(): Promise<Result<Spot[]>> {
-  const api_url = process.env.NEXT_PUBLIC_QR_API_URL
-  if (api_url) {
-    const url = `${api_url}/get_spot_list`
-    const res = axios
-      .get(url)
-      .then(function (response) {
-        const result: ApiResult<Spot[]> = response.data
-        return result_handling(result)
-      })
-      .catch(function (error) {
-        if (error.response) {
-          const result: ApiResult<Spot[]> = error.response.data
-          return result_handling(result)
-        } else {
-          return 'server'
-        }
-      })
-    return res
-  } else {
-    return 'env'
-  }
+  return await gen_api_fun(`/get_spot_list`, false, 'GET', null)
 }
 
 export async function delete_spot(name: string): Promise<Result<void>> {
-  const api_url = process.env.NEXT_PUBLIC_QR_API_URL
-  const auth_token = get_auth_token()
-  if (api_url && auth_token) {
-    const url = `${api_url}/delete_spot?name=${name}`
-    const res = axios
-      .post(url, { headers: { Authorization: `Bearer ${auth_token}` } })
-      .then(function (response) {
-        const result: ApiResult<void> = response.data
-        return result_handling(result)
-      })
-      .catch(function (error) {
-        if (error.response) {
-          const result: ApiResult<void> = error.response.data
-          return result_handling(result)
-        } else {
-          return 'server'
-        }
-      })
-    return res
-  } else if (auth_token) {
-    return 'auth'
-  } else {
-    return 'env'
-  }
+  return await gen_api_fun(`/delete_spot?name=${name}`, true, 'DELETE', null)
 }
 
 export async function gen_passtoken(pass: string): Promise<Result<string>> {
@@ -461,13 +206,14 @@ export async function gen_passtoken(pass: string): Promise<Result<string>> {
     const res = axios
       // とりあえず管理者権限で発行
       // 今後は切り替えるようにしたりしたい
-      .post(url, { headers: { auth: { username: 'administrator', password: pass } } })
+      .post(url, null, { auth: { username: 'administrator', password: pass } })
       .then(function (response) {
         const result: ApiResult<string> = response.data
         return result_handling(result)
       })
       .catch(function (error) {
         if (error.response) {
+          console.log(error.response)
           const result: ApiResult<string> = error.response.data
           return result_handling(result)
         } else {
@@ -475,7 +221,7 @@ export async function gen_passtoken(pass: string): Promise<Result<string>> {
         }
       })
     return res
-  } else if (auth_token) {
+  } else if (!auth_token) {
     return 'auth'
   } else {
     return 'env'

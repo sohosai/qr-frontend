@@ -18,6 +18,7 @@ import {
   get_is_lending,
   returned_lending,
 } from '@/lib/api'
+import AuthDialog from '@/components/AuthDialog'
 
 const StyledMain = styled.main.withConfig({
   displayName: 'StyledMain',
@@ -42,6 +43,11 @@ const StyledMain = styled.main.withConfig({
 `
 
 const Lending = () => {
+  const [authOpen, setAuthOpen] = useState(false)
+  const handleAuthDialogClose = (): void => {
+    setAuthOpen(false)
+  }
+
   const [qrId, setQrId] = useState('')
   const onChangeQrId = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setQrId(event.target.value)
@@ -53,8 +59,13 @@ const Lending = () => {
     ;(async () => {
       const spot_list = await get_spot_list()
       if (spot_list == 'auth') {
-        toast.error('認証')
-      } else if (spot_list == 'env' || spot_list == 'notfound' || spot_list == 'server') {
+        setAuthOpen(true)
+      } else if (
+        spot_list == 'env' ||
+        spot_list == 'notfound' ||
+        spot_list == 'server' ||
+        spot_list == 'void'
+      ) {
         setSpotNameList([])
       } else {
         setSpotNameList(spot_list.map((spot) => spot.name))
@@ -98,9 +109,14 @@ const Lending = () => {
     ;(async () => {
       const is_lending = await get_is_lending({ id_type: 'FixturesQrId', id: qrId })
       if (is_lending == 'auth') {
-        toast.error('認証')
-      } else if (is_lending == 'env' || is_lending == 'notfound' || is_lending == 'server') {
-        setIsLending(false)
+        setAuthOpen(true)
+      } else if (
+        is_lending == 'env' ||
+        is_lending == 'notfound' ||
+        is_lending == 'server' ||
+        is_lending == 'void'
+      ) {
+        setIsLending(true)
       } else {
         setIsLending(is_lending)
       }
@@ -114,8 +130,13 @@ const Lending = () => {
     ;(async () => {
       const fixtures = await get_fixtures({ id_type: 'FixturesQrId', id: qrId })
       if (fixtures == 'auth') {
-        toast.error('認証')
-      } else if (fixtures == 'env' || fixtures == 'notfound' || fixtures == 'server') {
+        setAuthOpen(true)
+      } else if (
+        fixtures == 'env' ||
+        fixtures == 'notfound' ||
+        fixtures == 'server' ||
+        fixtures == 'void'
+      ) {
         toast.error('物品が存在しません')
       } else {
         const lending: Lending = {
@@ -131,7 +152,7 @@ const Lending = () => {
         }
         const res = await insert_lending(lending)
         if (res == 'auth') {
-          toast.error('認証')
+          setAuthOpen(true)
         } else if (res == 'env' || res == 'notfound' || res == 'server') {
           toast.error('貸出に失敗しました')
         } else {
@@ -152,7 +173,7 @@ const Lending = () => {
     ;(async () => {
       const res = await returned_lending({ id_type: 'FixturesQrId', id: qrId })
       if (res == 'auth') {
-        toast.error('認証')
+        setAuthOpen(true)
       } else if (res == 'env' || res == 'notfound' || res == 'server') {
         toast.error('返却に失敗しました')
       } else {
@@ -171,31 +192,31 @@ const Lending = () => {
   return (
     <>
       <StyledMain>
+        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+          <IconButton
+            background-color='#6600CC'
+            sx={{
+              color: '#6600CC',
+              border: '1px solid #6600CC',
+              boxShadow: '1px 1px 5px 1px  #998fa3',
+              width: '90px',
+              height: '90px',
+            }}
+            onClick={() => {
+              setIsOpenQrReader(!isOpenQrReader)
+            }}
+          >
+            <QrCodeScannerIcon
+              fontSize='inherit'
+              sx={{
+                width: '50px',
+                height: '50px',
+              }}
+            />
+          </IconButton>
+        </Box>
         {isLending ? (
           <>
-            <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-              <IconButton
-                background-color='#6600CC'
-                sx={{
-                  color: '#6600CC',
-                  border: '1px solid #6600CC',
-                  boxShadow: '1px 1px 5px 1px  #998fa3',
-                  width: '90px',
-                  height: '90px',
-                }}
-                onClick={() => {
-                  setIsOpenQrReader(!isOpenQrReader)
-                }}
-              >
-                <QrCodeScannerIcon
-                  fontSize='inherit'
-                  sx={{
-                    width: '50px',
-                    height: '50px',
-                  }}
-                />
-              </IconButton>
-            </Box>
             <h1>貸出・返却</h1>
             {isOpenQrReader ? (
               <QrCodeReader
@@ -265,6 +286,8 @@ const Lending = () => {
             </div>
           </>
         )}
+
+        <AuthDialog is_open={authOpen} handleClose={handleAuthDialogClose} />
       </StyledMain>
     </>
   )
