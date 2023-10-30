@@ -19,7 +19,6 @@ export type id = {
 export type Result<T> = T | 'void' | 'auth' | 'notfound' | 'server' | 'env'
 
 function result_handling<T>(result: ApiResult<T>): Result<T> {
-  console.log(result)
   if (result.ok) {
     if (result.data) {
       return result.data
@@ -69,12 +68,10 @@ async function gen_api_fun<T, V>(
             : axios.delete(url, { headers: headers })
         const res = axios_res
           .then(function (response) {
-            console.log(response)
             const result: ApiResult<V> = response.data
             return result_handling(result)
           })
           .catch(function (error) {
-            console.log(error)
             if (error.response) {
               const result: ApiResult<V> = error.response.data
               return result_handling(result)
@@ -198,7 +195,6 @@ export async function delete_spot(name: string): Promise<Result<void>> {
 }
 
 export async function gen_passtoken(pass: string): Promise<Result<string>> {
-  console.log(pass)
   const api_url = process.env.NEXT_PUBLIC_QR_API_URL
   if (api_url) {
     const url = `${api_url}/gen_passtoken`
@@ -208,12 +204,10 @@ export async function gen_passtoken(pass: string): Promise<Result<string>> {
       .post(url, null, { auth: { username: 'administrator', password: pass } })
       .then(function (response) {
         const result: ApiResult<string> = response.data
-        console.log(result)
         return result_handling(result)
       })
       .catch(function (error) {
         if (error.response) {
-          console.log(error.response)
           const result: ApiResult<string> = error.response.data
           return result_handling(result)
         } else {

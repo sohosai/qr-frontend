@@ -44,7 +44,6 @@ const AuthDialog = ({ is_open, handleClose }: AuthDialogProps) => {
   const onClickRegisterToken = (token: string) => {
     ;(async () => {
       const passtoken: Result<string> = await gen_passtoken(token)
-      console.log(passtoken)
       if (passtoken == 'auth') {
         setAuthErr(true)
         setReInput(false)
