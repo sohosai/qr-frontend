@@ -45,6 +45,6 @@
 
 
 [Unreleased]: https://github.com/sohosai/qr-frontend/compare/2.0.0...HEAD
-[2.0.0]: https://github.com/sohosai/qr-backend/compare/1.0.0..2.0.0
-[1.0.0]: https://github.com/sohosai/qr-backend/compare/fcff42a20463adce6bd84880fe8ccce644b20b30...1.0.0
+[2.0.0]: https://github.com/sohosai/qr-frontend/compare/1.0.0..2.0.0
+[1.0.0]: https://github.com/sohosai/qr-frontend/compare/fcff42a20463adce6bd84880fe8ccce644b20b30...1.0.0
 
