@@ -10,7 +10,7 @@ type ItemProp = {
   /**
    * 項目の中身を設定します
    */
-  value: string
+  value: React.ReactNode
 }
 
 const StyledLabel = styled.label`
