@@ -35,9 +35,17 @@ const StyledMain = styled.main.withConfig({
   }
 `
 
+const StyledLink = styled.span.withConfig({
+  displayName: 'StyledLink',
+})`
+  text-decoration: underline;
+  color: blue;
+`
+
 const FixturesShow = () => {
   const route = useRouter()
   const [fixtures, setFixtures] = useState<Fixtures | null>(null)
+  const [parentFixtures, setParentFixtures] = useState<Fixtures | null>(null)
   const [lending, setLending] = useState<Lending | null>(null)
   const [queried, setQueried] = useState(false)
 
@@ -89,7 +97,29 @@ const FixturesShow = () => {
           } else {
             setLending(lending_res)
           }
-          setQueried(true)
+          const parent_fixtures_res: Result<Fixtures> = await get_fixtures({
+            id_type: 'FixturesQrId',
+            id: fixtures_res.parent_id,
+          })
+
+          if (parent_fixtures_res == 'auth') {
+            // 認証を生成させる表示を出すようにする
+            setAuthOpen(true)
+            setFixtures(null)
+            setLending(null)
+            setQueried(false)
+          } else if (
+            parent_fixtures_res == 'env' ||
+            parent_fixtures_res == 'server' ||
+            parent_fixtures_res == 'void' ||
+            parent_fixtures_res == 'notfound'
+          ) {
+            setParentFixtures(null)
+            setQueried(true)
+          } else {
+            setParentFixtures(parent_fixtures_res)
+            setQueried(true)
+          }
         }
       })()
     } else {
@@ -180,7 +210,21 @@ const FixturesShow = () => {
                 {fixtures.model_number ? <p>{fixtures.model_number}</p> : <></>}
                 <Item label='uuid' value={fixtures.id} />
                 <QRCode qr={initQRCode(fixtures.qr_id, fixtures.qr_color)}></QRCode>
-                <Item label='保管場所' value={fixtures.storage + '/' + fixtures.parent_id} />
+                {parentFixtures ? (
+                  <Item
+                    label='保管場所'
+                    value={
+                      <>
+                        {fixtures.storage} /{' '}
+                        <Link href={`/items/${fixtures.parent_id}`} id='link'>
+                          <StyledLink>{fixtures.parent_id}</StyledLink>
+                        </Link>
+                      </>
+                    }
+                  />
+                ) : (
+                  <Item label='保管場所' value={fixtures.storage + ' / ' + fixtures.parent_id} />
+                )}
                 {lending ? (
                   <>
                     <Item label='現在位置（貸出）' value={lending.spot_name} />
