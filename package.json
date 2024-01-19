@@ -42,7 +42,6 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.12",
-    "@cloudflare/next-on-pages": "^1.8.5",
     "@storybook/addon-actions": "^7.3.2",
     "@storybook/addon-essentials": "^7.3.2",
     "@storybook/addon-interactions": "^7.3.2",
