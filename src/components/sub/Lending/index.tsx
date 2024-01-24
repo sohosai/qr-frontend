@@ -45,7 +45,7 @@ export default function LendingPage() {
       <Box sx={{ width: '100%', maxWidth: 'lg', m: 'auto' }}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs value={value} onChange={handleChange} aria-label='top tabs'>
-            <Tab label='貸出 /返却' {...a11yProps(0)} />
+            <Tab label='貸出 / 返却' {...a11yProps(0)} />
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>
