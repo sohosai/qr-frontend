@@ -7,13 +7,14 @@ type QRListPdfProps = {
    * 未印刷のQRコードのデータを設定します
    */
   qrs: QRCodeObject[]
+  isQr: boolean
 }
 type ChildProps = ComponentPropsWithoutRef<'div'> & QRListPdfProps
 
 /**
  * QRコードをPDFに変換して印刷するためのコンポーネント
  */
-const QRListPdf = forwardRef<HTMLDivElement, ChildProps>(({ qrs }, ref) => {
+const QRListPdf = forwardRef<HTMLDivElement, ChildProps>(({ qrs, isQr }, ref) => {
   return (
     <div
       id='qr-list-pdf'
@@ -27,7 +28,7 @@ const QRListPdf = forwardRef<HTMLDivElement, ChildProps>(({ qrs }, ref) => {
       {qrs.map((qr) => {
         return (
           <div style={{ margin: 'auto' }} key={qr.id}>
-            <QRCode qr={qr} />
+            <QRCode qr={qr} isQr={isQr} />
           </div>
         )
       })}

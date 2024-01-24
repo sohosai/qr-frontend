@@ -209,7 +209,7 @@ const FixturesShow = () => {
                 </Dialog>
                 {fixtures.model_number ? <p>{fixtures.model_number}</p> : <></>}
                 <Item label='uuid' value={fixtures.id} />
-                <QRCode qr={initQRCode(fixtures.qr_id, fixtures.qr_color)}></QRCode>
+                <QRCode qr={initQRCode(fixtures.qr_id, fixtures.qr_color)} isQr={true}></QRCode>
                 {parentFixtures ? (
                   <Item
                     label='保管場所'

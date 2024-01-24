@@ -1,4 +1,4 @@
-import Head from 'next/head'
+// import Head from 'next/head'
 import Header from '@/components/Header'
 import SystemButton from '@/components/SystemButton'
 
@@ -31,6 +31,8 @@ const StyledMain = styled.main.withConfig({
 export default function Printing() {
   const { targetRef, pdfHandler } = usePdf()
   const [clicked, setClicked] = useState(0)
+  const [isQr, setIsQr] = useState(true)
+
   const onClickResetUuid = (): void => {
     setClicked(1)
     let qrids = []
@@ -43,9 +45,19 @@ export default function Printing() {
 
   const onClickDownloadPdf = (): void => {
     if (clicked === 0) {
-      toast.error('QRコードが生成されていません。')
+      toast.error('QRコード / バーコード が生成されていません。')
     } else if (clicked === 1) {
       pdfHandler({ name: 'test' })
+    } else {
+      toast.error('予期せぬエラーが発生しました。')
+    }
+  }
+
+  const onClickQr = (): void => {
+    if (clicked === 0) {
+      toast.error('QRコード / バーコード が生成されていません。')
+    } else if (clicked === 1) {
+      setIsQr(!isQr)
     } else {
       toast.error('予期せぬエラーが発生しました。')
     }
@@ -61,7 +73,12 @@ export default function Printing() {
           <div style={{ height: '1px', width: '12px' }}></div>
           <SystemButton disabled={false} onClick={onClickDownloadPdf} text='ダウンロード' />
         </Box>
-        <QRListPdf ref={targetRef} qrs={qrs} />
+        <Box sx={{ width: '100%', height: '30px' }}></Box>
+        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+          <SystemButton disabled={false} onClick={onClickQr} text='QR / BarCode' />
+        </Box>
+        <QRListPdf ref={targetRef} qrs={qrs} isQr={isQr} />
+        {clicked === 0 ? <Box sx={{ width: '100%', height: '150px' }}></Box> : <></>}
       </StyledMain>
     </>
   )
