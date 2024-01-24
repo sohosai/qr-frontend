@@ -234,7 +234,7 @@ const FixturesEdit = () => {
           <h1>物品情報の編集</h1>
           <div className='QRColorID'>
             <TextInput
-              label='QR ID'
+              label='QR / BarCode ID'
               required={true}
               placeholder='x234'
               value={qrID}
@@ -243,7 +243,7 @@ const FixturesEdit = () => {
           </div>
           <div className='QRColorSelect'>
             <Select
-              label='QRコードカラー（QRコード実物を見て入力してください）'
+              label='QRコード / バーコード カラー（QRコード / バーコード 実物を見て入力してください）'
               required={true}
               initial={initialQRColor}
               options={['赤', '青', '緑', '橙', '紫', '水', '桃', '黄', '茶']}

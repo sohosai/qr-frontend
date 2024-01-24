@@ -17,7 +17,7 @@ export default function Top() {
       <Box sx={{ width: '100%', height: '150px' }}></Box>
       <div style={{ fontSize: '36px' }} className='block p-10 text-center'>
         <span className='inline-block'>物品管理</span>
-        <span className='inline-block'>アプリ</span>
+        <span className='inline-block'>アプリ -Dashi-</span>
       </div>
       <Box sx={{ width: '100%', height: '50px' }}></Box>
       <div style={{ width: '100%', margin: 'auto', maxWidth: '1024px', padding: '0px' }}>
@@ -60,7 +60,7 @@ export default function Top() {
             <Link href={'/checkout-return'}>
               <Stack
                 spacing={2}
-                sx={{ width: '392px' }}
+                sx={{ width: '400px' }}
                 direction='row'
                 className='w-98 max-w-full items-center gap-10'
               >
@@ -79,7 +79,11 @@ export default function Top() {
                     貸出 / 返却
                   </span>
                   <br />
-                  <span>物品の貸出 / 返却用QRコードを読み取ります。</span>
+                  <span>
+                    物品の貸出 / 返却用
+                    <br />
+                    QRコード / バーコード を読み取ります。
+                  </span>
                 </p>
               </Stack>
             </Link>
@@ -108,7 +112,11 @@ export default function Top() {
                     登録
                   </span>
                   <br />
-                  <span>物品登録・QRコードの印刷できます。</span>
+                  <span>
+                    物品登録・QRコード / バーコード の
+                    <br />
+                    印刷します。
+                  </span>
                 </p>
               </Stack>
             </Link>
@@ -118,7 +126,7 @@ export default function Top() {
               <Stack
                 spacing={2}
                 direction='row'
-                sx={{ width: '392px' }}
+                sx={{ width: '400px' }}
                 className=' items-center gap-10'
               >
                 <IconButton

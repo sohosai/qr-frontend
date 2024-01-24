@@ -49,7 +49,7 @@ export default function RegisterItemPage() {
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs value={value} onChange={handleChange} aria-label='top tabs'>
             <Tab label='物品登録' {...a11yProps(0)} />
-            <Tab label='QRコード生成 / 印刷' {...a11yProps(1)} />
+            <Tab label='QRコード / バーコード の 生成 / 印刷' {...a11yProps(1)} />
           </Tabs>
         </Box>
         <CustomTabPanel value={value} index={0}>

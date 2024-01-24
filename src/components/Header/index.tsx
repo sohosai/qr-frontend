@@ -48,9 +48,9 @@ const Header = () => {
                   margin: '10px',
                 }}
               >
-                QR
+                -Dashi-
                 <br />
-                物品管理
+                物品管理アプリ
               </p>
             </Button>
           </Typography>

@@ -197,11 +197,11 @@ const FixturesRegister = () => {
           <></>
         )}
         <div className='QRColorID'>
-          <Item label='QR ID' value={qrID} />
+          <Item label='QR / BarCode ID' value={qrID} />
         </div>
         <div className='QRColorSelect'>
           <Select
-            label='QRコードカラー（QRコード実物を見て入力してください）'
+            label='QRコード / バーコード カラー（QRコード / バーコード 実物を見て入力してください）'
             required={true}
             initial='未選択'
             options={['未選択', '赤', '青', '緑', '橙', '紫', '水', '桃', '黄', '茶']}
