@@ -36,7 +36,7 @@ export default function Printing() {
   const onClickResetUuid = (): void => {
     setClicked(1)
     let qrids = []
-    for (let _ = 0; _ < 70; _++) {
+    for (let _ = 0; _ < 30; _++) {
       qrids.push(initQRCode())
     }
     setQRIDs(qrids)
